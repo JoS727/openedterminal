@@ -535,5 +535,19 @@ document.querySelectorAll('form').forEach(function(form){
 });
 </script>
 
+
+<script>
+// Page view tracker
+fetch('https://analytics.calitoy.workers.dev',{
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({
+    path:window.location.pathname,
+    site:window.location.hostname,
+    title:document.title
+  })
+}).catch(function(){});
+</script>
+
 </body>
 </html>
