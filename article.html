@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta -->
+  <title>Building Resilient LLM Pipelines in Production | Opened Terminal</title>
+  <meta name="description" content="Large language models don't fail gracefully. We break down circuit breakers, semantic caching, and fallback chains that keep your inference stack alive when the model goes sideways.">
+  <meta name="keywords" content="LLM, production, inference, circuit breaker, semantic caching, fallback, devops, AI infrastructure">
+  <meta name="author" content="Maya Kowalski">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openedterminal.com/article/resilient-llm-pipelines/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Opened Terminal">
+  <meta property="og:title" content="Building Resilient LLM Pipelines in Production">
+  <meta property="og:description" content="Circuit breakers, semantic caching, and fallback chains — architecture patterns that keep inference alive when models go sideways.">
+  <meta property="og:url" content="https://openedterminal.com/article/resilient-llm-pipelines/">
+  <meta property="og:image" content="https://openedterminal.com/assets/og-resilient-llm.png">
+  <meta property="article:published_time" content="2026-08-11T09:30:00Z">
+  <meta property="article:modified_time" content="2026-08-11T14:00:00Z">
+  <meta property="article:author" content="Maya Kowalski">
+  <meta property="article:section" content="DevOps">
+  <meta property="article:tag" content="LLM">
+  <meta property="article:tag" content="Inference">
+  <meta property="article:tag" content="Circuit Breaker">
+  <meta property="article:tag" content="Semantic Caching">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@openedterminal">
+  <meta name="twitter:creator" content="@mayakowalski">
+  <meta name="twitter:title" content="Building Resilient LLM Pipelines in Production">
+  <meta name="twitter:description" content="Circuit breakers, semantic caching, and fallback chains that keep inference alive.">
+  <meta name="twitter:image" content="https://openedterminal.com/assets/og-resilient-llm.png">
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2308090a'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='18' font-weight='bold' fill='%2300ff9c' text-anchor='middle'%3E&gt;_%3C/text%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Structured Data: Article (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Building Resilient LLM Pipelines in Production",
+    "description": "Large language models don't fail gracefully. We break down circuit breakers, semantic caching, and fallback chains that keep your inference stack alive when the model goes sideways.",
+    "image": "https://openedterminal.com/assets/og-resilient-llm.png",
+    "datePublished": "2026-08-11T09:30:00Z",
+    "dateModified": "2026-08-11T14:00:00Z",
+    "author": {
+      "@type": "Person",
+      "name": "Maya Kowalski",
+      "url": "https://openedterminal.com/author/maya-kowalski/",
+      "jobTitle": "Staff Engineer, ML Infrastructure",
+      "sameAs": [
+        "https://x.com/mayakowalski",
+        "https://github.com/mkowalski"
+      ]
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Opened Terminal",
+      "url": "https://openedterminal.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://openedterminal.com/assets/logo.png",
+        "width": 512,
+        "height": 512
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://openedterminal.com/article/resilient-llm-pipelines/"
+    },
+    "articleSection": "DevOps",
+    "keywords": "LLM, production, inference, circuit breaker, semantic caching, fallback, AI infrastructure",
+    "wordCount": "1850",
+    "proficiencyLevel": "Expert"
+  }
+  </script>
+
+  <!-- Breadcrumb Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://openedterminal.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "DevOps",
+        "item": "https://openedterminal.com/category/devops/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Building Resilient LLM Pipelines in Production",
+        "item": "https://openedterminal.com/article/resilient-llm-pipelines/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- ========== Header ========== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="accent">&gt;_</span>opened<span class="accent">.</span>terminal<span class="cursor"></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="/category/ai/">AI</a>
+        <a href="/category/devops/" class="active">DevOps</a>
+        <a href="/category/security/">Security</a>
+        <a href="/category/web3/">Web3</a>
+        <a href="/category/hardware/">Hardware</a>
+        <a href="/about/">About</a>
+      </nav>
+      <div class="header-actions">
+        <button class="search-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg> Search <kbd>⌘K</kbd></button>
+        <button class="btn-primary" onclick="document.getElementById('newsletter').scrollIntoView({behavior:'smooth'})">Subscribe</button>
+        <button class="menu-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== Article ========== -->
+  <article>
+    <div class="content-wrap">
+
+      <!-- Breadcrumb -->
+      <nav class="article-breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">~</a>
+        <span class="sep">/</span>
+        <a href="/category/devops/">devops</a>
+        <span class="sep">/</span>
+        <span>resilient-llm-pipelines</span>
+      </nav>
+
+      <!-- Article Header -->
+      <header class="article-header">
+        <span class="cat-tag-inline">// DevOps · AI Infrastructure</span>
+        <h1>Building Resilient LLM Pipelines in Production</h1>
+        <p class="dek">Large language models don't fail gracefully. Here's how to architect your inference stack so that when the model goes sideways — and it will — your users never notice.</p>
+
+        <div class="article-meta-row">
+          <div class="author">
+            <div class="avatar">MK</div>
+            <div>
+              <div class="author-name">Maya Kowalski</div>
+              <div class="meta-item mono" style="margin-top:2px;">Staff Engineer · ML Infra</div>
+            </div>
+          </div>
+          <span class="meta-sep">·</span>
+          <span class="meta-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Aug 11, 2026
+          </span>
+          <span class="meta-sep">·</span>
+          <span class="meta-item mono">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            12 min read
+          </span>
+        </div>
+      </header>
+    </div>
+
+    <!-- Cover -->
+    <div class="container">
+      <div class="article-cover cat-devops" style="background:linear-gradient(135deg,#0a1f16,#103a28);">
+        <span class="glyph">{ resilient }</span>
+        <span class="cover-label">// opened-terminal · devops · 2026.08</span>
+      </div>
+    </div>
+
+    <!-- Share bar -->
+    <div class="content-wrap">
+      <div class="share-bar">
+        <span class="share-label">share:</span>
+        <a href="#" class="share-btn" aria-label="Share on X" onclick="event.preventDefault()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="#" class="share-btn" aria-label="Share on LinkedIn" onclick="event.preventDefault()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"/></svg>
+        </a>
+        <a href="#" class="share-btn" aria-label="Share on Hacker News" onclick="event.preventDefault()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 1h18a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2m9 11.5L8.5 6h2L12 10l1.5-4h2L12 12.5V18h-2z"/></svg>
+        </a>
+        <a href="#" class="share-btn" aria-label="Share via Reddit" onclick="event.preventDefault()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-1.2-.9-2.2-2.1-2.2-.5 0-1 .2-1.4.5-1.4-.9-3.2-1.5-5.2-1.6l1-4.6 3.2.7c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5S20.4 4 19.6 4c-.6 0-1.1.3-1.3.8l-3.6-.8c-.1 0-.2 0-.3.1l-.1.1-1.1 5.2c-2 .1-3.9.7-5.3 1.6-.4-.3-.9-.5-1.4-.5C5 9.8 4 10.8 4 12c0 .9.5 1.6 1.2 2v.5c0 2.8 3.3 5.1 7.3 5.1s7.3-2.3 7.3-5.1v-.5c.7-.4 1.2-1.1 1.2-2M7.5 13c0-.8.7-1.5 1.5-1.5s1.5.7 1.5 1.5S9.8 14.5 9 14.5 7.5 13.8 7.5 13m7.5 3c-.6.6-1.6.9-3 .9s-2.4-.3-3-.9c-.1-.1-.1-.3 0-.4.1-.1.3-.1.4 0 .4.4 1.3.7 2.6.7s2.2-.3 2.6-.7c.1-.1.3-.1.4 0 .1.1.1.3 0 .4m-.5-1.5c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5"/></svg>
+        </a>
+        <button class="share-btn copy" onclick="navigator.clipboard?.writeText(window.location.href); this.textContent='✓ Copied'; setTimeout(()=>this.textContent='Copy link',2000)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy link
+        </button>
+      </div>
+    </div>
+
+    <!-- Article Body -->
+    <div class="content-wrap">
+      <div class="article-body">
+
+        <p>When you ship a large language model to production, you're not deploying a single endpoint — you're deploying a dependency stack that includes the model provider, a tokenizer, rate limiters, and your own application logic. Any link in that chain can break, and when it does, the failure is rarely graceful. Users see 500 errors. Latency spikes. Costs spiral.</p>
+
+        <p>After running LLM-powered features in production for two years across three teams, I've learned that <strong>resilience is not a feature you add later — it's an architecture you build from day one</strong>. This guide breaks down the four patterns that matter most.</p>
+
+        <h2>1. Semantic Caching: The 60% Win</h2>
+
+        <p>Before you worry about model failures, eliminate unnecessary calls entirely. Semantic caching stores embeddings of previous queries and returns cached responses when a new query is semantically similar — not just lexically identical.</p>
+
+        <p>In production, we found that <strong>40–60% of user queries are semantically near-duplicates</strong> of something already cached. That's more than half your inference budget, recovered.</p>
+
+        <div class="callout">
+          <div class="callout-label">⚡ Quick Math</div>
+          At $0.01 per 1K tokens and 1M daily queries, semantic caching with a 50% hit rate saves you <strong>$5,000/day</strong>. The cache pays for itself in an afternoon.
+        </div>
+
+        <p>Here's a minimal implementation using <code>pgvector</code> and a similarity threshold:</p>
+
+        <pre><div class="code-header"><span class="lang">python</span><button class="copy-btn" onclick="navigator.clipboard?.writeText(this.closest('pre').querySelector('code').textContent); this.textContent='✓ Copied'; setTimeout(()=>this.textContent='Copy',2000)">Copy</button></div><code><span class="tok-com"># semantic_cache.py — pgvector + sentence-transformers</span>
+<span class="tok-key">import</span> asyncio
+<span class="tok-key">from</span> sentence_transformers <span class="tok-key">import</span> SentenceTransformer
+<span class="tok-key">from</span> asyncpg <span class="tok-key">import</span> create_pool
+
+<span class="tok-var">SIMILARITY_THRESHOLD</span> = <span class="tok-num">0.92</span>
+<span class="tok-var">encoder</span> = SentenceTransformer(<span class="tok-str">"all-MiniLM-L6-v2"</span>)
+
+<span class="tok-key">class</span> <span class="tok-fn">SemanticCache</span>:
+    <span class="tok-key">def</span> __init__(self, pool):
+        self.pool = pool
+
+    <span class="tok-key">async def</span> <span class="tok-fn">get</span>(self, query: str) -> str | None:
+        embedding = encoder.encode(query).tolist()
+        <span class="tok-com"># Cosine similarity via pgvector's &lt;#&gt; operator (KNN)</span>
+        row = <span class="tok-key">await</span> self.pool.fetchrow(
+            <span class="tok-str">"""
+            SELECT response FROM cache
+            WHERE embedding &lt;#&gt; $1 &lt; (1 - $2)
+            ORDER BY embedding &lt;#&gt; $1
+            LIMIT 1
+            """</span>,
+            embedding, SIMILARITY_THRESHOLD
+        )
+        <span class="tok-key">return</span> row[<span class="tok-str">"response"</span>] <span class="tok-key">if</span> row <span class="tok-key">else</span> None
+
+    <span class="tok-key">async def</span> <span class="tok-fn">set</span>(self, query: str, response: str, ttl: int = <span class="tok-num">3600</span>):
+        embedding = encoder.encode(query).tolist()
+        <span class="tok-key">await</span> self.pool.execute(
+            <span class="tok-str">"""
+            INSERT INTO cache (query, response, embedding, expires_at)
+            VALUES ($1, $2, $3, NOW() + INTERVAL '%s seconds')
+            """</span> % ttl,
+            query, response, embedding
+        )</code></pre>
+
+        <p>The threshold is critical. Set it too low and you'll return wrong answers to similar-but-different questions. Set it too high and your hit rate drops to zero. <strong>0.90–0.93 is the sweet spot for most domains</strong> — tune it against your own query logs.</p>
+
+        <h2>2. Circuit Breakers: Stop Hitting the Button</h2>
+
+        <p>When your LLM provider starts failing, the worst thing you can do is keep sending requests. Each failed call adds latency, consumes retries, and can trigger rate-limit penalties. A circuit breaker pattern trips after N consecutive failures and stops all outbound calls for a cooldown period.</p>
+
+        <p>Here's the state machine in plain terms:</p>
+
+        <table>
+          <thead>
+            <tr><th>State</th><th>Behavior</th><th>Transition</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Closed</td><td>Requests flow normally</td><td>5 failures → Open</td></tr>
+            <tr><td>Open</td><td>All requests fail fast</td><td>30s timeout → Half-Open</td></tr>
+            <tr><td>Half-Open</td><td>1 probe request allowed</td><td>Success → Closed / Fail → Open</td></tr>
+          </tbody>
+        </table>
+
+        <p>Using Python's <code>pybreaker</code> library, the implementation is straightforward:</p>
+
+        <pre><div class="code-header"><span class="lang">python</span><button class="copy-btn" onclick="navigator.clipboard?.writeText(this.closest('pre').querySelector('code').textContent); this.textContent='✓ Copied'; setTimeout(()=>this.textContent='Copy',2000)">Copy</button></div><code><span class="tok-key">import</span> pybreaker
+<span class="tok-key">from</span> tenacity <span class="tok-key">import</span> retry, stop_after_attempt, wait_exponential
+
+<span class="tok-com"># Trip after 5 failures, reset after 30s cooldown</span>
+<span class="tok-var">llm_breaker</span> = pybreaker.CircuitBreaker(
+    fail_max=<span class="tok-num">5</span>,
+    reset_timeout=<span class="tok-num">30</span>,
+    exclude=[ValueError],  <span class="tok-com"># Don't trip on bad input</span>
+)
+
+<span class="tok-var">llm_breaker</span>.add_listener(pybreaker.CircuitBreakerListener())
+
+@retry(stop=stop_after_attempt(<span class="tok-num">3</span>), wait=wait_exponential(multiplier=<span class="tok-num">1</span>, min=<span class="tok-num">1</span>, max=<span class="tok-num">8</span>))
+@llm_breaker
+<span class="tok-key">async def</span> <span class="tok-fn">call_llm</span>(prompt: str, model: str = <span class="tok-str">"gpt-4o"</span>) -> str:
+    <span class="tok-key">try</span>:
+        resp = <span class="tok-key">await</span> client.chat.completions.create(
+            model=model,
+            messages=[{<span class="tok-str">"role"</span>: <span class="tok-str">"user"</span>, <span class="tok-str">"content"</span>: prompt}],
+            timeout=<span class="tok-num">30</span>,
+        )
+        <span class="tok-key">return</span> resp.choices[<span class="tok-num">0</span>].message.content
+    <span class="tok-key">except</span> Exception <span class="tok-key">as</span> e:
+        logger.warning(<span class="tok-str">f"LLM call failed: {e}"</span>)
+        <span class="tok-key">raise</span>  <span class="tok-com"># Let breaker track it</span></code></pre>
+
+        <blockquote>
+          The key insight: a circuit breaker protects your system, but it also protects your provider. Hammering a struggling API endpoint is how you turn a 5-minute outage into a 30-minute ban.
+          <cite>— from "Distributed Systems Patterns for ML" (2025)</cite>
+        </blockquote>
+
+        <h2>3. Fallback Chains: Never Return Nothing</h2>
+
+        <p>When your primary model fails, you need a backup — and that backup needs its own backup. A fallback chain defines an ordered list of model providers that activate sequentially as each one fails.</p>
+
+        <p>The chain should degrade gracefully: from your premium model down to a cheaper, faster model, and finally to a static response template.</p>
+
+        <pre><div class="code-header"><span class="lang">python</span><button class="copy-btn" onclick="navigator.clipboard?.writeText(this.closest('pre').querySelector('code').textContent); this.textContent='✓ Copied'; setTimeout(()=>this.textContent='Copy',2000)">Copy</button></div><code><span class="tok-key">from</span> dataclasses <span class="tok-key">import</span> dataclass
+<span class="tok-key">from</span> typing <span class="tok-key">import</span> Callable, Awaitable
+
+@dataclass
+<span class="tok-key">class</span> <span class="tok-fn">FallbackStep</span>:
+    name: str
+    call: Callable[[str], Awaitable[str]]
+    max_latency_ms: int = <span class="tok-num">8000</span>
+
+<span class="tok-var">FALLBACK_CHAIN</span> = [
+    FallbackStep(<span class="tok-str">"gpt-4o"</span>,       call_gpt4o,       max_latency_ms=<span class="tok-num">8000</span>),
+    FallbackStep(<span class="tok-str">"claude-3.5"</span>,   call_claude,      max_latency_ms=<span class="tok-num">6000</span>),
+    FallbackStep(<span class="tok-str">"llama-3-70b"</span>,  call_self_hosted, max_latency_ms=<span class="tok-num">12000</span>),
+    FallbackStep(<span class="tok-str">"static"</span>,       call_static_template),  <span class="tok-com"># last resort</span>
+]
+
+<span class="tok-key">async def</span> <span class="tok-fn">resilient_generate</span>(prompt: str) -> str:
+    errors = []
+    <span class="tok-key">for</span> step <span class="tok-key">in</span> FALLBACK_CHAIN:
+        <span class="tok-key">try</span>:
+            <span class="tok-key">return</span> <span class="tok-key">await</span> asyncio.wait_for(
+                step.call(prompt), timeout=step.max_latency_ms / <span class="tok-num">1000</span>
+            )
+        <span class="tok-key">except</span> Exception <span class="tok-key">as</span> e:
+            errors.append(<span class="tok-str">f"{step.name}: {e}"</span>)
+            logger.warning(<span class="tok-str">f"Fallback {step.name} failed, trying next"</span>)
+            <span class="tok-key">continue</span>
+
+    <span class="tok-com"># If we get here, even static failed — log aggressively</span>
+    logger.error(<span class="tok-str">f"All fallbacks exhausted: {errors}"</span>)
+    <span class="tok-key">return</span> <span class="tok-str">"I'm unable to process that right now. Please try again."</span></code></pre>
+
+        <div class="callout">
+          <div class="callout-label">⚠️ Design Note</div>
+          Your fallback chain should use <strong>different providers</strong>, not just different models from the same provider. If OpenAI has an outage, GPT-4o-mini is probably down too.
+        </div>
+
+        <h2>4. Observability: You Can't Fix What You Can't See</h2>
+
+        <p>Resilience without observability is just guesswork. Every LLM call should emit structured logs with these fields at minimum:</p>
+
+        <ul>
+          <li><strong>model</strong> and <strong>provider</strong> used</li>
+          <li><strong>latency</strong> broken into: time-to-first-token, generation time, total</li>
+          <li><strong>token counts</strong> (prompt, completion, total) for cost tracking</li>
+          <li><strong>cache hit/miss</strong> and similarity score if applicable</li>
+          <li><strong>circuit breaker state</strong> before and after the call</li>
+          <li><strong>fallback depth</strong> — which step in the chain actually served the request</li>
+        </ul>
+
+        <p>Here's a minimal OpenTelemetry setup:</p>
+
+        <pre><div class="code-header"><span class="lang">python</span><button class="copy-btn" onclick="navigator.clipboard?.writeText(this.closest('pre').querySelector('code').textContent); this.textContent='✓ Copied'; setTimeout(()=>this.textContent='Copy',2000)">Copy</button></div><code><span class="tok-key">from</span> opentelemetry <span class="tok-key">import</span> trace
+<span class="tok-key">from</span> opentelemetry.sdk.trace <span class="tok-key">import</span> TracerProvider
+
+tracer = trace.get_tracer(<span class="tok-str">"llm.gateway"</span>)
+
+<span class="tok-key">async def</span> <span class="tok-fn">traced_call</span>(prompt: str, model: str):
+    <span class="tok-key">with</span> tracer.start_as_current_span(<span class="tok-str">"llm.inference"</span>) <span class="tok-key">as</span> span:
+        span.set_attributes({
+            <span class="tok-str">"llm.model"</span>: model,
+            <span class="tok-str">"llm.provider"</span>: <span class="tok-str">"openai"</span>,
+            <span class="tok-str">"llm.prompt_tokens"</span>: count_tokens(prompt),
+            <span class="tok-str">"cache.hit"</span>: False,
+        })
+        result = <span class="tok-key">await</span> call_llm(prompt, model)
+        span.set_attribute(<span class="tok-str">"llm.completion_tokens"</span>, result.usage.completion_tokens)
+        span.set_attribute(<span class="tok-str">"llm.latency_ms"</span>, result.latency_ms)
+        <span class="tok-key">return</span> result</code></pre>
+
+        <h2>Putting It All Together</h2>
+
+        <p>The full request flow looks like this:</p>
+
+        <ol>
+          <li><strong>Request arrives</strong> → generate embedding for semantic cache lookup</li>
+          <li><strong>Cache hit?</strong> → return immediately (p50: ~20ms)</li>
+          <li><strong>Cache miss</strong> → check circuit breaker state</li>
+          <li><strong>Breaker closed</strong> → call primary model with retry + timeout</li>
+          <li><strong>Primary fails</strong> → walk the fallback chain</li>
+          <li><strong>Response ready</strong> → write to cache, emit telemetry, return</li>
+        </ol>
+
+        <p>This architecture isn't theoretical. We've been running it in production for 14 months across a product serving ~2M daily LLM queries. The results:</p>
+
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>Before</th><th>After</th><th>Δ</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>p95 latency</td><td>4,200ms</td><td>680ms</td><td>−84%</td></tr>
+            <tr><td>Error rate</td><td>2.1%</td><td>0.04%</td><td>−98%</td></tr>
+            <tr><td>Monthly inference cost</td><td>$147k</td><td>$61k</td><td>−59%</td></tr>
+            <tr><td>Cache hit rate</td><td>0%</td><td>52%</td><td>—</td></tr>
+          </tbody>
+        </table>
+
+        <p>None of these patterns are exotic. Circuit breakers and caching are decades old. What's changed is that <strong>LLM inference is expensive enough and unreliable enough that these patterns are no longer optional</strong> — they're the baseline.</p>
+
+        <p>If you're shipping an LLM-powered feature today and you don't have all four of these in place, you have a production incident waiting to happen. The good news is that each one is a small, independent change. Start with semantic caching — it's the highest ROI and the easiest to implement.</p>
+
+        <p>Got questions about adapting this to your stack? Drop a comment or <a href="https://x.com/mayakowalski">find me on X</a>. I'm happy to share the full reference implementation.</p>
+
+        <!-- Tags -->
+        <div class="article-tags">
+          <a href="/tag/llm/" class="tag">#llm</a>
+          <a href="/tag/inference/" class="tag">#inference</a>
+          <a href="/tag/circuit-breaker/" class="tag">#circuit-breaker</a>
+          <a href="/tag/semantic-cache/" class="tag">#semantic-cache</a>
+          <a href="/tag/observability/" class="tag">#observability</a>
+          <a href="/tag/python/" class="tag">#python</a>
+          <a href="/tag/opentelemetry/" class="tag">#opentelemetry</a>
+        </div>
+
+        <!-- Author Bio -->
+        <div class="author-bio">
+          <div class="avatar">MK</div>
+          <div>
+            <div class="bio-name">Maya Kowalski</div>
+            <div class="bio-role">Staff Engineer · ML Infrastructure</div>
+            <div class="bio-text">Maya builds large-scale inference platforms and has shipped LLM features to 10M+ users. Previously at Stripe and Anthropic. She writes about production ML, distributed systems, and the unglamorous engineering that makes AI actually work.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </article>
+
+  <!-- ========== Related Articles ========== -->
+  <section class="section related-section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Related Articles</h2>
+        <a href="/category/devops/" class="view-all">more devops →</a>
+      </div>
+      <div class="article-grid">
+        <article class="card">
+          <a href="/article/vector-database-shootout/" style="display:contents;">
+            <div class="card-cover">
+              <div class="cover-bg cat-ai"><span class="glyph">vec_db</span><span class="cat-tag">AI</span></div>
+            </div>
+            <div class="card-body">
+              <h3>Vector Database Shootout: pgvector vs Pinecone vs Qdrant</h3>
+              <p>1M embeddings, 12 query patterns, real-world latency budgets. Which vector store wins at scale?</p>
+              <div class="card-footer">
+                <div class="card-author"><div class="avatar sm">MK</div><span class="author-name">Maya Kowalski</span></div>
+                <span class="card-date">Aug 5</span>
+              </div>
+            </div>
+          </a>
+        </article>
+        <article class="card">
+          <a href="/article/gitops-argo-cd/" style="display:contents;">
+            <div class="card-cover">
+              <div class="cover-bg cat-devops"><span class="glyph">argo_cd</span><span class="cat-tag">DevOps</span></div>
+            </div>
+            <div class="card-body">
+              <h3>GitOps at Scale: Managing 200+ Clusters with Argo CD</h3>
+              <p>Application sets, cluster overlays, and the Git workflow that keeps 200 clusters in sync without losing your mind.</p>
+              <div class="card-footer">
+                <div class="card-author"><div class="avatar sm">DR</div><span class="author-name">Devon Reyes</span></div>
+                <span class="card-date">Aug 3</span>
+              </div>
+            </div>
+          </a>
+        </article>
+        <article class="card">
+          <a href="/article/open-source-llm-finetuning/" style="display:contents;">
+            <div class="card-cover">
+              <div class="cover-bg cat-ai"><span class="glyph">f_tune</span><span class="cat-tag">AI</span></div>
+            </div>
+            <div class="card-body">
+              <h3>Fine-Tuning Open-Source LLMs Without a GPU Farm</h3>
+              <p>QLoRA, gradient checkpointing, and spot instances — train a domain model for under $50.</p>
+              <div class="card-footer">
+                <div class="card-author"><div class="avatar sm">AS</div><span class="author-name">Aarav Sharma</span></div>
+                <span class="card-date">Aug 8</span>
+              </div>
+            </div>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Newsletter ========== -->
+  <section class="newsletter" id="newsletter">
+    <div class="container">
+      <div class="newsletter-inner">
+        <div>
+          <h2>Get the <span class="mono">signal</span>, skip the noise.</h2>
+          <p>One email every Tuesday. Deep dives, hands-on guides, and the week's most important moves in AI, infrastructure, and security — written by working engineers.</p>
+          <div class="nl-perks">
+            <span>No spam</span>
+            <span>Unsubscribe anytime</span>
+            <span>14k+ readers</span>
+          </div>
+        </div>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Subscribed';">
+          <label for="email">&gt; subscribe_to --newsletter</label>
+          <div class="input-row">
+            <input type="email" id="email" name="email" placeholder="you@domain.dev" required>
+            <button type="submit">Subscribe</button>
+          </div>
+          <p class="nl-note">Join 14,000+ engineers. No spam, ever.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Footer ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><span class="accent">&gt;_</span>opened<span class="accent">.</span>terminal</a>
+          <p>Tech news for builders, hackers, and engineers. Sharp analysis, hands-on guides, and no marketing fluff. Written by practitioners, for practitioners.</p>
+          <div class="footer-social">
+            <a href="https://x.com/openedterminal" aria-label="X / Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="https://github.com/openedterminal" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+            <a href="/feed.xml" aria-label="RSS"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1"/></svg></a>
+            <a href="https://linkedin.com/company/openedterminal" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>// categories</h4>
+          <ul>
+            <li><a href="/category/ai/">AI</a></li>
+            <li><a href="/category/devops/">DevOps</a></li>
+            <li><a href="/category/security/">Security</a></li>
+            <li><a href="/category/web3/">Web3</a></li>
+            <li><a href="/category/hardware/">Hardware</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>// company</h4>
+          <ul>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/authors/">Authors</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/careers/">Careers</a></li>
+            <li><a href="/advertise/">Advertise</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>// resources</h4>
+          <ul>
+            <li><a href="/feed.xml">RSS Feed</a></li>
+            <li><a href="/archive/">Archive</a></li>
+            <li><a href="/guidelines/">Editorial Guidelines</a></li>
+            <li><a href="/privacy/">Privacy Policy</a></li>
+            <li><a href="/terms/">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Opened Terminal. All rights reserved.</span>
+        <span class="mono">v2.4.1 · last_deploy: 2026-08-11T09:30Z</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
