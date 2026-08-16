@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Retention-First Acquisition: Beyond the Install | Opened Terminal</title>
+<meta name="description" content="Retention-First Acquisition: Beyond the Install - Research paper by Joseph Calitoy on Mobile User Acquisition and AI Ecosystems">
+<link rel="canonical" href="https://openedterminal.com/articles/research-paper-retention-first-acquisition.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Opened Terminal">
+<meta property="og:title" content="Retention-First Acquisition: Beyond the Install">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg-base:#08090a;--bg-surface:#0f1110;--bg-card:#121413;--accent:#00ff9c;--accent-dim:#14b878;--text:#e4e4e7;--text-muted:#71717a;--border:#27272a;--font-sans:'Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--font-sans);line-height:1.7;font-size:16px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:780px;margin:0 auto;padding:40px 20px}
+.breadcrumb{font-family:var(--font-mono);font-size:.8rem;color:var(--text-muted);margin-bottom:24px}
+.breadcrumb a{color:var(--accent-dim)}
+h1{font-size:2rem;font-weight:800;letter-spacing:-.02em;margin-bottom:12px;color:#fff}
+h2{font-size:1.4rem;font-weight:700;margin:32px 0 16px;color:#fff}
+h3{font-size:1.1rem;font-weight:600;margin:24px 0 12px;color:var(--accent)}
+.meta{font-family:var(--font-mono);font-size:.8rem;color:var(--text-muted);margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.meta a{color:var(--accent-dim)}
+p{margin-bottom:16px}
+ul,ol{margin-bottom:16px;padding-left:24px}
+li{margin-bottom:8px}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9rem}
+th{background:var(--bg-card);padding:10px 12px;text-align:left;font-family:var(--font-mono);font-size:.8rem;color:var(--accent);border-bottom:2px solid var(--border)}
+td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:.9rem}
+strong{color:#fff}
+blockquote{border-left:3px solid var(--accent);padding-left:16px;margin:16px 0;color:var(--text-muted);font-style:italic}
+code{font-family:var(--font-mono);background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:.85rem;color:var(--accent)}
+.hero{height:120px;background:linear-gradient(135deg,#0a0a0a,#0a3320);border-radius:8px;margin-bottom:32px;border:1px solid var(--border)}
+.nav-section{display:flex;justify-content:space-between;margin:40px 0;padding:20px 0;border-top:1px solid var(--border)}
+.nav-section a{font-family:var(--font-mono);font-size:.85rem}
+.network-section{margin:40px 0;padding:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px}
+.network-section h3{margin-top:0}
+.network-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+.network-grid a{display:block;padding:10px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:.8rem;font-family:var(--font-mono);transition:.2s}
+.network-grid a:hover{border-color:var(--accent);text-decoration:none}
+.affiliate-box{margin:32px 0;padding:20px;background:linear-gradient(135deg,var(--bg-card),#0a1a12);border:1px solid var(--border);border-radius:8px}
+.affiliate-box h3{color:var(--accent);margin-top:0}
+.affiliate-box a.cta{display:inline-block;margin-top:8px;padding:8px 16px;background:var(--accent);color:#000;border-radius:4px;font-weight:700;font-size:.85rem}
+.affiliate-box a.cta:hover{text-decoration:none;opacity:.9}
+.affiliate-disclosure{font-size:.75rem;color:var(--text-muted);margin-top:8px}
+.newsletter{margin:40px 0;padding:32px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;text-align:center}
+.newsletter h3{margin-top:0}
+.newsletter form{display:flex;gap:10px;max-width:400px;margin:16px auto}
+.newsletter input{flex:1;padding:10px 16px;background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:var(--font-sans)}
+.newsletter button{padding:10px 20px;background:var(--accent);color:#000;border:none;border-radius:4px;font-weight:700;cursor:pointer;font-family:var(--font-sans)}
+footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:.75rem;color:var(--text-muted);text-align:center}
+footer a{color:var(--accent-dim)}
+@media(max-width:640px){.container{padding:20px 14px}h1{font-size:1.5rem}table{font-size:.8rem}th,td{padding:6px 8px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Retention-First Acquisition: Beyond the Install","author":{"@type":"Person","name":"Joseph Calitoy","url":"https://josephcalitoy.com"},"publisher":{"@type":"Organization","name":"Opened Terminal","url":"https://openedterminal.com"},"datePublished":"2026-08-16"}</script>
+</head>
+<body>
+<div class="container">
+<div class="breadcrumb"><a href="/">Home</a> / <a href="/articles/research-mobile-ua-ai-ecosystems.html">Research Paper</a> / Part 10</div>
+<div class="hero"></div>
+<h1>Retention-First Acquisition: Beyond the Install</h1>
+<div class="meta">By <a href="/articles/joseph-calitoy-tech-blogger.html">Joseph Calitoy</a> | August 2026 | Part 10 of 12</div>
+<div class="article-body">
+10. Retention-First Acquisition: Beyond the Install
+
+### 10.1 The Churn Problem
+
+With apps losing up to **80% of users within three days** of install (Zoomd), and CPIs ranging from $1.50 to $12.00, acquiring users who churn immediately is not just inefficient — it is **value-destroying.** Every dollar spent acquiring a user who leaves within 72 hours is a dollar with negative ROI.
+
+### 10.2 The Retention-First Framework
+
+The leading UA strategies in 2025–2026 have integrated retention thinking into every stage of the acquisition funnel:
+
+| Stage | Traditional Approach | Retention-First Approach |
+|---|---|---|
+| Targeting | Maximize install volume | Predictive LTV targeting |
+| Bidding | Optimize for CPI | Optimize for D30 retention / ROAS |
+| Creative | Broad appeal | Self-selecting, category-specific |
+| Measurement | Install count | Quality score, cohort retention |
+| Channel mix | Cheapest CPI | Channels that deliver high-quality cohorts |
+| Post-install | Separate team | Integrated lifecycle from D0 |
+
+### 10.3 The Remarketing Shift
+
+Remarketing's share of total spend rose from **25% to 29%** in 2025 (AppsFlyer), as brands recognized that reactivating existing users delivers better unit economics than competing for new users in a crowded market. The steepest remarketing gains appeared in non-Western markets — Mexico (+426%), Brazil (+157%), India (+118%), Indonesia (+102%) (AppsFlyer).
+
+**The strategic insight**: Acquisition and retention are not separate functions. They are two ends of the same funnel, and the teams that integrate them will outperform teams that keep them siloed.
+
+---
+</div>
+<div class="nav-section"><a href="/articles/research-paper-creative-engine-ai-ad-production.html">&larr; The Creative Engine: AI-Powered Ad Production at Scale</a><a href="/articles/research-paper-strategic-frameworks-founders.html">Strategic Frameworks for Founders and Executives &rarr;</a></div>
+<div class="affiliate-box"><h3>Recommended Reading</h3><p>Tools and books for developers building AI-powered products.</p><a class="cta" href="https://amzn.to/4g8edqN" target="_blank" rel="sponsored nofollow noopener">Browse on Amazon</a><p class="affiliate-disclosure">As an Amazon Associate, Opened Terminal earns from qualifying purchases.</p></div>
+<div class="network-section"><h3>Explore the Calitoy Media Network</h3><div class="network-grid"><a href="https://brushedpast.com">Brushed Past</a><a href="https://girlnextup.com">Girl Next Up</a><a href="https://risentoday.com">Risen Today</a><a href="https://spoofdaily.com">Spoof Daily</a><a href="https://openedterminal.com">Opened Terminal</a><a href="https://josephcalitoy.com">Joseph Calitoy</a></div></div>
+<div class="newsletter"><h3>Get the next research paper first</h3><p>Weekly updates on AI, DevOps, and developer tools.</p><form onsubmit="return false"><input type="email" placeholder="you@example.com" required><button type="submit">Subscribe</button></form></div>
+<footer><p>Opened Terminal is part of the <a href="https://xcalitoy.com/tree/">Calitoy Media Network</a>.</p><p>&copy; 2026 Joseph Calitoy. All rights reserved.</p></footer>
+</div>
+<script>document.querySelectorAll("form").forEach(function(form){if(form.dataset.wired)return;form.dataset.wired="1";form.addEventListener("submit",async function(e){e.preventDefault();var emailInput=form.querySelector("input[type=email]");if(!emailInput||!emailInput.value){alert("Please enter your email.");return;}var btn=form.querySelector("button");var orig=btn?btn.textContent:"";if(btn){btn.textContent="...";btn.disabled=true;}try{var r=await fetch("https://email-capture.calitoy.workers.dev",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:emailInput.value,source:"openedterminal.com"})});var d=await r.json();if(d.success){form.innerHTML="<p style='text-align:center;padding:20px;'>You are in. Check your inbox.</p>";}else{alert(d.error||"Error.");if(btn){btn.textContent=orig;btn.disabled=false;}}}catch(err){alert("Network error.");if(btn){btn.textContent=orig;btn.disabled=false;}}}});});fetch("https://analytics.calitoy.workers.dev",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:window.location.pathname,site:window.location.hostname,title:document.title})}).catch(function(){});</script>
+</body>
+</html>

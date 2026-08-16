@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mobile User Acquisition and the Impact of AI Ecosystems | Opened Terminal</title>
+<meta name="description" content="A 12-part research paper by Joseph Calitoy examining how AI ecosystems are reshaping mobile user acquisition, app discovery, and the economics of growth.">
+<link rel="canonical" href="https://openedterminal.com/articles/research-mobile-ua-ai-ecosystems.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mobile User Acquisition and the Impact of AI Ecosystems">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg-base:#08090a;--bg-surface:#0f1110;--bg-card:#121413;--accent:#00ff9c;--accent-dim:#14b878;--text:#e4e4e7;--text-muted:#71717a;--border:#27272a;--font-sans:'Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--font-sans);line-height:1.7;font-size:16px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:780px;margin:0 auto;padding:40px 20px}
+.breadcrumb{font-family:var(--font-mono);font-size:.8rem;color:var(--text-muted);margin-bottom:24px}
+.breadcrumb a{color:var(--accent-dim)}
+h1{font-size:2rem;font-weight:800;letter-spacing:-.02em;margin-bottom:12px;color:#fff}
+h2{font-size:1.4rem;font-weight:700;margin:32px 0 16px;color:#fff}
+h3{font-size:1.1rem;font-weight:600;margin:24px 0 12px;color:var(--accent)}
+.meta{font-family:var(--font-mono);font-size:.8rem;color:var(--text-muted);margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.meta a{color:var(--accent-dim)}
+p{margin-bottom:16px}
+ul,ol{margin-bottom:16px;padding-left:24px}
+li{margin-bottom:8px}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9rem}
+th{background:var(--bg-card);padding:10px 12px;text-align:left;font-family:var(--font-mono);font-size:.8rem;color:var(--accent);border-bottom:2px solid var(--border)}
+td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:.9rem}
+strong{color:#fff}
+blockquote{border-left:3px solid var(--accent);padding-left:16px;margin:16px 0;color:var(--text-muted);font-style:italic}
+code{font-family:var(--font-mono);background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:.85rem;color:var(--accent)}
+.hero{height:120px;background:linear-gradient(135deg,#0a0a0a,#0a3320);border-radius:8px;margin-bottom:32px;border:1px solid var(--border)}
+.nav-section{display:flex;justify-content:space-between;margin:40px 0;padding:20px 0;border-top:1px solid var(--border)}
+.nav-section a{font-family:var(--font-mono);font-size:.85rem}
+.network-section{margin:40px 0;padding:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px}
+.network-section h3{margin-top:0}
+.network-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+.network-grid a{display:block;padding:10px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:.8rem;font-family:var(--font-mono);transition:.2s}
+.network-grid a:hover{border-color:var(--accent);text-decoration:none}
+.affiliate-box{margin:32px 0;padding:20px;background:linear-gradient(135deg,var(--bg-card),#0a1a12);border:1px solid var(--border);border-radius:8px}
+.affiliate-box h3{color:var(--accent);margin-top:0}
+.affiliate-box a.cta{display:inline-block;margin-top:8px;padding:8px 16px;background:var(--accent);color:#000;border-radius:4px;font-weight:700;font-size:.85rem}
+.affiliate-box a.cta:hover{text-decoration:none;opacity:.9}
+.affiliate-disclosure{font-size:.75rem;color:var(--text-muted);margin-top:8px}
+.newsletter{margin:40px 0;padding:32px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;text-align:center}
+.newsletter h3{margin-top:0}
+.newsletter form{display:flex;gap:10px;max-width:400px;margin:16px auto}
+.newsletter input{flex:1;padding:10px 16px;background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:var(--font-sans)}
+.newsletter button{padding:10px 20px;background:var(--accent);color:#000;border:none;border-radius:4px;font-weight:700;cursor:pointer;font-family:var(--font-sans)}
+footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:.75rem;color:var(--text-muted);text-align:center}
+footer a{color:var(--accent-dim)}
+@media(max-width:640px){.container{padding:20px 14px}h1{font-size:1.5rem}table{font-size:.8rem}th,td{padding:6px 8px}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="breadcrumb"><a href="/">Home</a> / Research Paper</div>
+<div class="hero" style="height:160px"></div>
+<h1>Mobile User Acquisition and the Impact of AI Ecosystems</h1>
+<div class="meta">A Research Paper by <a href="/articles/joseph-calitoy-tech-blogger.html">Joseph Calitoy</a> | August 2026 | 12 Parts</div>
+<p>The mobile user acquisition landscape is undergoing a structural transformation driven by escalating acquisition costs in a privacy-constrained environment and the rapid emergence of AI-native ecosystems that are rewriting how apps are discovered, evaluated, and downloaded.</p>
+<p>This 12-part series examines the state of mobile UA in 2025-2026, the role AI ecosystems (Apple Intelligence, Google Gemini, generative AI apps) are playing in reshaping discovery and conversion, and the strategic implications for founders, growth teams, and executives.</p>
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="/articles/research-paper-introduction-new-mobile-acquisition-landscape.html">Introduction: The New Mobile Acquisition Landscape</a></li>
+<li><a href="/articles/research-paper-economics-mobile-ua-2025-2026.html">The Economics of Mobile User Acquisition in 2025-2026</a></li>
+<li><a href="/articles/research-paper-ai-user-acquisition-engine.html">AI as a User Acquisition Engine: From Experimentation to Table Stakes</a></li>
+<li><a href="/articles/research-paper-rise-ai-ecosystems-app-discovery.html">The Rise of AI Ecosystems and Their Impact on App Discovery</a></li>
+<li><a href="/articles/research-paper-apple-intelligence-app-store.html">Apple Intelligence and the App Store: AI-Native Discovery</a></li>
+<li><a href="/articles/research-paper-google-gemini-android-discovery.html">Google Gemini and Android: AI as a Discovery Layer</a></li>
+<li><a href="/articles/research-paper-generative-ai-apps-acquisition.html">Generative AI Apps: The Fastest-Growing Acquisition Category</a></li>
+<li><a href="/articles/research-paper-privacy-attribution-measurement-reset.html">Privacy, Attribution, and the Measurement Reset</a></li>
+<li><a href="/articles/research-paper-creative-engine-ai-ad-production.html">The Creative Engine: AI-Powered Ad Production at Scale</a></li>
+<li><a href="/articles/research-paper-retention-first-acquisition.html">Retention-First Acquisition: Beyond the Install</a></li>
+<li><a href="/articles/research-paper-strategic-frameworks-founders.html">Strategic Frameworks for Founders and Executives</a></li>
+<li><a href="/articles/research-paper-conclusion-where-this-is-going.html">Conclusion: Where This Is Going</a></li>
+</ol>
+<div class="affiliate-box"><h3>Recommended Reading</h3><p>Tools and books for developers and founders.</p><a class="cta" href="https://amzn.to/4g8edqN" target="_blank" rel="sponsored nofollow noopener">Browse on Amazon</a><p class="affiliate-disclosure">As an Amazon Associate, Opened Terminal earns from qualifying purchases.</p></div>
+<div class="network-section"><h3>Explore the Calitoy Media Network</h3><div class="network-grid"><a href="https://brushedpast.com">Brushed Past</a><a href="https://girlnextup.com">Girl Next Up</a><a href="https://risentoday.com">Risen Today</a><a href="https://spoofdaily.com">Spoof Daily</a><a href="https://openedterminal.com">Opened Terminal</a><a href="https://josephcalitoy.com">Joseph Calitoy</a></div></div>
+<footer><p>Opened Terminal is part of the <a href="https://xcalitoy.com/tree/">Calitoy Media Network</a>.</p><p>&copy; 2026 Joseph Calitoy. All rights reserved.</p></footer>
+</div>
+<script>fetch("https://analytics.calitoy.workers.dev",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:window.location.pathname,site:window.location.hostname,title:document.title})}).catch(function(){});</script>
+</body>
+</html>
