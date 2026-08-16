@@ -504,5 +504,36 @@
     </div>
   </footer>
 
+
+<script>
+document.querySelectorAll('form').forEach(function(form){
+  if(form.dataset.wired) return;
+  form.dataset.wired='1';
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    var emailInput=form.querySelector('input[type=email]')||form.querySelector('input[name=email]');
+    var nameInput=form.querySelector('input[name=name]')||form.querySelector('input[name=first_name]');
+    var phoneInput=form.querySelector('input[name=phone]')||form.querySelector('input[type=tel]');
+    if(!emailInput||!emailInput.value){
+      alert('Please enter your email.');return;
+    }
+    var btn=form.querySelector('button[type=submit]')||form.querySelector('button');
+    var origText=btn?btn.textContent:'';
+    if(btn){btn.textContent='...';btn.disabled=true;}
+    try{
+      var r=await fetch('https://email-capture.calitoy.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:emailInput.value,name:nameInput?nameInput.value:'',phone:phoneInput?phoneInput.value:'',source:window.location.hostname})});
+      var d=await r.json();
+      if(d.success){
+        form.innerHTML='<p style="text-align:center;padding:20px;font-size:1.1em;">You are in. Check your inbox.</p>';
+      } else {
+        alert(d.error||'Something went wrong.');if(btn){btn.textContent=origText;btn.disabled=false;}
+      }
+    }catch(err){
+      alert('Network error. Try again.');if(btn){btn.textContent=origText;btn.disabled=false;}
+    }
+  });
+});
+</script>
+
 </body>
 </html>
