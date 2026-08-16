@@ -1069,3 +1069,107 @@ ul, ol { list-style: none; }
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* ---------- Affiliate / Recommended Tools ---------- */
+.affiliate-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px;
+  text-align: center;
+}
+.affiliate-box p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  max-width: 560px;
+  margin: 0 auto 24px;
+}
+.affiliate-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--accent-dim);
+  border-radius: var(--radius-sm);
+  padding: 12px 24px;
+  text-decoration: none;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.affiliate-cta:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.affiliate-disclosure {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 16px;
+  font-style: italic;
+}
+
+/* ---------- Cross-Network Ad Section ---------- */
+.network-section {
+  padding-block: 48px;
+  border-top: 1px solid var(--border);
+}
+.network-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  text-align: center;
+}
+.network-box h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.network-box > p {
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+.network-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.network-card {
+  display: block;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 16px;
+  transition: border-color var(--t-fast), transform var(--t-fast);
+}
+.network-card:hover {
+  border-color: var(--accent-dim);
+  transform: translateY(-2px);
+}
+.network-card .net-name {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.network-card .net-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ---------- Responsive for network ---------- */
+@media (max-width: 720px) {
+  .network-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .affiliate-box {
+    padding: 24px;
+  }
+}
