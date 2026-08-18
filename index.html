@@ -95,7 +95,7 @@
           Search <kbd>⌘K</kbd>
         </button>
         <button class="btn-primary" onclick="document.getElementById('newsletter').scrollIntoView({behavior:'smooth'})">Subscribe</button>
-        <button class="menu-toggle" aria-label="Menu" onclick="this.classList.toggle('open')">
+        <button class="menu-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open'); this.classList.toggle('open')">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -431,6 +431,16 @@
 </div>
 <p class="affiliate-disclosure">As an Amazon Associate, we earn from qualifying purchases.</p>
 </div>
+  </section>
+
+  <!-- ========== Newsletter ========== -->
+  <section class="section" id="newsletter" style="text-align:center;padding:60px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <h2 style="font-size:1.75rem;font-weight:800;color:var(--text-primary,#fff);margin-bottom:12px">Get the next article first</h2>
+    <p style="color:var(--text-muted,#71717a);margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto">Weekly updates on AI, DevOps, security, and developer tools. No fluff, no spam.</p>
+    <form onsubmit="return false" style="display:flex;gap:10px;max-width:420px;margin:0 auto;flex-wrap:wrap;justify-content:center">
+      <input type="email" placeholder="you@example.com" required style="flex:1;min-width:200px;padding:12px 18px;background:var(--bg-elevated,#121413);border:1px solid var(--border,#27272a);border-radius:6px;color:var(--text-primary,#fff);font-family:inherit;font-size:.95rem;outline:none">
+      <button type="submit" style="padding:12px 24px;background:var(--accent,#00ff9c);color:#000;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.9rem;white-space:nowrap">Subscribe</button>
+    </form>
   </section>
 
   <!-- ========== Footer ========== -->

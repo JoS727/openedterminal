@@ -1046,6 +1046,8 @@ ul, ol { list-style: none; }
   .container, .content-wrap { padding-inline: 18px; }
   .nav-links, .header-actions .search-btn { display: none; }
   .menu-toggle { display: flex; }
+  .nav-links.mobile-open { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--bg-surface, #0f1110); padding: 12px; border-bottom: 1px solid var(--border, #27272a); z-index: 100; }
+  .nav-links.mobile-open a { padding: 10px 14px; width: 100%; }
   .section { padding-block: 44px; }
   .article-grid { grid-template-columns: 1fr; }
   .card.featured { grid-column: span 1; }
