@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local AI Models Are Eating Cloud Inference | openedterminal</title>
+<meta name="description" content="Why running LLMs on your own hardware is becoming the smart default in 2026, and what you need to get started.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #08090a;
+    color: #e0e0e0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.7;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  h1 {
+    font-size: 2.2rem;
+    color: #00ff9c;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  h2 {
+    font-size: 1.4rem;
+    color: #00ff9c;
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+  h3 {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-top: 28px;
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 16px; font-size: 1.02rem; }
+  a { color: #00ff9c; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: #111618;
+    color: #00ff9c;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+  pre {
+    font-family: 'JetBrains Mono', monospace;
+    background: #111618;
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+    border-left: 3px solid #00ff9c;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  pre code { background: none; padding: 0; color: #e0e0e0; }
+  blockquote {
+    border-left: 3px solid #00ff9c;
+    padding-left: 16px;
+    margin: 20px 0;
+    color: #999;
+    font-style: italic;
+  }
+  ul, ol { margin-bottom: 16px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+  strong { color: #fff; }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #00ff9c;
+    border: 1px solid #00ff9c33;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  .footer {
+    margin-top: 50px;
+    padding-top: 24px;
+    border-top: 1px solid #222;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: #555;
+    text-align: center;
+  }
+  .footer a { color: #00ff9c; margin: 0 8px; }
+  .affiliate-box {
+    border: 1px solid #00ff9c33;
+    background: #111618;
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 24px 0;
+  }
+  .affiliate-box a { font-weight: bold; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<span class="tag">AI / LOCAL INFERENCE</span>
+<h1>Local AI Models Are Eating Cloud Inference</h1>
+<div class="meta">openedterminal.com | 2026-08-20</div>
+
+<p>Two years ago, if you wanted to run a capable large language model, you needed a cloud API key and a credit card on file with OpenAI, Anthropic, or Google. The models were big, the hardware requirements were brutal, and the latency of a round trip to someone else's datacenter was just the cost of doing business. That calculus has shifted hard. In 2026, the fastest-growing segment of AI inference is not cloud. It is local.</p>
+
+<p>The convergence of better quantization, purpose-built consumer hardware, and smaller models that punch above their weight has made running LLMs on your own machine not just viable but preferable for a wide and growing set of use cases. If you have not looked at the local AI stack recently, you are probably working from an outdated mental model. Let me walk you through what changed and what it means for developers and power users right now.</p>
+
+<h2>Why Local Won</h2>
+
+<p>Three forces drove the shift.</p>
+
+<p><strong>First, models got dramatically smaller without getting dramatically dumber.</strong> The era of needing 70 billion parameters for good results is fading. Models in the 7B to 14B range now handle coding, writing, summarization, and structured extraction at quality levels that rival or match GPT-4 class output from 2024. Distillation and synthetic data pipelines have compressed knowledge that once required massive parameter counts into architectures that fit in 8 to 16 gigabytes of VRAM.</p>
+
+<p><strong>Second, quantization stopped being a quality death sentence.</strong> The jump from FP16 to INT4 used to mean a visible degradation in reasoning quality. Today, techniques like GGUF quantization with k-means refinement, and increasingly FP8 inference on newer GPUs, have narrowed the quality gap to something most users never notice. You lose a small amount of performance on edge-case reasoning tasks. You gain the ability to run a model that would have required an H100 on a consumer card.</p>
+
+<p><strong>Third, privacy and cost pressure intensified.</strong> Companies that started feeding customer data into cloud AI APIs discovered two things: the billing scales linearly with usage with no ceiling, and data governance becomes a nightmare when your prompts and completions traverse a third-party infrastructure. Local inference eliminates both problems. You pay once for hardware. The data never leaves the machine.</p>
+
+<h2>The Hardware Question</h2>
+
+<p>The most common question is still "what do I actually need to run this?" and the answer is less intimidating than it used to be.</p>
+
+<p>If you have a modern GPU with 12GB or more of VRAM, you can run most models in the 7B to 14B class at full speed using <code>llama.cpp</code> or <code>vLLM</code>. An NVIDIA RTX 4070 or better handles this comfortably. If you have 16GB or 24GB of VRAM, you can run larger models or keep multiple models loaded simultaneously.</p>
+
+<p>If you do not have a powerful GPU, CPU inference has improved enormously. Apple Silicon Macs are arguably the best value platform for local AI right now. The unified memory architecture means your GPU can access all system RAM, so an M-series Mac with 32GB of unified memory can run models that would require a very expensive discrete GPU on the PC side. A Mac Studio with 64GB of unified memory is a local AI powerhouse that competes with setups costing three times as much.</p>
+
+<div class="affiliate-box">
+<p>If you are building a dedicated local AI workstation, you need enough RAM to keep models resident. <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20">Corsair Vengeance 32GB DDR4 RAM</a> is a solid, affordable upgrade that pairs well with most consumer motherboards and gives you headroom for larger models when running CPU inference.</p>
+</div>
+
+<h2>The Software Stack in 2026</h2>
+
+<p>The tooling has matured to the point where getting a model running locally is a few commands, not a weekend project. Here is the current state of the art.</p>
+
+<h3>Ollama</h3>
+
+<p>Ollama remains the easiest on-ramp. It handles model download, quantization selection, and serving behind a clean CLI that mimics the Docker experience. One command pulls and runs a model:</p>
+
+<pre><code>ollama run llama3.2</code></pre>
+
+<p>It exposes an OpenAI-compatible API on localhost, which means any tool built for the OpenAI API can be pointed at your local model by changing one base URL. This is the killer feature. Your existing code, your existing SDKs, your existing prompt templates all work without modification.</p>
+
+<h3>llama.cpp</h3>
+
+<p>For maximum control and performance, <code>llama.cpp</code> is still the foundation. It supports more quantization formats, more hardware backends, and more configuration options than anything else. Most other tools, including Ollama, are built on top of it. If you want to squeeze every last token per second out of your hardware, you are eventually going to end up here.</p>
+
+<h3>LM Studio</h3>
+
+<p>If you want a GUI, LM Studio provides a polished desktop application for browsing, downloading, and chatting with local models. It handles all the backend plumbing and presents a clean interface that feels like using ChatGPT, except everything runs on your machine.</p>
+
+<h3>vLLM</h3>
+
+<p>If you are doing production inference and need high throughput, vLLM is the server to reach for. It uses paged attention to maximize GPU utilization and supports continuous batching, which means multiple concurrent requests share GPU resources efficiently. It is overkill for a single user but ideal if you are building a service that serves local models to a team or organization.</p>
+
+<h2>What Local Still Cannot Do</h2>
+
+<p>I am not going to pretend local inference is a silver bullet. There are real limitations.</p>
+
+<p><strong>Frontier reasoning is still cloud-only.</strong> The absolute best models for complex multi-step reasoning, the ones that can write novel proofs or debug intricate distributed systems, are still large and still expensive. If you need frontier capability, you need cloud access. Local models handle 90% of real-world AI tasks well. The remaining 10% still requires the big guns.</p>
+
+<p><strong>Context windows are constrained by VRAM.</strong> A model can be smart enough to process 128K tokens of context, but if you do not have the VRAM to hold the KV cache for that context, you cannot use it. Long-context tasks like analyzing full codebases or processing long documents are still easier in the cloud unless you have substantial hardware.</p>
+
+<p><strong>Tool use and agentic workflows are less reliable.</strong> Function calling and multi-step agent loops benefit from the kind of instruction-following precision that frontier models provide. Local models can do it, but they fail more often and require more careful prompt engineering.</p>
+
+<h2>The Practical Case for Going Local</h2>
+
+<p>Here is the decision framework I use. If your use case involves any of the following, local inference is probably the right call:</p>
+
+<ul>
+  <li><strong>High volume, low complexity.</strong> If you are generating thousands of completions per day for tasks like classification, extraction, or simple generation, cloud API costs will dwarf the cost of hardware. Local pays for itself in weeks.</li>
+  <li><strong>Sensitive data.</strong> If your prompts contain PII, proprietary code, or data under regulatory constraints, local inference is not just cheaper, it is safer. No data leaves your infrastructure.</li>
+  <li><strong>Latency-sensitive applications.</strong> A local model responds in tens of milliseconds. A cloud API adds network round-trip time on top of inference time. For interactive applications, the difference is immediately noticeable to users.</li>
+  <li><strong>Offline or air-gapped environments.</strong> If you work in an environment without reliable internet, or where network access to external APIs is prohibited, local is the only option.</li>
+</ul>
+
+<p>Conversely, if you need frontier reasoning, massive context windows, or the absolute best instruction-following, stick with cloud APIs for those tasks. The smart play in 2026 is hybrid: local for the bulk of your inference, cloud for the hard cases.</p>
+
+<h2>Where This Is Going</h2>
+
+<p>The trend lines are clear. Models are getting smaller and smarter. Hardware is getting cheaper and faster. The gap between local and cloud is narrowing, not widening. The release of efficient models in the 1B to 3B range that run on phones has already begun. Within a year or two, the question will flip from "can I run this locally?" to "why am I paying a cloud provider for this?"</p>
+
+<p>If you have not set up a local AI stack yet, there has never been a better time. The tooling is mature, the models are capable, and the cost savings compound with every API call you do not make. Start with Ollama, grab a 7B model, and see how far it gets you. You will probably be surprised.</p>
+
+<div class="footer">
+  <p>
+    <a href="https://openedterminal.com">openedterminal</a> |
+    <a href="https://xcalitoy.com">xcalitoy</a> |
+    <a href="https://kurced.com">kurced</a> |
+    <a href="https://tarosyn.com">tarosyn</a> |
+    <a href="https://jeremydeanmusic.com">jeremydean</a>
+  </p>
+  <p>&copy; 2026 openedterminal</p>
+</div>
+
+</body>
+</html>
