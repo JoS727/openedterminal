@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta -->
+  <title>Weekly Update: August 21, 2026 | Opened Terminal</title>
+  <meta name="description" content="A weekly project update from Joseph Calitoy covering what shipped across the Calitoy Media Network, CalitoyStamp sprint progress, and what is coming next.">
+  <meta name="keywords" content="weekly update, Joseph Calitoy, Calitoy Media Network, CalitoyStamp, CalitoyMuse, openedterminal, AI, developer, project update">
+  <meta name="author" content="Joseph Calitoy">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://openedterminal.com/articles/weekly-update-2026-08-21.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Opened Terminal">
+  <meta property="og:title" content="Weekly Update: August 21, 2026">
+  <meta property="og:description" content="What shipped across the Calitoy Media Network, CalitoyStamp sprint progress, and what is coming next.">
+  <meta property="og:url" content="https://openedterminal.com/articles/weekly-update-2026-08-21.html">
+  <meta property="og:locale" content="en_US">
+  <meta property="article:published_time" content="2026-08-21T12:00:00Z">
+  <meta property="article:modified_time" content="2026-08-21T12:00:00Z">
+  <meta property="article:author" content="Joseph Calitoy">
+  <meta property="article:section" content="Updates">
+  <meta property="article:tag" content="Weekly Update">
+  <meta property="article:tag" content="Calitoy">
+  <meta property="article:tag" content="CalitoyStamp">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@openedterminal">
+  <meta name="twitter:title" content="Weekly Update: August 21, 2026">
+  <meta name="twitter:description" content="What shipped across the Calitoy Media Network, CalitoyStamp sprint progress, and what is coming next.">
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2308090a'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='18' font-weight='bold' fill='%2300ff9c' text-anchor='middle'%3E&gt;_%3C/text%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Structured Data: TechArticle (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Weekly Update: August 21, 2026",
+    "description": "A weekly project update from Joseph Calitoy covering what shipped across the Calitoy Media Network, CalitoyStamp sprint progress, and what is coming next.",
+    "image": "https://openedterminal.com/articles/headers/ai-tools-2026.png",
+    "datePublished": "2026-08-21T12:00:00Z",
+    "dateModified": "2026-08-21T12:00:00Z",
+    "author": {
+      "@type": "Person",
+      "name": "Joseph Calitoy",
+      "url": "https://josephcalitoy.com",
+      "jobTitle": "AI Consultant, Fractional CTO",
+      "sameAs": [
+        "https://github.com/JoS727",
+        "https://josephcalitoy.com"
+      ]
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Opened Terminal",
+      "url": "https://openedterminal.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://openedterminal.com/articles/headers/ai-tools-2026.png",
+        "width": 512,
+        "height": 512
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://openedterminal.com/articles/weekly-update-2026-08-21.html"
+    },
+    "articleSection": "Updates",
+    "keywords": "weekly update, Joseph Calitoy, Calitoy Media Network, CalitoyStamp, CalitoyMuse, openedterminal, AI, developer, project update",
+    "wordCount": "1050",
+    "proficiencyLevel": "Intermediate"
+  }
+  </script>
+
+  <!-- Breadcrumb Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://openedterminal.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Updates", "item": "https://openedterminal.com/category/updates/index.html" },
+      { "@type": "ListItem", "position": 3, "name": "Weekly Update: August 21, 2026", "item": "https://openedterminal.com/articles/weekly-update-2026-08-21.html" }
+    ]
+  }
+  </script>
+
+  <style>
+    /* === Design Tokens === */
+    :root {
+      --bg-base:#08090a; --bg-surface:#0f1110; --bg-elevated:#161917; --bg-card:#121413; --bg-input:#0a0c0b;
+      --border:#232624; --border-strong:#2f3330; --border-accent:#1f3d2f;
+      --text-primary:#f4f5f3; --text-secondary:#a8aaa6; --text-muted:#6b6e69; --text-faint:#494b47;
+      --accent:#00ff9c; --accent-dim:#14b878; --accent-deep:#0c5a3a; --accent-glow:rgba(0,255,156,0.12); --accent-soft:rgba(0,255,156,0.06);
+      --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      --font-mono:'JetBrains Mono','Fira Code','SF Mono',Menlo,monospace;
+      --max-content:760px; --radius:10px; --radius-sm:6px; --radius-lg:16px;
+      --ease:cubic-bezier(0.4,0,0.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+    body{font-family:var(--font-sans);background:var(--bg-base);color:var(--text-primary);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,156,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,156,0.015) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+    a{color:inherit;text-decoration:none;}
+    img{max-width:100%;display:block;}
+    ul,ol{list-style:none;}
+    ::selection{background:var(--accent);color:var(--bg-base);}
+    ::-webkit-scrollbar{width:10px;}
+    ::-webkit-scrollbar-track{background:var(--bg-base);}
+    ::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:5px;}
+    .container{width:100%;max-width:1200px;margin-inline:auto;padding-inline:24px;position:relative;z-index:1;}
+    .content-wrap{width:100%;max-width:var(--max-content);margin-inline:auto;padding-inline:24px;position:relative;z-index:1;}
+
+    /* Header */
+    .site-header{position:sticky;top:0;z-index:100;background:rgba(8,9,10,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:64px;}
+    .logo{font-family:var(--font-mono);font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:8px;letter-spacing:-0.02em;white-space:nowrap;}
+    .logo .cursor{display:inline-block;width:9px;height:1.05em;background:var(--accent);margin-left:2px;animation:blink 1.1s steps(2) infinite;vertical-align:text-bottom;border-radius:1px;}
+    @keyframes blink{50%{opacity:0;}}
+    .logo .accent{color:var(--accent);}
+    .nav-links{display:flex;align-items:center;gap:4px;}
+    .nav-links a{font-size:0.875rem;font-weight:500;color:var(--text-secondary);padding:8px 12px;border-radius:var(--radius-sm);transition:color 0.15s,background 0.15s;}
+    .nav-links a:hover{color:var(--text-primary);background:var(--bg-elevated);}
+    .nav-links a.active{color:var(--accent);}
+    .btn-primary{font-family:var(--font-mono);font-size:0.8rem;font-weight:600;background:var(--accent);color:var(--bg-base);border:none;padding:8px 16px;border-radius:var(--radius-sm);cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;white-space:nowrap;}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 0 24px var(--accent-glow);}
+    .menu-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;}
+    .menu-toggle span{width:22px;height:2px;background:var(--text-primary);border-radius:2px;}
+
+    /* Breadcrumb */
+    .article-breadcrumb{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);padding-top:32px;}
+    .article-breadcrumb a:hover{color:var(--accent);}
+    .article-breadcrumb .sep{color:var(--text-faint);}
+
+    /* Article header */
+    .article-header{padding-top:24px;padding-bottom:32px;}
+    .article-header .cat-tag-inline{font-family:var(--font-mono);font-size:0.78rem;font-weight:600;color:var(--accent);margin-bottom:16px;display:inline-block;}
+    .article-header h1{font-size:clamp(1.85rem,3.6vw,2.8rem);font-weight:800;line-height:1.12;letter-spacing:-0.03em;margin-bottom:20px;}
+    .article-header .dek{font-size:1.15rem;color:var(--text-secondary);line-height:1.55;margin-bottom:28px;max-width:680px;}
+    .article-meta-row{display:flex;align-items:center;flex-wrap:wrap;gap:16px;padding-bottom:28px;border-bottom:1px solid var(--border);}
+    .article-meta-row .author{display:flex;align-items:center;gap:10px;}
+    .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent-deep),var(--accent-dim));display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.75rem;font-weight:700;color:var(--bg-base);flex-shrink:0;}
+    .article-meta-row .author-name{font-weight:600;font-size:0.9rem;}
+    .article-meta-row .meta-item{font-size:0.85rem;color:var(--text-muted);display:flex;align-items:center;gap:6px;}
+    .article-meta-row .mono{font-family:var(--font-mono);font-size:0.8rem;}
+    .meta-sep{color:var(--text-faint);}
+
+    /* Article body */
+    .article-body{font-size:1.0625rem;line-height:1.78;color:#d8d9d5;}
+    .article-body>*+*{margin-top:1.4em;}
+    .article-body p{max-width:100%;}
+    .article-body h2{font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;margin-top:2.2em;margin-bottom:0.6em;line-height:1.25;display:flex;align-items:center;gap:10px;}
+    .article-body h2::before{content:'##';font-family:var(--font-mono);font-size:1.2rem;color:var(--accent);font-weight:600;}
+    .article-body h3{font-size:1.25rem;font-weight:700;letter-spacing:-0.015em;margin-top:1.8em;}
+    .article-body a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--accent-deep);transition:text-decoration-color 0.15s;}
+    .article-body a:hover{text-decoration-color:var(--accent);}
+    .article-body strong{color:var(--text-primary);font-weight:700;}
+    .article-body ul{list-style:none;padding-left:0;}
+    .article-body ul li{position:relative;padding-left:28px;margin-top:0.6em;}
+    .article-body ul li::before{content:'\25B8';position:absolute;left:0;color:var(--accent);font-family:var(--font-mono);}
+    .article-body ol{padding-left:24px;}
+    .article-body ol li{margin-top:0.6em;}
+    .article-body ol li::marker{color:var(--accent);font-family:var(--font-mono);}
+    .article-body code:not(pre code){font-family:var(--font-mono);font-size:0.875em;background:var(--bg-elevated);border:1px solid var(--border);border-radius:4px;padding:2px 6px;color:var(--accent);}
+    .article-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 24px;margin-top:2em;font-size:1.15rem;color:var(--text-secondary);font-style:italic;}
+
+    /* Callout */
+    .callout{background:var(--accent-soft);border:1px solid var(--border-accent);border-radius:var(--radius);padding:18px 20px;margin-top:2em;font-size:0.95rem;}
+    .callout .callout-label{font-family:var(--font-mono);font-size:0.76rem;color:var(--accent);margin-bottom:6px;}
+
+    /* Network ads */
+    .network-ad{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin:2em 0;font-size:0.9rem;color:var(--text-secondary);}
+    .network-ad a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+    .network-promo{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;margin:2.5em 0;}
+    .network-promo h4{font-family:var(--font-mono);font-size:0.9rem;color:var(--accent);margin-bottom:16px;}
+    .network-promo ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .network-promo ul li a{font-size:0.9rem;color:var(--text-secondary);transition:color 0.15s;}
+    .network-promo ul li a:hover{color:var(--accent);}
+
+    /* Stats */
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:2em 0;}
+    .stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;}
+    .stat-card .stat-num{font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--accent);line-height:1;}
+    .stat-card .stat-label{font-size:0.8rem;color:var(--text-muted);margin-top:8px;text-transform:uppercase;letter-spacing:0.05em;}
+
+    /* Disclosure */
+    .disclosure{font-size:0.82rem;color:var(--text-muted);margin-top:32px;font-style:italic;}
+
+    /* Affiliate */
+    .affiliate-box{margin-top:48px;}
+    .affiliate-cta{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:0.9rem;font-weight:600;color:var(--accent);border:1px solid var(--accent-dim);border-radius:var(--radius-sm);padding:12px 24px;text-decoration:none;transition:border-color 0.15s,box-shadow 0.15s;}
+    .affiliate-cta:hover{box-shadow:0 0 24px var(--accent-glow);}
+    .affiliate-disclosure{font-size:0.78rem;color:var(--text-muted);margin-top:12px;}
+
+    /* Tags */
+    .article-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:32px;}
+    .article-tags .tag{font-family:var(--font-mono);font-size:0.76rem;color:var(--text-muted);background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:4px 10px;transition:color 0.15s,border-color 0.15s;}
+    .article-tags .tag:hover{color:var(--accent);border-color:var(--accent-dim);}
+
+    /* Author bio */
+    .author-bio{display:flex;gap:16px;align-items:flex-start;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);}
+    .author-bio .avatar{width:48px;height:48px;font-size:0.85rem;}
+    .bio-name{font-weight:700;font-size:1rem;color:var(--text-primary);}
+    .bio-role{font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;}
+    .bio-text{font-size:0.9rem;color:var(--text-secondary);line-height:1.6;}
+
+    /* Newsletter */
+    .newsletter{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:40px 32px;margin:48px 0;text-align:center;}
+    .newsletter h3{font-size:1.4rem;font-weight:700;margin-bottom:8px;}
+    .newsletter p{color:var(--text-secondary);font-size:0.95rem;margin-bottom:24px;max-width:480px;margin-inline:auto;}
+    .newsletter-form{display:flex;gap:8px;max-width:420px;margin-inline:auto;flex-wrap:wrap;}
+    .newsletter-form input{flex:1;min-width:200px;font-family:var(--font-mono);font-size:0.9rem;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;color:var(--text-primary);}
+    .newsletter-form input:focus{outline:none;border-color:var(--accent-dim);}
+    .newsletter-form input::placeholder{color:var(--text-faint);}
+    .newsletter-form button{font-family:var(--font-mono);font-weight:600;font-size:0.85rem;background:var(--accent);color:var(--bg-base);border:none;border-radius:var(--radius-sm);padding:12px 24px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;}
+    .newsletter-form button:hover{transform:translateY(-1px);box-shadow:0 0 24px var(--accent-glow);}
+
+    /* Footer */
+    .site-footer{border-top:1px solid var(--border);padding:40px 0 32px;margin-top:0;}
+    .footer-bottom{text-align:center;padding-top:24px;font-size:0.82rem;color:var(--text-muted);}
+    .footer-bottom .mono{font-family:var(--font-mono);}
+    .footer-network{text-align:center;padding:20px;border-top:1px solid var(--border);font-size:0.82rem;color:var(--text-muted);}
+    .footer-network a{color:var(--accent);transition:opacity 0.15s;}
+    .footer-network a:hover{opacity:0.8;}
+    .footer-extra{text-align:center;margin-top:12px;font-size:0.82rem;color:var(--text-muted);}
+    .footer-extra a{color:var(--accent);text-decoration:none;margin:0 4px;}
+
+    @media(max-width:768px){
+      .nav-links{display:none;}
+      .menu-toggle{display:flex;}
+      .network-promo ul{grid-template-columns:1fr;}
+      .stats-grid{grid-template-columns:repeat(2,1fr);}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="../index.html" class="logo">opened<span class="accent">terminal</span><span class="cursor"></span></a>
+        <nav class="nav-links">
+          <a href="../index.html">Home</a>
+          <a href="../category/ai/index.html">AI</a>
+          <a href="../category/devops/index.html">DevOps</a>
+          <a href="../category/security/index.html">Security</a>
+          <a href="../category/web3/index.html">Web3</a>
+          <a href="../category/hardware/index.html">Hardware</a>
+        </nav>
+        <div class="header-actions">
+          <button class="btn-primary" onclick="document.getElementById('newsletter').scrollIntoView({behavior:'smooth'})">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Article -->
+  <article>
+    <div class="content-wrap">
+
+      <!-- Breadcrumb -->
+      <nav class="article-breadcrumb">
+        <a href="../index.html">~/</a>
+        <span class="sep">/</span>
+        <a href="../category/updates/index.html">updates</a>
+        <span class="sep">/</span>
+        <span>weekly-update-2026-08-21</span>
+      </nav>
+
+      <!-- Article header -->
+      <header class="article-header">
+        <span class="cat-tag-inline">// updates</span>
+        <h1>Weekly Update: August 21, 2026</h1>
+        <p class="dek">What shipped across the Calitoy Media Network this week, CalitoyStamp sprint progress, new brand launches, and what is coming next.</p>
+        <div class="article-meta-row">
+          <div class="author">
+            <div class="avatar">JC</div>
+            <div>
+              <div class="author-name">Joseph Calitoy</div>
+              <div class="meta-item">AI Consultant, Fractional CTO</div>
+            </div>
+          </div>
+          <span class="meta-sep">|</span>
+          <span class="meta-item mono">2026-08-21</span>
+          <span class="meta-sep">|</span>
+          <span class="meta-item mono">~8 min read</span>
+        </div>
+      </header>
+
+      <!-- Article body -->
+      <div class="article-body">
+
+        <p>This week was about volume. I shipped more content across the network than any previous week, launched a new brand site, and kept the CalitoyStamp sprint pipeline moving. Here is the full breakdown.</p>
+
+        <h2>What Shipped This Week</h2>
+
+        <p><strong>CalitoyMuse went live.</strong> I built the full site for the evening wear and lingerie brand on August 18. The site includes an about page, contact, lookbook, product showcase, and shop. I wrote brand guidelines and a UX strategy doc to keep the visual direction consistent going forward. The repo is live on GitHub at <a href="https://github.com/JoS727/CalitoyMuse" target="_blank" rel="noopener">JoS727/CalitoyMuse</a>. This is the sixth property in the network and the first dedicated fashion brand. The aesthetic is premium, clean, and deliberate, which matches the product line.</p>
+
+        <p><strong>OpenedTerminal got a massive content drop.</strong> I published a 10-part research paper series on mobile user acquisition and AI ecosystems. The series covers Apple Intelligence and the App Store, Google Gemini and Android discovery, the economics of mobile UA in 2025 and 2026, privacy and attribution measurement, retention-first acquisition, strategic frameworks for founders, and creative AI in ad production. Each piece runs between 12,000 and 16,000 characters with proper structured data and internal linking.</p>
+
+        <p>On top of the research series, I shipped standalone articles: "Why Local AI Is Eating the Cloud in 2026," "Local AI Models," "Model Context Protocol Is Eating the AI Tooling World," "Kubernetes Pod Disruption Budgets for Production Stability," "Top GitHub Developers 2026," "The Autonomous Agent Stack in 2026," and "10 AI Tools Every Developer Should Know in 2026." I also fixed every dead Amazon ASIN across the site, replacing them with verified ISBNs that all return HTTP 200. And I added Tarosyn, XCalitoy, and Kurced to the network ad sections across every site in the network.</p>
+
+        <p><strong>The full network kept its daily cadence.</strong> BrushedPast published "Watercolor Where You Are" and "Charcoal Drawing Techniques." GirlNextUp shipped four pieces: "Women Rising Leading Through Adversity," "Founder 500 to Millions," "Women Rising in Tech," and "Women in Tech Pioneering the Future." RisenToday published "Waking Up to the Present Moment." SpoofDaily dropped ten satirical articles, including "AI Chatbot Files Unemployment," "Corporate Board Cats Productivity," "Smart Fridge Hostage Leftovers," "Smartphone Sees Therapist for Doomscrolling," and "Meaning of Life Forgotten."</p>
+
+        <p>That is 25-plus articles across five sites in one week. The cron pipeline handled publishing automatically, pushing to GitHub and deploying to Cloudflare Pages on schedule. Zero manual intervention required.</p>
+
+        <p><strong>CalitoyStamp completed Sprint 2.</strong> The 3D engine for musicians now has an enterable Lounge room. Sprint 2 made the Lounge audible and visually verifiable, with a music world you can walk into and a vinyl crate you can interact with tactilely. Sprint 1 built the street and alley geometry with peelable graffiti and derived camera poses. The last commit pushed on August 11, and the repo sits at 26 open issues tracking everything from the Skatepark build to the live ticket window and the hidden game. The repo is at <a href="https://github.com/JoS727/CalitoyStamp" target="_blank" rel="noopener">JoS727/CalitoyStamp</a> on GitHub.</p>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-num">6</div>
+            <div class="stat-label">Sites Live</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">25+</div>
+            <div class="stat-label">Articles This Week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">26</div>
+            <div class="stat-label">Open Issues</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">23+</div>
+            <div class="stat-label">GitHub Repos</div>
+          </div>
+        </div>
+
+        <h2>What Is In Progress</h2>
+
+        <p><strong>CalitoyStamp Sprint 3 is next.</strong> The 26 open issues cover a lot of ground: the Skatepark (build the bowl), the Stamp Network (connect artists' worlds), a live ticket window for the box office, comments as graffiti on The Wall, game state and profiles, the hidden game, SEO and social launch, accessibility audit, performance budget enforcement, and mobile fallback. I need to prioritize which of those go into Sprint 3 versus later sprints. The Skatepark and game state are my top candidates because they unlock the most player-facing functionality.</p>
+
+        <p><strong>CalitoyMuse product expansion.</strong> The brand site is live but the product catalog needs filling out. I have the lookbook and shop structure in place. The next step is adding actual product entries with photography and sizing information. The brand guidelines doc I wrote this week will keep the visual direction tight as the catalog grows.</p>
+
+        <p><strong>Daily content pipeline is running steady.</strong> Three articles per site per day, 10k headline generation, and weekly analytics. The Cloudflare Workers handle email capture and page view tracking. Everything pushes to GitHub and deploys through Cloudflare Pages. The pipeline has been stable for over a week with zero manual intervention. That stability is the real win here, because it frees up time for the projects that need hands-on work.</p>
+
+        <h2>What Is Coming Next</h2>
+
+        <ol>
+          <li><strong>CalitoyStamp Sprint 3:</strong> Skatepark geometry, game state, and the Stamp Network. Targeting completion by end of August.</li>
+          <li><strong>More research content on OpenedTerminal.</strong> The mobile UA series performed well. I am planning a follow-up series on agent evaluation and production deployment patterns.</li>
+          <li><strong>CalitoyMuse product photography and full catalog launch.</strong> Getting real product shots in place and building out the full shop experience.</li>
+          <li><strong>Continued daily publishing across all five network sites.</strong> The cron pipeline is stable. No changes needed there.</li>
+          <li><strong>New repo forks for research.</strong> I forked several repos this week for exploration, including Agent Substrate, Plane (the open-source Jira alternative), Anthropic's cybersecurity skills dataset, and a few trading and mapping projects. Expect some of that research to inform upcoming articles.</li>
+        </ol>
+
+        <p>If you want to follow along, the daily content hits all five sites automatically. The cron jobs run on schedule, the Workers handle capture and analytics, and the deploy pipeline pushes to Cloudflare Pages without friction. The best way to stay current is to subscribe to the newsletter below. One email, every week, with the highlights.</p>
+
+        <div class="callout">
+          <div class="callout-label">// note</div>
+          All article counts and repo stats are pulled from live GitHub API data and the local site directory. CalitoyStamp issue count and sprint details are current as of this writing.
+        </div>
+
+        <!-- Affiliate Disclosure -->
+        <p class="disclosure">This article contains affiliate links. If you purchase through these links, we may earn a commission at no extra cost to you. We only recommend products and services we genuinely use and trust.</p>
+
+        <!-- Recommended -->
+        <div class="affiliate-box">
+          <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:12px;">Recommended</h2>
+          <p>Building and deploying across a multi-site network requires reliable hardware. These are the tools I use daily for development, content production, and deployment.</p>
+          <a href="https://amzn.to/4g8edqN" target="_blank" rel="noopener sponsored nofollow" class="affiliate-cta">
+            Browse Recommended Gear &rarr;
+          </a>
+          <p class="affiliate-disclosure">As an Amazon Associate, I earn from qualifying purchases.</p>
+        </div>
+
+        <!-- Network promo -->
+        <div class="network-promo">
+          <h4>Explore more from the Calitoy Media Network</h4>
+          <ul>
+            <li><a href="https://brushedpast.com">Brushed Past</a> | Art &amp; Creativity</li>
+            <li><a href="https://girlnextup.com">Girl Next Up</a> | Incredible Humans</li>
+            <li><a href="https://risentoday.com">Risen Today</a> | Spirituality &amp; Mindfulness</li>
+            <li><a href="https://spoofdaily.com">Spoof Daily</a> | Humor &amp; Satire</li>
+            <li><a href="https://openedterminal.com">Opened Terminal</a> | Tech &amp; AI</li>
+            <li><a href="https://josephcalitoy.com">Joseph Calitoy</a> | AI Consulting</li>
+          </ul>
+        </div>
+
+        <!-- Tags -->
+        <div class="article-tags">
+          <a href="#" class="tag">#weekly-update</a>
+          <a href="#" class="tag">#calitoy</a>
+          <a href="#" class="tag">#calitoystamp</a>
+          <a href="#" class="tag">#calitoymuse</a>
+          <a href="#" class="tag">#openedterminal</a>
+          <a href="#" class="tag">#media-network</a>
+          <a href="#" class="tag">#2026</a>
+        </div>
+
+        <!-- Author bio -->
+        <div class="author-bio">
+          <div class="avatar">JC</div>
+          <div>
+            <div class="bio-name">Joseph Calitoy</div>
+            <div class="bio-role">AI Consultant | Fractional CTO</div>
+            <div class="bio-text">Joseph builds AI-powered media networks, developer tools, and creative platforms. He runs the Calitoy Media Network across five sites, develops CalitoyStamp (a 3D engine for musicians), and consults on AI strategy and infrastructure. USAF vet, based in San Diego. Find him at <a href="https://josephcalitoy.com">josephcalitoy.com</a> and <a href="https://github.com/JoS727" target="_blank" rel="noopener">GitHub</a>.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </article>
+
+  <!-- Newsletter -->
+  <section class="newsletter" id="newsletter">
+    <div class="content-wrap">
+      <h3>> subscribe_to --newsletter</h3>
+      <p>One email every week. Deep dives, hands-on guides, and the week's most important moves in AI, infrastructure, and security. Written by working engineers, not marketers.</p>
+      <form class="newsletter-form">
+        <label for="email" style="display:none;">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@domain.dev" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>(c) 2026 Opened Terminal. All rights reserved.</span><br>
+        <span class="mono">v2.4.1 | last_deploy: 2026-08-21T12:00Z</span>
+      </div>
+      <div class="footer-network">
+        Part of the Calitoy Media Network |
+        <a href="https://brushedpast.com">Brushed Past</a> |
+        <a href="https://girlnextup.com">Girl Next Up</a> |
+        <a href="https://risentoday.com">Risen Today</a> |
+        <a href="https://spoofdaily.com">Spoof Daily</a> |
+        <a href="https://openedterminal.com">Opened Terminal</a> |
+        <a href="https://josephcalitoy.com">Joseph Calitoy</a>
+      </div>
+      <div class="footer-extra">
+        <a href="https://tarosyn.com">Tarosyn</a> | <a href="https://xcalitoy.com">XCalitoy</a> | <a href="https://kurced.com">Kurced</a>
+      </div>
+    </div>
+  </footer>
+
+<!-- Email capture handler -->
+<script>
+document.querySelectorAll('form').forEach(function(form){
+  if(form.dataset.wired) return;
+  form.dataset.wired='1';
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    var emailInput=form.querySelector('input[type=email]')||form.querySelector('input[name=email]');
+    var nameInput=form.querySelector('input[name=name]')||form.querySelector('input[name=first_name]');
+    var phoneInput=form.querySelector('input[name=phone]')||form.querySelector('input[type=tel]');
+    if(!emailInput||!emailInput.value){
+      alert('Please enter your email.');return;
+    }
+    var btn=form.querySelector('button[type=submit]')||form.querySelector('button');
+    var origText=btn?btn.textContent:'';
+    if(btn){btn.textContent='...';btn.disabled=true;}
+    try{
+      var r=await fetch('https://email-capture.calitoy.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:emailInput.value,name:nameInput?nameInput.value:'',phone:phoneInput?phoneInput.value:'',source:window.location.hostname})});
+      var d=await r.json();
+      if(d.success){
+        form.innerHTML='<p style="text-align:center;padding:20px;font-size:1.1em;">You are in. Check your inbox.</p>';
+      } else {
+        alert(d.error||'Something went wrong.');if(btn){btn.textContent=origText;btn.disabled=false;}
+      }
+    }catch(err){
+      alert('Network error. Try again.');if(btn){btn.textContent=origText;btn.disabled=false;}
+    }
+  });
+});
+</script>
+
+<!-- Analytics tracker -->
+<script>
+fetch('https://analytics.calitoy.workers.dev',{
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({
+    path:window.location.pathname,
+    site:window.location.hostname,
+    title:document.title
+  })
+}).catch(function(){});
+</script>
+
+</body>
+</html>
