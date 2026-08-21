@@ -336,7 +336,7 @@
 
         <p>Descriptions matter enormously. The model's decision to use a tool — and to use it correctly — is driven entirely by the tool's name and description. A tool named "search" with the description "search the database" is ambiguous. Does it search by ID? By name? By text content? Does it return one result or many? A tool named "search_customer_by_email" with the description "Find a customer record by exact email match. Returns a single customer object or null if not found" is unambiguous. The model will use it correctly almost every time.</p>
 
-        <p>For those building production agent systems, investing in a good mechanical keyboard and ergonomic setup isn't just about comfort — it's about productivity when you're debugging agent behavior at 2 AM. I've been using the same <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20">mechanical keyboard</a> for over a year now, and the tactile feedback makes a real difference when you're typing out tool schemas and debugging JSON for hours on end.</p>
+        <p>For those building production agent systems, investing in a good mechanical keyboard and ergonomic setup isn't just about comfort — it's about productivity when you're debugging agent behavior at 2 AM. I've been using the same <a href="https://www.amazon.com/dp/1449373321?tag=tarosyn0b-20">mechanical keyboard</a> for over a year now, and the tactile feedback makes a real difference when you're typing out tool schemas and debugging JSON for hours on end.</p>
 
         <h3>3.2 Handling Tool Failures</h3>
 
@@ -493,7 +493,7 @@
 
         <p>The approach has well-documented limitations — evaluator models have their own biases, they can be influenced by factors like output length or formatting, and they can exhibit "preference" for certain styles of output. But with careful rubric design and appropriate calibration, LLM-as-judge can provide a scalable, automated evaluation signal that catches quality issues before they reach users. In our production system, we run LLM-as-judge evaluation on every agent interaction, and it catches approximately fifteen percent of quality issues that would otherwise go undetected.</p>
 
-        <p>For teams building their own evaluation infrastructure, having a reliable <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20">developer workstation</a> with sufficient compute to run local evaluation pipelines can significantly reduce iteration time compared to cloud-based approaches. The ability to run evaluation suites locally — without network latency or API costs — is a meaningful productivity multiplier.</p>
+        <p>For teams building their own evaluation infrastructure, having a reliable <a href="https://www.amazon.com/dp/1449373321?tag=tarosyn0b-20">developer workstation</a> with sufficient compute to run local evaluation pipelines can significantly reduce iteration time compared to cloud-based approaches. The ability to run evaluation suites locally — without network latency or API costs — is a meaningful productivity multiplier.</p>
 
         <h2>7. Security and Guardrails: Keeping Agents in Bounds</h2>
 
@@ -533,7 +533,7 @@
 
         <p>The implementation is straightforward: define a routing policy that classifies each inference call as "simple" or "complex" based on the task and the context, and route accordingly. The classification itself can be done by a small, fast model — or even by a simple rule-based system. The key is to measure the quality impact carefully: if routing a task to a cheaper model increases the error rate, the downstream cost of errors (retries, user dissatisfaction, support tickets) may exceed the savings.</p>
 
-        <p>For those looking to optimize their development setup, a good <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20">monitor</a> with high resolution can help when you're analyzing agent traces and debugging multi-step reasoning across multiple windows. The investment pays for itself in saved debugging time.</p>
+        <p>For those looking to optimize their development setup, a good <a href="https://www.amazon.com/dp/1449373321?tag=tarosyn0b-20">monitor</a> with high resolution can help when you're analyzing agent traces and debugging multi-step reasoning across multiple windows. The investment pays for itself in saved debugging time.</p>
 
         <h3>8.2 Caching at Every Level</h3>
 
@@ -607,7 +607,7 @@
 
         <p><strong>Start with human-in-the-loop and reduce over time.</strong> Begin with human checkpoints for all actions. As the agent proves reliable, gradually reduce the checkpoints for low-risk actions. This is the safest path to autonomy.</p>
 
-        <p><strong>Invest in your development environment.</strong> Building agent systems requires long hours of debugging, tracing, and iteration. A comfortable, productive workspace matters. If you're spending eight-plus hours a day debugging agent traces, a good <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20">ergonomic office chair</a> is not a luxury — it's a productivity investment that pays for itself within the first month.</p>
+        <p><strong>Invest in your development environment.</strong> Building agent systems requires long hours of debugging, tracing, and iteration. A comfortable, productive workspace matters. If you're spending eight-plus hours a day debugging agent traces, a good <a href="https://www.amazon.com/dp/1449373321?tag=tarosyn0b-20">ergonomic office chair</a> is not a luxury — it's a productivity investment that pays for itself within the first month.</p>
 
         <h2>Conclusion: The Agent Era Is Just Beginning</h2>
 
@@ -630,7 +630,7 @@
         <div class="affiliate-box" style="margin-top: 48px;">
           <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px;">Recommended Tools for Agent Developers</h2>
           <p>Building and debugging production agent systems requires the right hardware. These are the tools we use daily — from mechanical keyboards for those long debugging sessions to high-resolution monitors for tracing agent behavior across multiple windows.</p>
-          <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20" class="affiliate-cta" style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; color: var(--accent); border: 1px solid var(--accent-dim); border-radius: var(--radius-sm); padding: 12px 24px; text-decoration: none; transition: border-color 0.15s, box-shadow 0.15s;">
+          <a href="https://www.amazon.com/dp/1449373321?tag=tarosyn0b-20" class="affiliate-cta" style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; color: var(--accent); border: 1px solid var(--accent-dim); border-radius: var(--radius-sm); padding: 12px 24px; text-decoration: none; transition: border-color 0.15s, box-shadow 0.15s;">
             Browse Recommended Gear &rarr;
           </a>
           <p class="affiliate-disclosure">As an Amazon Associate, we earn from qualifying purchases.</p>
