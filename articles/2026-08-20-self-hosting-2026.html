@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The State of Self-Hosting in 2026 | OpenedTerminal</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #08090a;
+  color: #c8c9ca;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  line-height: 1.7;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+h1 {
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.subtitle {
+  color: #00ff9c;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 32px;
+}
+h2 {
+  color: #fff;
+  font-size: 1.3rem;
+  margin-top: 36px;
+  margin-bottom: 12px;
+}
+h3 {
+  color: #00ff9c;
+  font-size: 1.1rem;
+  margin-top: 28px;
+  margin-bottom: 8px;
+}
+p { margin-bottom: 16px; }
+a { color: #00ff9c; text-decoration: none; }
+a:hover { text-decoration: underline; }
+strong { color: #fff; }
+ul { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 8px; }
+code {
+  background: #15161a;
+  color: #00ff9c;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9em;
+}
+pre {
+  background: #15161a;
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+pre code { background: none; padding: 0; }
+blockquote {
+  border-left: 3px solid #00ff9c;
+  padding-left: 16px;
+  margin: 20px 0;
+  color: #888;
+}
+hr {
+  border: none;
+  border-top: 1px solid #222;
+  margin: 40px 0;
+}
+.footer {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid #222;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #555;
+}
+.footer a { color: #666; margin: 0 8px; }
+.footer a:hover { color: #00ff9c; }
+.meta {
+  color: #555;
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+}
+</style>
+</head>
+<body>
+
+<h1>The State of Self-Hosting in 2026</h1>
+<div class="subtitle">Open Source / Infrastructure / Linux</div>
+<div class="meta">August 20, 2026 &middot; 6 min read</div>
+
+<p>Five years ago, self-hosting was a niche hobby for people who wanted to run Nextcloud on a Raspberry Pi and call it a day. In 2026, the landscape looks completely different. Cloud fatigue is real, subscription fatigue is worse, and a growing wave of developers, small business owners, and privacy-conscious users are pulling their data back onto hardware they actually control. This is a practical look at where self-hosting stands right now, what tools matter, and what you should know before you start moving things off someone else's servers.</p>
+
+<h2>Why Self-Hosting Is Growing Again</h2>
+
+<p>The shift started with simple frustration. Every SaaS product charges a monthly fee. Your note-taking app costs $8/month, your password manager another $3, your project management tool $12, your file storage $10. Before long, you are spending more on subscriptions than on the electricity that powers your entire apartment. People started doing the math and realizing they could buy a $200 mini PC that runs for years, host their own services, and break even in six months.</p>
+
+<p>But cost is only part of it. The bigger driver is control. When a cloud service decides to shut down, change its API, or get acquired and gutted, you lose access to your own data. We have all watched it happen. The Readwise alternative that got acquired and killed. The bookmarking service that pivoted to AI and broke everything. The photo backup service that doubled its price overnight. Self-hosting means your data lives on your terms.</p>
+
+<p>There is also a privacy dimension that matters more in 2026 than ever. AI training pipelines are hungry for data. Terms of service updates that quietly grant companies the right to train on your content have made people rethink what they upload to third-party platforms. When you self-host, your files, your notes, your photos, and your communications stay on your network. Nobody is scraping your personal wiki to fine-tune a model.</p>
+
+<h2>The Hardware Has Caught Up</h2>
+
+<p>You no longer need a rack-mounted server to host meaningful services. The current generation of mini PCs can run a full media stack, a password manager, a file sync service, and a dozen containers without breaking a sweat. Something like an Intel N100 or N305-based mini PC with 16GB of RAM and a 1TB NVMe drive handles most home lab workloads comfortably, and it draws about 15 watts at idle.</p>
+
+<p>If you want something with a bit more headroom for running virtual machines or handling transcoding for a media server, there is a reliable option that has been a staple in the home lab community for years. The <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20">Intel NUC 11 Pro Kit</a> remains a popular pick for people who want a small form factor with real processing power. It supports 64GB of RAM, has dual NVMe slots, and the thermals are well-designed for always-on operation. You can run Proxmox on it and spin up VMs and LXC containers for every service you need.</p>
+
+<p>For people who want even more power, repurposed enterprise hardware from eBay continues to be the best value in computing. A used Dell R720 or HP DL380 Gen9 with dual Xeon processors and 128GB of RAM can be had for under $200. It will be loud, it will draw 200 watts, and it will run everything you throw at it. That is the tradeoff. Most people do not need that. A mini PC is plenty.</p>
+
+<h2>The Software Stack in 2026</h2>
+
+<p>The self-hosting ecosystem has matured significantly. Here is what the standard stack looks like for most people running a home lab this year.</p>
+
+<h3>Containerization: Docker and Podman</h3>
+
+<p>Docker is still the default. If you are running a single server, Docker Compose with a well-organized <code>docker-compose.yml</code> file handles 90% of setups. The ecosystem of pre-built images on Docker Hub means you can deploy almost any service with a single command.</p>
+
+<p>Podman has gained real traction as a daemonless alternative. It is API-compatible with Docker for the most part, and its rootless mode is a genuine security improvement. For people who care about running containers without a root-level daemon, Podman is the way to go. Red Hat has put serious work into making it production-ready, and it shows.</p>
+
+<p>If you are managing multiple servers or want automatic updates and rollback, Kubernetes is no longer overkill. K3s, the lightweight Kubernetes distribution from Rancher, runs comfortably on a single mini PC and gives you Helm charts, automatic service discovery, and declarative management. You do not need a cluster of five nodes. One K3s node on a mini PC is a perfectly legitimate setup.</p>
+
+<h3>Reverse Proxy: Caddy or Traefik</h3>
+
+<p>Every self-hosted service needs to be exposed to the internet, and that means a reverse proxy. Caddy has become the go-to choice for people who value simplicity. It automatically handles TLS certificate provisioning and renewal through Let's Encrypt, and its configuration file is readable by actual humans. You define your services, Caddy handles the rest.</p>
+
+<p>Traefik is the other major player, and it integrates natively with Docker. If you label your containers, Traefik automatically picks them up and routes traffic. It is more powerful than Caddy for complex setups but has a steeper learning curve. Either one is fine. Pick the one whose documentation makes more sense to you.</p>
+
+<h3>Essential Services</h3>
+
+<p>Here is what most people end up running when they start self-hosting:</p>
+
+<ul>
+<li><strong>Vaultwarden</strong> for password management. A lightweight Rust implementation of the Bitwarden server API. Runs in a container, uses almost no resources, and gives you a full password manager with browser extensions and mobile apps.</li>
+<li><strong>Nextcloud</strong> for file storage, calendar, and contacts. It is the heavy option. It needs a database, it needs PHP, and it can be slow if you do not tune it. But it does everything. If you want a drop-in replacement for Google Drive plus Google Calendar plus Google Contacts, this is it.</li>
+<li><strong>Immich</strong> for photo backup. This is the one that replaced Google Photos for most people. It has facial recognition, location grouping, and a mobile app that backs up photos automatically. Development has been rapid and the feature set now rivals commercial offerings.</li>
+<li><strong>Jellyfin</strong> for media streaming. Free, open source, no license server, no phone-home. It transcodes, it organizes your library, and it has apps for every platform. If you have been paying for Plex Pass, Jellyfin gives you the same experience without the subscription.</li>
+<li><strong>Home Assistant</strong> for home automation. This is not just for smart home enthusiasts anymore. It integrates with hundreds of devices and services, runs entirely locally, and gives you automation logic that does not depend on a cloud connection.</li>
+<li><strong>Paperless-ngx</strong> for document management. Scan your mail, receipts, and tax documents, and Paperless OCRs them, tags them, and makes them searchable. It is one of those services that sounds unnecessary until you use it, and then you cannot imagine going back.</li>
+</ul>
+
+<h2>Networking Considerations</h2>
+
+<p>The hardest part of self-hosting is not the software. It is the network. If your ISP gives you a dynamic IP address, you need a way to keep your DNS records updated. Cloudflare Tunnel has become the standard solution. It creates an outbound tunnel from your server to Cloudflare's edge network, so you do not need to open any inbound ports on your router. Traffic flows through Cloudflare, which means you also get DDoS protection and caching for free.</p>
+
+<p>If you would rather not route through a third party, a dynamic DNS service like DuckDNS plus a standard port forward works fine for most residential connections. Just be aware that some ISPs block inbound port 80 and 443 on consumer plans. Calling their support line and asking for a static IP or business-class service is sometimes the only solution.</p>
+
+<p>For internal networking, Tailscale has made self-hosting dramatically more accessible. It creates a WireGuard-based mesh network that lets you access your services from anywhere without exposing them publicly. You can run your services on internal Tailscale IPs and only expose what you actually want the world to see through a reverse proxy. This is the setup most people should be using.</p>
+
+<h2>Backups: The Part Nobody Talks About</h2>
+
+<p>Here is the truth that every self-hosting guide eventually arrives at: your backup strategy matters more than your hosting strategy. If your server dies and you have no backups, you have lost everything. The 3-2-1 rule still applies. Three copies of your data, on two different media, with one off-site.</p>
+
+<p>For local backups, restic and BorgBackup are the two best options. Both do deduplication, compression, and encryption. Both can back up to local drives, network storage, or cloud object storage. Restic is simpler to set up. Borg has a more mature ecosystem of tools around it. Either one is a solid choice.</p>
+
+<p>For off-site, back up to an S3-compatible service like Backblaze B2 or Wasabi. They cost pennies per month for the kind of data most home labs generate. If your house burns down, your data is safe. If your server's drive dies, you can restore from the local backup in minutes. If your local backup is corrupted, you have the off-site copy. Redundancy is the entire point.</p>
+
+<h2>What Has Changed Since Last Year</h2>
+
+<p>A few things have shifted in the self-hosting world over the past year that are worth noting.</p>
+
+<p>First, AI inference at home has become practical. With projects like Ollama and llama.cpp, you can run a capable language model on consumer hardware. A mini PC with 32GB of RAM can run a 7B parameter model locally, and the experience is genuinely useful for offline tasks like summarization, code completion, and document Q&A. This is not replacing GPT-5, but for private, offline workloads, it is real.</p>
+
+<p>Second, the ARM ecosystem has continued to improve. ARM-based mini PCs and single-board computers are now viable for running the full Docker stack. The Ampere Altra-based systems in particular offer remarkable performance per watt. If your workload is compatible with ARM, and most Docker images now support multi-arch builds, you can get serious compute density at very low power draw.</p>
+
+<p>Third, the community has consolidated. The r/selfhosted subreddit, the SelfHosted podcast, and the selfhosted.show network of guides have become the de facto reference points. The documentation problem that plagued self-hosting for years is largely solved. If you want to deploy any of the services listed above, there is a step-by-step guide written by someone who has already done it.</p>
+
+<h2>Should You Self-Host?</h2>
+
+<p>Self-hosting is not for everyone. If you value convenience above all else, managed cloud services are genuinely better. They handle updates, backups, security, and uptime so you do not have to. There is no shame in paying $10/month for something that just works.</p>
+
+<p>But if you are the kind of person who reads technology blogs and thinks about where your data lives, self-hosting in 2026 is more accessible than it has ever been. The hardware is cheap, the software is mature, the documentation exists, and the community is active. You can start with a single service on a $50 single-board computer and expand from there.</p>
+
+<p>The satisfaction of running your own infrastructure is hard to overstate. When your password manager syncs across your devices and you know exactly where the data lives, when your photos back up to a server in your closet instead of a data center owned by a trillion-dollar company, when your documents are searchable and private and yours, something clicks. You stop being a tenant and start being an owner. That is worth the effort.</p>
+
+<hr>
+
+<div class="footer">
+  <a href="https://brushedpast.com">brushedpast.com</a>
+  <a href="https://girlnextup.com">girlnextup.com</a>
+  <a href="https://risentoday.com">risentoday.com</a>
+  <a href="https://spoofdaily.com">spoofdaily.com</a>
+  <a href="https://openedterminal.com">openedterminal.com</a>
+</div>
+
+</body>
+</html>
