@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building a Self-Hosted AI Agent Lab on a Single Mini PC</title>
+<meta name="description" content="How to run a full local AI agent stack on one compact machine without spending a fortune.">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #08090a; color: #c8ccd0; font-family: 'Courier New', monospace; line-height: 1.7; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+h1 { color: #00ff9c; font-size: 1.8rem; margin-bottom: 8px; line-height: 1.3; }
+h2 { color: #00ff9c; font-size: 1.3rem; margin: 32px 0 12px; }
+h3 { color: #e0e6e8; font-size: 1.1rem; margin: 24px 0 8px; }
+.meta { color: #6b7280; font-size: 0.85rem; margin-bottom: 32px; }
+p { margin-bottom: 16px; }
+a { color: #00ff9c; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { background: #161719; color: #00ff9c; padding: 2px 6px; border-radius: 3px; font-size: 0.9rem; }
+pre { background: #161719; padding: 16px; border-radius: 6px; overflow-x: auto; margin: 16px 0; border-left: 3px solid #00ff9c; }
+pre code { background: none; padding: 0; }
+ul { margin: 16px 0 16px 24px; }
+li { margin-bottom: 8px; }
+.affiliate { background: #111213; border: 1px solid #1e2a22; padding: 16px; border-radius: 8px; margin: 24px 0; }
+.affiliate a { font-weight: bold; font-size: 1.05rem; }
+.affiliate p { margin-bottom: 0; color: #9ca3af; font-size: 0.9rem; }
+.footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #1e2a22; text-align: center; }
+.footer a { color: #6b7280; margin: 0 8px; font-size: 0.85rem; }
+.footer a:hover { color: #00ff9c; }
+.warning { color: #f59e0b; }
+</style>
+</head>
+<body>
+
+<h1>Building a Self-Hosted AI Agent Lab on a Single Mini PC</h1>
+<div class="meta">openedterminal.com | August 20, 2026</div>
+
+<p>You do not need a rack of GPUs or a monthly cloud bill that rivals a car payment to experiment with AI agents. A single mini PC with integrated graphics and a healthy amount of RAM can run a surprisingly capable local AI stack. It will not match a data center, but it will handle chat models, tool-using agents, retrieval pipelines, and even small image generation without complaint. This guide walks through what to buy, what to install, and how to wire it all together so you can prototype agent workflows on your own hardware with zero per-query cost.</p>
+
+<h2>Why Self-Host Instead of Using Cloud APIs</h2>
+
+<p>Cloud AI APIs are convenient, but they charge per token, rate-limit aggressively, and introduce latency on every request. For developers building agent systems that loop through dozens of reasoning steps per task, those costs compound fast. A local agent lab lets you iterate freely, test edge cases without watching a meter tick up, and keep sensitive data entirely on your own network.</p>
+
+<p>The tradeoff is raw throughput. A mini PC with 32 GB of RAM can run a 7B or 8B parameter model at acceptable speeds for interactive use, usually 10 to 40 tokens per second depending on quantization. That is fine for prototyping and personal tooling. It is not fine for serving hundreds of concurrent users. Know which problem you are solving before you invest.</p>
+
+<h2>Hardware: What You Actually Need</h2>
+
+<p>The single most important component for local AI is RAM, not GPU compute. Quantized models that fit in system memory run on any CPU using frameworks like llama.cpp or MLX. A mini PC with 32 GB of DDR5 RAM can comfortably load a 7B model quantized to 4-bit, which occupies roughly 4 to 5 GB, leaving plenty of headroom for the OS, your agent framework, and a vector database.</p>
+
+<p>Here is a practical spec for a budget lab:</p>
+<ul>
+<li><strong>CPU:</strong> AMD Ryzen 7 5800H or Intel N100 class chip, 6 to 8 cores</li>
+<li><strong>RAM:</strong> 32 GB DDR5 (non-negotiable for model loading)</li>
+<li><strong>Storage:</strong> 1 TB NVMe SSD (models are large files and benefit from fast reads)</li>
+<li><strong>Network:</strong> Gigabit Ethernet or Wi-Fi 6</li>
+<li><strong>OS:</strong> Ubuntu 24.04 LTS or Debian 12, headless</li>
+</ul>
+
+<div class="affiliate">
+<p>Recommended hardware for a budget build:</p>
+<p><a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20">Check current pricing on Amazon for a capable mini PC</a></p>
+</div>
+
+<p>If you can stretch to 64 GB of RAM, do it. The extra memory lets you load a 13B model or run multiple smaller models simultaneously, which is useful when you want one model for reasoning and another for code generation.</p>
+
+<h2>Software Stack: The Four Layers</h2>
+
+<p>A functional local agent lab has four layers. Each layer is independent and swappable, which is the whole point of self-hosting. You pick what works and replace what does not.</p>
+
+<h3>Layer 1: Model Serving</h3>
+
+<p>The foundation is a server that loads a model file and exposes it through an API. <code>llama.cpp</code> is the gold standard for CPU-based inference. It supports GGUF format models in various quantization levels and includes a built-in OpenAI-compatible server. Install it from source for maximum compatibility:</p>
+
+<pre><code>git clone https://github.com/ggerganov/llama.cpp
+cd llama.cpp
+cmake -B build -DLLAMA_SERVER=ON
+cmake --build build --config Release
+</code></pre>
+
+<p>Download a model from Hugging Face. The Llama 3.1 8B Instruct GGUF from community quants is a solid starting point. Look for the Q4_K_M variant, which balances quality and memory usage well. Start the server:</p>
+
+<pre><code>./build/bin/llama-server \
+  -m models/Llama-3.1-8B-Instruct-Q4_K_M.gguf \
+  --host 0.0.0.0 --port 8080 \
+  -c 4096 -t 6
+</code></pre>
+
+<p>The <code>-c</code> flag sets context length and <code>-t</code> sets thread count. Tune threads to your physical core count. The server now exposes an OpenAI-compatible API at <code>http://localhost:8080/v1</code>, which means any tool built for OpenAI can point at it by changing the base URL.</p>
+
+<h3>Layer 2: Agent Framework</h3>
+
+<p>With a model server running, you need an agent framework that handles the loop: prompt the model, parse its output, execute tool calls, feed results back, repeat. Two strong open-source options are available.</p>
+
+<p><strong>Ollama</strong> is the simplest path. It wraps model management into a single binary with a clean CLI and REST API. It handles downloading models, quantization selection, and serving all in one command:</p>
+
+<pre><code>curl -fsSL https://ollama.com/install.sh | sh
+ollama pull llama3.1
+ollama serve
+</code></pre>
+
+<p>For more control, use <strong>llama-cpp-python</strong> directly in Python with a custom agent loop. A minimal agent that can call tools looks like this:</p>
+
+<pre><code>from llama_cpp import Llama
+import json
+
+llm = Llama(model_path="models/Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+            n_ctx=4096, n_threads=6)
+
+tools = {
+    "calculate": lambda x: str(eval(x)),
+    "get_time": lambda: __import__("datetime").datetime.now().isoformat()
+}
+
+def agent_loop(prompt, max_turns=10):
+    messages = [{"role": "user", "content": prompt}]
+    for _ in range(max_turns):
+        resp = llm.create_chat_completion(messages=messages)
+        reply = resp["choices"][0]["message"]["content"]
+        messages.append({"role": "assistant", "content": reply})
+        if "TOOL:" in reply:
+            tool_name, arg = reply.split("TOOL:")[1].strip().split("(")
+            result = tools[tool_name](arg.rstrip(")"))
+            messages.append({"role": "user", "content": f"Result: {result}"})
+        else:
+            return reply
+    return reply
+</code></pre>
+
+<p>This is deliberately crude. Production agent frameworks add structured output parsing, retry logic, and proper tool schemas. But this 20-line loop demonstrates the core pattern: the model generates text, you extract a tool call, you execute it, you feed the result back. Every agent framework on Earth does this same dance.</p>
+
+<h3>Layer 3: Retrieval and Memory</h3>
+
+<p>Agents need context to be useful. A local vector store gives your agent the ability to search through documents, code, or prior conversations. <strong>ChromaDB</strong> runs entirely in-process with no external service:</p>
+
+<pre><code>pip install chromadb
+
+import chromadb
+client = chromadb.Client()
+collection = client.create_collection("knowledge_base")
+
+# Add documents
+collection.add(
+    documents=["RAG stands for retrieval augmented generation.",
+                "Vector databases store embeddings for similarity search."],
+    metadatas=[{"source": "doc1"}, {"source": "doc2"}],
+    ids=["1", "2"]
+)
+
+# Query
+results = collection.query(query_texts=["What is RAG?"], n_results=2)
+</code></pre>
+
+<p>Chroma uses an embedded embedding model by default, so it works offline. For higher quality embeddings, download a sentence-transformer model and pass it to Chroma as a custom embedding function. The whole pipeline stays local.</p>
+
+<p>For persistent memory across agent sessions, store conversation summaries in the same vector database. When a new session starts, query the top relevant summaries and inject them into the system prompt. This gives your agent long-term memory without any external dependency.</p>
+
+<h3>Layer 4: Interface</h3>
+
+<p>You need a way to talk to your agent. Three options, in order of complexity:</p>
+
+<p><strong>Terminal:</strong> A simple Python script with a readline loop. Fastest to build, zero dependencies beyond your existing stack.</p>
+
+<p><strong>Open WebUI:</strong> A self-hosted web interface that connects to Ollama or any OpenAI-compatible endpoint. It supports multiple users, chat history, document upload, and custom prompts. Deploy it in a Docker container:</p>
+
+<pre><code>docker run -d -p 3000:8080 \
+  -v open-webui:/app/backend/data \
+  -e OLLAMA_BASE_URL=http://host.docker.internal:8080 \
+  --name open-webui \
+  ghcr.io/open-webui/open-webui:main
+</code></pre>
+
+<p><strong>Telegram Bot:</strong> If you want to reach your agent from your phone, a lightweight Python bot using the python-telegram-bot library can forward messages to your local API and relay responses back. Use an SSH tunnel or Tailscale for secure access to your home network.</p>
+
+<h2>Performance: What to Expect</h2>
+
+<p>On a Ryzen 7 mini PC with 32 GB RAM, here are realistic numbers for interactive use:</p>
+<ul>
+<li><strong>Llama 3.1 8B Q4_K_M:</strong> 25 to 35 tokens/sec</li>
+<li><strong>Llama 3.1 8B Q8_0:</strong> 12 to 18 tokens/sec</li>
+<li><strong>Qwen 2.5 14B Q4_K_M:</strong> 8 to 12 tokens/sec</li>
+<li><strong>Phi-3 Mini Q4_K_M:</strong> 40 to 55 tokens/sec</li>
+</ul>
+
+<p>Tokens per second translates roughly to reading speed. 20 tokens per second feels responsive. 8 tokens per second feels sluggish but usable. Below 5, you will lose patience. Pick your model size based on the quality-to-speed tradeoff you can tolerate.</p>
+
+<p>Context length also affects speed. Every additional token in the context window increases computation linearly for attention. If your agent accumulates long tool outputs, consider summarizing them before feeding them back rather than passing the full text every turn.</p>
+
+<h2>Security Considerations</h2>
+
+<p>Running an AI agent locally does not make it automatically safe. An agent with tool access can execute arbitrary code on your machine. Treat it like any other privileged service.</p>
+
+<ul>
+<li>Run the agent process as a non-root user with limited permissions</li>
+<li>Use Docker containers for any tool that touches the filesystem</li>
+<li>Restrict network access to the agent server with firewall rules</li>
+<li>Audit the tools you expose before giving the model freedom to call them</li>
+<li>Never expose the model server directly to the internet without authentication</li>
+</ul>
+
+<p>If your agent can run shell commands, you have given it the same power as a logged-in user. Sandbox aggressively. A compromised agent prompt could instruct the model to delete files or exfiltrate data just as easily as it could run a useful script.</p>
+
+<h2>Cost Breakdown</h2>
+
+<p>The total cost for a budget mini PC lab is roughly $300 to $500 for the machine itself, plus your time. There are no recurring costs after that. Compare this to a cloud API where a busy day of agent prototyping can burn through $20 to $50 in token charges. The break-even point is somewhere between a week and a month of heavy use.</p>
+
+<p>The other cost is electricity. A mini PC draws 15 to 25 watts under load. At average US electricity rates, that is under $3 per month to run 24/7. A rack-mount GPU server draws 300 to 600 watts and costs $25 to $60 per month just in power. The mini PC is the clear winner for personal projects.</p>
+
+<h2>When to Graduate Beyond a Mini PC</h2>
+
+<p>The mini PC lab is a starting point, not a finish line. You will outgrow it when:</p>
+<ul>
+<li>You need to serve multiple users concurrently</li>
+<li>Your models require more than 32 GB of RAM to load</li>
+<li>Inference latency becomes a user experience problem</li>
+<li>You need GPU acceleration for fine-tuning or image generation</li>
+</ul>
+
+<p>At that point, a dedicated GPU machine or a reserved cloud GPU instance makes sense. But starting locally on cheap hardware forces you to learn the full stack, understand the bottlenecks, and make informed decisions about where to spend money. Skipping straight to rented GPUs teaches you nothing about the systems you are building on top of.</p>
+
+<h2>Wrapping Up</h2>
+
+<p>A self-hosted AI agent lab on a mini PC costs less than a mid-range phone, runs on less power than a light bulb, and gives you unrestricted access to real language models with no per-query fees. The setup takes an evening. The learning curve is real but manageable if you are comfortable with a terminal. Start with llama.cpp, add a tool-calling loop, layer in ChromaDB for retrieval, and put Open WebUI or a terminal interface on top. Replace any layer when you outgrow it.</p>
+
+<p>The real advantage is not cost savings. It is understanding. When you run every layer of an agent system yourself, you see how the pieces fit, where the latency lives, and why some prompts work better than others. That understanding transfers to cloud deployments too. The mini PC lab is a training ground, and the skills it builds are worth more than the hardware.</p>
+
+<div class="footer">
+<a href="https://brushedpast.com">brushedpast.com</a>
+<a href="https://girlnextup.com">girlnextup.com</a>
+<a href="https://risentoday.com">risentoday.com</a>
+<a href="https://spoofdaily.com">spoofdaily.com</a>
+<a href="https://openedterminal.com">openedterminal.com</a>
+</div>
+
+</body>
+</html>
