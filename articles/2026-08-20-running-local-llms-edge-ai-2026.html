@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Running Local LLMs in 2026: Why Edge AI Is Eating the Cloud | Opened Terminal</title>
+<meta name="description" content="How local LLM inference finally caught up to cloud APIs, the hardware you need, and why running models on your own machine is the play for 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #08090a;
+  color: #c8c9ca;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 760px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+header {
+  padding: 2rem 0 3rem;
+  border-bottom: 1px solid #1a1b1e;
+  margin-bottom: 3rem;
+}
+.logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #00ff9c;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+.meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: #555;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+}
+h1 .accent { color: #00ff9c; }
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 2.5rem 0 1rem;
+  letter-spacing: -0.02em;
+}
+h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 2rem 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+p { margin-bottom: 1.25rem; }
+a { color: #00ff9c; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code {
+  font-family: 'JetBrains Mono', monospace;
+  background: #111315;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.875em;
+  color: #00ff9c;
+}
+pre {
+  background: #111315;
+  padding: 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border: 1px solid #1a1b1e;
+}
+pre code {
+  background: none;
+  padding: 0;
+  color: #c8c9ca;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+blockquote {
+  border-left: 3px solid #00ff9c;
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  color: #999;
+  font-style: italic;
+}
+ul, ol { margin: 1rem 0 1.25rem 1.5rem; }
+li { margin-bottom: 0.5rem; }
+strong { color: #fff; font-weight: 600; }
+hr {
+  border: none;
+  border-top: 1px solid #1a1b1e;
+  margin: 3rem 0;
+}
+.tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #00ff9c;
+  border: 1px solid #00ff9c;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+.product-card {
+  background: #111315;
+  border: 1px solid #1a1b1e;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+.product-card h3 { margin-top: 0; }
+.product-card a {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: #00ff9c;
+  border: 1px solid #00ff9c;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+.product-card a:hover {
+  background: #00ff9c;
+  color: #08090a;
+  text-decoration: none;
+}
+footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid #1a1b1e;
+  text-align: center;
+}
+footer .net {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+footer .net a {
+  color: #777;
+  margin: 0 0.5rem;
+}
+footer .net a:hover { color: #00ff9c; text-decoration: none; }
+footer .copy {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #333;
+}
+@media (max-width: 640px) {
+  h1 { font-size: 1.75rem; }
+  .container { padding: 1rem 1rem 3rem; }
+  pre { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<a class="logo" href="/">openedterminal.com</a>
+<div class="meta">Tech &amp; AI // Aug 20, 2026</div>
+</header>
+
+<span class="tag">AI / Edge Computing</span>
+
+<h1>Running Local LLMs in 2026: Why <span class="accent">Edge AI</span> Is Eating the Cloud</h1>
+
+<p>Two years ago, if you wanted to run a capable large language model, you had two choices. Pay per token to an API provider and watch your bill creep toward four figures a month, or cobble together a hacky local setup that produced garbage at 3 tokens per second. In 2026, neither of those tradeoffs exists anymore. The hardware caught up. The quantization techniques got better. And the open weights ecosystem reached a point where running a frontier-class model on your own machine is not just viable, it is often the better choice.</p>
+
+<h2>The Shift Nobody Talked About Enough</h2>
+
+<p>Cloud AI APIs are convenient. They handle scaling, uptime, model updates, and safety filters. But they also handle your data, your latency, your rate limits, and your invoice. Every time you send a prompt to a hosted endpoint, you are paying rent on compute you could own.</p>
+
+<p>The pivot happened when three things converged at once. First, <strong>quantization</strong> methods like GGUF and the newer sparse-quant formats made it possible to compress a 70B parameter model into something that fits in 40GB of VRAM without catastrophically degrading output quality. Second, GPU <strong>memory bandwidth</strong> on consumer cards jumped hard enough that inference speed stopped being the bottleneck. Third, the open weights scene started releasing models that genuinely compete with closed offerings on reasoning, coding, and general utility tasks.</p>
+
+<p>Put those together and the math flips. A one-time hardware purchase replaces a recurring API bill. Latency drops because there is no network round trip. Privacy is absolute because your data never leaves the machine. And you get full control over the model: no content filters, no surprise deprecations, no pricing changes mid-quarter.</p>
+
+<h2>What You Actually Need</h2>
+
+<p>Here is the honest breakdown of what it takes to run a solid local model in 2026. Not a toy 3B parameter model that writes like a phone autocorrect. A real model you can use for coding, writing, research, and agentic workflows.</p>
+
+<h3>The Sweet Spot: 70B Class at Home</h3>
+
+<p>The 70B class is where local inference got genuinely usable. With 4-bit quantization, a 70B model lands around 38 to 42GB of memory. That fits on a single 24GB VRAM card if you split layers across system RAM with offloading, but honestly, for smooth token generation, you want to fit the whole model in VRAM. That means either a 48GB card or a dual 24GB setup.</p>
+
+<p>For most people getting into this in 2026, the pragmatic move is a single high-VRAM GPU. The bottleneck is not compute. It is memory capacity. You need enough VRAM to hold the model weights, the KV cache for your context window, and whatever the inference engine allocates overhead.</p>
+
+<div class="product-card">
+<h3>Hardware Pick for Local Inference</h3>
+<p>If you are building a local AI rig in 2026, the single biggest lever is GPU memory. More VRAM means bigger models, longer contexts, and faster generation. A card with 24GB or more of VRAM puts you in the game for 70B-class models with quantization, and leaves headroom for the KV cache at longer context lengths.</p>
+<a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20" rel="nofollow sponsored" target="_blank">Check current pricing on Amazon &rarr;</a>
+</div>
+
+<h3>Software: The Tooling Finally Matured</h3>
+
+<p>The local inference stack in 2026 is actually good. You no longer need to be a research engineer to get models running. The tooling fell into a few clear categories:</p>
+
+<ul>
+<li><strong>llama.cpp</strong> remains the backbone. It is a C++ inference engine that runs GGUF models on CPU and GPU, supports dozens of quantization formats, and works on everything from a Raspberry Pi to a multi-GPU workstation. It is the engine that powers most other local AI tools under the hood.</li>
+<li><strong>Ollama</strong> sits on top of llama.cpp and gives you a Docker-like UX for pulling and running models. One command to download, one command to chat. It exposes an OpenAI-compatible API so your existing code that talks to GPT endpoints can be repointed at localhost with a single base URL change.</li>
+<li><strong>vLLM</strong> is the production-grade option. If you need high throughput for serving multiple concurrent requests, batched inference, and OpenAI API compatibility at scale, vLLM is the server to run. It supports tensor parallelism across multiple GPUs and has become the default serving stack for teams running their own infrastructure.</li>
+<li><strong>LM Studio</strong> is the desktop app for people who want a GUI. Model browser, download, chat interface, and API server, all in one app. Good for trying models before scripting around them.</li>
+</ul>
+
+<h2>Performance: What the Numbers Look Like</h2>
+
+<p>On a modern 24GB+ GPU with a 4-bit quantized 70B model, expect around 20 to 40 tokens per second for single-sequence generation. That is roughly human reading speed, which means it feels fast in a chat interface. For batched throughput with vLLM, you can hit hundreds of tokens per second aggregated across concurrent requests.</p>
+
+<p>For smaller models in the 8B to 14B range, those run at 80+ tokens per second on a single consumer GPU. They are fast enough that the bottleneck becomes your typing, not the model. And the quality gap between a good 14B model and a 70B model is narrower than it was a year ago. The smaller models got disproportionately better.</p>
+
+<pre><code># Pull and run a model locally in one line
+ollama pull llama3.1:70b-q4
+ollama run llama3.1:70b-q4
+
+# Or serve it as an OpenAI-compatible API
+ollama serve  # defaults to localhost:11434</code></pre>
+
+<h2>When Local Wins vs. When Cloud Still Makes Sense</h2>
+
+<p>Local inference is not the right call for every workload. Here is where it shines and where it does not.</p>
+
+<h3>Local wins when:</h3>
+<ul>
+<li><strong>Privacy matters.</strong> Medical, legal, financial, or proprietary code contexts where sending data to a third party is a non-starter.</li>
+<li><strong>You run high volume.</strong> If you are generating millions of tokens per day, API costs compound fast. A local GPU pays for itself in weeks.</li>
+<li><strong>Latency is critical.</strong> Agent loops that make 20+ sequential LLM calls are brutal over network. Locally, each call is milliseconds, not hundreds of milliseconds.</li>
+<li><strong>You need custom control.</strong> No content filters, custom system prompts that persist, fine-tuned weights, LoRA adapters, whatever you want. It is your model.</li>
+</ul>
+
+<h3>Cloud still wins when:</h3>
+<ul>
+<li><strong>You need frontier models.</strong> The absolute best models are still slightly ahead in some benchmarks. If you need that last 5% of capability, the cloud is where it lives.</li>
+<li><strong>Load is bursty or unpredictable.</strong> If you need 1000x compute on a Tuesday and nothing on Wednesday, renting is cheaper than owning.</li>
+<li><strong>Team does not want to manage hardware.</strong> GPUs fail, drivers break, power supplies die. Some teams would rather pay money than deal with that.</li>
+</ul>
+
+<h2>The Agentic Layer Changes Everything</h2>
+
+<p>The real unlock for local models in 2026 is not chatbots. It is agents. When you build an AI agent that reasons, calls tools, writes code, and loops through steps, each step is an LLM call. If each call goes over the network to a cloud API, a 20-step agent workflow takes 20 round trips. At 200ms each, that is 4 seconds of pure network overhead before the model even generates a token.</p>
+
+<p>Run that same loop locally and each call is nearly instant. The agent runs in real time. It feels like watching a person work. That experience difference is what makes local inference not just a cost saving but a fundamentally different way to build software. You stop thinking about API budgets and start thinking about compute the way you think about RAM: it is there, use it.</p>
+
+<blockquote>The model of paying per token is going to look like renting compute by the minute in a cloud VM in 2010. You did it because you had to. Then the tools got good enough to own your infrastructure, and nobody went back.</blockquote>
+
+<h2>Where This Goes Next</h2>
+
+<p>The trajectory is clear. Model sizes are stabilizing while capability per parameter keeps climbing. A 14B model in 2026 writes better code than a 70B model did in early 2025. That means the hardware requirements for a genuinely useful local model keep dropping. What needed a workstation last year runs on a laptop this year, and will run on a phone next year.</p>
+
+<p>The implications are bigger than cost savings. When AI compute is free, private, and instant, the number of places AI gets embedded explodes. Every app gets a local reasoning layer. Every device gets an assistant that actually knows your context because it lives on your machine and reads your screen in real time. The privacy story stops being a compliance problem and becomes a feature.</p>
+
+<p>The cloud API era for AI is not over. But the edge era started, and it is moving fast. If you have been waiting for local AI to be good enough to bet on, the wait ended somewhere around the middle of last year. Everything since has been refinement.</p>
+
+<p>Grab a GPU with enough VRAM, install Ollama, pull a model, and point your existing code at localhost. The migration from "paying per token" to "owning the compute" takes about an afternoon. And once you make it, you will not go back.</p>
+
+<hr>
+
+<footer>
+<div class="net">
+<a href="https://openedterminal.com">openedterminal.com</a>
+<a href="https://xcalitoy.com">xcalitoy.com</a>
+<a href="https://kurced.com">kurced.com</a>
+<a href="https://tarosyn.com">tarosyn.com</a>
+<a href="https://jeremydeanmusic.com">jeremydeanmusic.com</a>
+</div>
+<div class="copy">&copy; 2026 Opened Terminal // Part of the XCalitoy Network</div>
+</footer>
+</div>
+</body>
+</html>
