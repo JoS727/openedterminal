@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Quiet Revolution of Local AI: Running LLMs on Your Own Hardware | OpenedTerminal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#08090a;color:#c8cdd0;font-family:'Inter',sans-serif;line-height:1.7;padding:0}
+  .wrap{max-width:780px;margin:0 auto;padding:40px 20px}
+  header{border-bottom:1px solid #1a1c1f;padding-bottom:24px;margin-bottom:32px}
+  .brand{color:#00ff9c;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;text-decoration:none;letter-spacing:-.02em}
+  .tag{color:#4a4f55;font-size:12px;font-family:'JetBrains Mono',monospace;margin-top:8px}
+  .meta{color:#4a4f55;font-size:13px;font-family:'JetBrains Mono',monospace;margin-bottom:6px}
+  h1{color:#fff;font-size:32px;font-weight:800;line-height:1.25;margin:16px 0 12px;letter-spacing:-.03em}
+  h2{color:#fff;font-size:22px;font-weight:700;margin:36px 0 12px;letter-spacing:-.02em}
+  h3{color:#00ff9c;font-size:16px;font-weight:600;margin:28px 0 8px}
+  p{margin:14px 0;color:#c8cdd0}
+  a.link{color:#00ff9c;text-decoration:none;border-bottom:1px solid #1a3d2f}
+  a.link:hover{border-bottom-color:#00ff9c}
+  .cta-box{background:#101214;border:1px solid #1a1c1f;border-radius:8px;padding:20px;margin:28px 0}
+  .cta-box p{margin:0}
+  code{background:#101214;color:#00ff9c;font-family:'JetBrains Mono',monospace;font-size:13px;padding:2px 6px;border-radius:4px;border:1px solid #1a1c1f}
+  pre{background:#101214;border:1px solid #1a1c1f;border-radius:8px;padding:16px;overflow-x:auto;margin:18px 0}
+  pre code{background:none;border:none;padding:0;font-size:13px;color:#8a8f95}
+  .key{color:#00ff9c;font-weight:500}
+  .bullet{color:#00ff9c;margin-right:8px}
+  .footer{border-top:1px solid #1a1c1f;margin-top:48px;padding-top:24px}
+  .footer p{color:#4a4f55;font-size:13px}
+  .footer-links{display:flex;flex-wrap:wrap;gap:20px;margin:12px 0}
+  .footer-links a{color:#6a6f75;font-family:'JetBrains Mono',monospace;font-size:12px;text-decoration:none;transition:color .2s}
+  .footer-links a:hover{color:#00ff9c}
+  .reading{font-size:13px;font-family:'JetBrains Mono',monospace;color:#4a4f55;margin-top:8px}
+  .amazon-cta{display:inline-block;background:#00ff9c;color:#08090a;font-family:'Inter',sans-serif;font-weight:700;font-size:15px;padding:12px 24px;border-radius:6px;text-decoration:none;margin:16px 0;transition:opacity .2s}
+  .amazon-cta:hover{opacity:.85}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <a href="/" class="brand">// openedterminal</a>
+  <div class="tag">tech &middot; ai &middot; infrastructure</div>
+</header>
+
+<div class="meta">August 20, 2026 &middot; 7 min read</div>
+<h1>The Quiet Revolution of Local AI: Running LLMs on Your Own Hardware</h1>
+<div class="reading">A practical guide to ditching the API meter and reclaiming your compute.</div>
+
+<h2>The End of the API Tax</h2>
+
+<p>For the last three years, "AI" meant "send your data to someone else's GPU farm and pay per token." It was the only game in town. The models were too big to run at home, the tooling was too rough, and the latency of spinning up a local inference server felt like a punishment compared to a clean REST call.</p>
+
+<p>That assumption is dead now. The quiet revolution that started with llama.cpp in 2023 has reached a point where running a genuinely capable language model on consumer hardware is not just possible. It is practical, it is fast, and for a growing set of workloads it is the better engineering choice.</p>
+
+<h2>Why Local Beats Hosted</h2>
+
+<h3>1. Cost Collapse</h3>
+<p>If you run more than a million tokens through an API per month, you are already paying for the hardware to run the model locally. An <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20" class="link">Amazon eero mesh Wi-Fi system</a> and a single machine with a decent GPU can serve a 7B parameter model at speeds that rival commercial APIs. Once the hardware is paid for, inference is free. Forever. No rate limits, no tier upgrades, no surprise bills when a script goes wild.</p>
+
+<h3>2. Data Sovereignty</h3>
+<p>Every token you send to a hosted API is data you no longer control. For codebases, medical data, legal documents, internal communications, this is not just a preference. It is a hard compliance line. Running locally means your data never leaves your network. No DPA, no SOC 2 audit, no vendor risk assessment. The data plane is your machine.</p>
+
+<h3>3. Latency and Control</h3>
+<p>API latency is 200 to 800 milliseconds before the first token arrives. Local inference on a modern GPU can hit 20 to 40 tokens per second with first-token latency under 50 milliseconds. For interactive tools, agents, and real-time coding assistants, that difference is not marginal. It changes what you can build.</p>
+
+<h2>The Stack: What You Actually Need</h2>
+
+<p>The local AI stack has consolidated around a small number of mature tools. Here is what a serious setup looks like in 2026:</p>
+
+<h3>Runtime: llama.cpp or Ollama</h3>
+<p>The foundation is <code>llama.cpp</code>, the C++ inference engine that started the local AI movement. It supports GGUF quantized models, runs on CPU and GPU, and is the engine under most other tools. For most people, <code>Ollama</code> wraps llama.cpp in a clean CLI that handles model downloads, versioning, and a compatible OpenAI API endpoint. Install it, pull a model, and you have a local inference server in under five minutes.</p>
+
+<pre><code><span class="key"># Pull a model and start serving</span>
+ollama pull llama3.2:8b
+ollama serve
+<span class="key"># Now point any OpenAI-compatible client at localhost:11434</span></code></pre>
+
+<h3>Models: Quantized and Capable</h3>
+<p>The open model landscape has exploded. Mistral, Llama, Qwen, and Phi families all publish permissive weights. The key innovation is quantization: reducing 16-bit weights to 4-bit or 8-bit with minimal quality loss. A 7B model at 4-bit quantization needs about 4GB of VRAM. A 13B model needs about 8GB. These fit on consumer GPUs that cost less than a year of API spending.</p>
+
+<h3>Interface: Anything That Speaks OpenAI</h3>
+<p>Because Ollama exposes an OpenAI-compatible API, every existing tool, SDK, and framework works without modification. LangChain, LiteLLM, OpenAI's own Python SDK, your custom agent harness. Point the base URL at localhost and everything works. This is the real unlock: you are not building against a niche local API. You are building against the same interface the entire AI ecosystem already targets.</p>
+
+<h2>What Breaks When You Go Local</h2>
+
+<p>It is not all upside. Here is what actually hurts:</p>
+
+<h3>Context Window Limits</h3>
+<p>Consumer GPUs with 16GB to 24GB of VRAM can serve models with context windows up to 32K tokens comfortably. Pushing to 128K requires aggressive offloading to system RAM, which kills throughput. If your workload requires feeding entire codebases or long documents into context, you will need to either chunk aggressively or accept slower generation.</p>
+
+<h3>No Guaranteed Quality Floor</h3>
+<p>Commercial API models are versioned, tested, and consistent. Open models vary by quantization level, inference engine, and even build flags. A model that performs well on a benchmark might behave differently under your specific quant. You need to test on your actual workload, not just trust leaderboard numbers.</p>
+
+<h3>Operational Burden</h3>
+<p>You become the SRE. When the model OOMs at 3 AM, when a quantized weight produces garbage output, when the inference server crashes under load. These are your problems now. For teams without on-call capacity, this is a real cost that the API abstraction hides.</p>
+
+<h2>The Hybrid Approach: Best of Both</h2>
+
+<p>Most production systems in 2026 are not pure local or pure hosted. They are hybrid. The pattern:</p>
+
+<p><span class="bullet">-</span> <strong>Local for hot paths:</strong> classification, routing, summarization, code completion. High volume, low stakes, latency sensitive. Run these on local hardware.</p>
+<p><span class="bullet">-</span> <strong>Hosted for complex reasoning:</strong> multi-step planning, tool use chains, long-context analysis. Low volume, high stakes, quality critical. Route these to a frontier API.</p>
+
+<p>A routing layer like LiteLLM makes this trivial. Configure local models as one provider, hosted APIs as another, and route based on task type, token budget, or priority. You get the cost savings of local for the 80% of calls that do not need a frontier model, and the quality of hosted for the 20% that do.</p>
+
+<h2>Security: The Real Win Nobody Talks About</h2>
+
+<p>Beyond cost and latency, local inference solves a security problem that hosted APIs cannot. When you send a prompt to an API, that prompt exists in the provider's logs, training data pipelines, and potentially their human review queues. Even with strict data policies, you are trusting a third party with your most sensitive inputs.</p>
+
+<p>Local inference eliminates this entirely. The model weights live on your disk. The prompt exists in your process memory. The output is written to your filesystem. No network egress, no logging, no human review. For organizations handling regulated data, this is not a feature. It is a requirement that hosted APIs can never fully meet.</p>
+
+<h2>The Economics in Plain Numbers</h2>
+
+<p>Let us do the math. A machine with a single 16GB GPU costs roughly $1,200 to build. It can serve a 7B model at 40 tokens per second indefinitely. At typical API pricing of $0.50 per million tokens, you break even after processing 2.4 billion tokens. For a team generating 10 million tokens per day, that is 240 days to break even. After that, inference is free.</p>
+
+<p>For individual developers or small teams, the math is even more favorable because your token volume is lower and your willingness to tolerate 30 tokens per second instead of 80 is higher. A used workstation with a 12GB GPU can be had for $600 and will serve a 7B model competently for coding assistance, document processing, and agent workflows.</p>
+
+<h2>Where This Is Going</h2>
+
+<p>The trajectory is clear. Model sizes for a given quality level are shrinking. Quantization techniques are improving. Hardware is getting faster and cheaper. The gap between what you can run locally and what you can rent from an API is narrowing every quarter.</p>
+
+<p>By 2027, the default deployment pattern for most AI workloads will be local first, hosted for overflow. The API-first era was a transitional phase caused by hardware constraints that are dissolving. The tools are ready. The models are ready. The question is whether your infrastructure is.</p>
+
+<p>If you have been waiting for local AI to be "ready," it is. Start with Ollama, pull a 7B model, and point your existing tools at localhost. The five minutes it takes to set up will pay for itself by the end of the day.</p>
+
+<div class="footer">
+  <div class="footer-links">
+    <a href="https://openedterminal.com">openedterminal.com</a>
+    <a href="https://calitoy.com">calitoy.com</a>
+    <a href="https://xcalitoy.com">xcalitoy.com</a>
+    <a href="https://kurced.com">kurced.com</a>
+    <a href="https://tarosyn.com">tarosyn.com</a>
+  </div>
+  <p>&copy; 2026 OpenedTerminal. All rights reserved.</p>
+</div>
+
+</div>
+</body>
+</html>
