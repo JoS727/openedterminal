@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building a Self-Hosted AI Stack in 2026: A Practical Guide | Opened Terminal</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #08090a;
+    color: #e0e0e0;
+    font-family: 'Courier New', monospace;
+    line-height: 1.7;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  h1 {
+    color: #00ff9c;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  h2 {
+    color: #00ff9c;
+    font-size: 1.4rem;
+    margin: 30px 0 12px;
+  }
+  h3 {
+    color: #00ff9c;
+    font-size: 1.15rem;
+    margin: 22px 0 10px;
+  }
+  p { margin-bottom: 16px; font-size: 0.95rem; }
+  a { color: #00ff9c; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code {
+    background: #141618;
+    color: #00ff9c;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88rem;
+  }
+  pre {
+    background: #141618;
+    border: 1px solid #1a1c1e;
+    border-radius: 6px;
+    padding: 14px;
+    overflow-x: auto;
+    margin: 14px 0;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    color: #c8c8c8;
+  }
+  .meta {
+    color: #666;
+    font-size: 0.82rem;
+    margin-bottom: 24px;
+  }
+  .affiliate {
+    background: #141618;
+    border: 1px solid #1a1c1e;
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin: 24px 0;
+  }
+  .affiliate p { margin-bottom: 0; font-size: 0.85rem; color: #999; }
+  .footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #1a1c1e;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+  }
+  .footer a { margin: 0 8px; }
+  ul { margin: 10px 0 16px 22px; }
+  ul li { margin-bottom: 6px; font-size: 0.95rem; }
+  strong { color: #fff; }
+</style>
+</head>
+<body>
+
+<h1>Building a Self-Hosted AI Stack in 2026: A Practical Guide</h1>
+<div class="meta">August 20, 2026 | Opened Terminal | Tech</div>
+
+<p>The cloud AI providers have had their moment. OpenAI, Anthropic, and Google built incredible services that changed how we work, think, and ship software. But here is the truth nobody on a billing team wants to hear: running production AI workloads on someone else's API gets expensive fast. Token costs compound. Rate limits bite. Privacy policies shift. And every time a provider deprecates a model, your entire pipeline breaks overnight.</p>
+
+<p>In 2026, the tools for self-hosting AI have matured to the point where a single beefy workstation can run models that rival the frontier offerings of two years ago. The open source ecosystem has delivered quantized models, efficient inference servers, and orchestration tools that make self-hosting not just viable but genuinely enjoyable. This guide walks through what you need to build a complete self-hosted AI stack, from hardware through inference to application layer.</p>
+
+<h2>Hardware: What You Actually Need</h2>
+
+<p>Let us start with the hard part: the GPU. You cannot run a meaningful local LLM on a CPU. Well, you can, but you will be waiting minutes per token and questioning your life choices. The question is which GPU and how much VRAM.</p>
+
+<p>For models in the 7B to 13B parameter range, a GPU with 24GB of VRAM is the sweet spot. The NVIDIA RTX 3090 and 4090 remain the most popular choices for homelab AI builders. You can pick up a used 3090 for a reasonable price, and it will run quantized 7B models at impressive speeds. For larger models in the 30B to 70B range, you are looking at multiple GPUs or a card with 48GB-plus of VRAM, which means enterprise territory.</p>
+
+<p>The reality is that quantization has changed the game. A 4-bit quantized 7B model needs roughly 5GB of VRAM for the weights, plus context overhead. That means you can run capable models on consumer hardware that would have been unthinkable three years ago. The <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20">Amazon Basics 6ft DisplayPort to DisplayPort Cable</a> is not a GPU, but you will need one to connect that GPU to your monitor, and it is a reminder that building a workstation means dealing with cables too.</p>
+
+<h2>Software: The Stack Components</h2>
+
+<p>Here is where it gets fun. The self-hosted AI stack in 2026 looks something like this:</p>
+
+<h3>1. Model Serving: llama.cpp or vLLM</h3>
+
+<p>Two dominant options exist for running models locally. <strong>llama.cpp</strong> is the lightweight champion. Written in C++, it supports GGUF format models and runs on everything from a Raspberry Pi to a multi-GPU workstation. It is the right choice when you want simplicity and broad model compatibility.</p>
+
+<p><strong>vLLM</strong> is the heavy hitter. It uses PagedAttention for memory-efficient key-value cache management and supports continuous batching, which means it handles concurrent requests far better than llama.cpp. If you are building an API that serves multiple users, vLLM is the right tool. It supports the OpenAI API format natively, so any client library written for OpenAI works against your local server without modification.</p>
+
+<pre><code># Install vLLM
+pip install vllm
+
+# Serve a model with OpenAI-compatible API
+python -m vllm.entrypoints.openai.api_server \
+  --model meta-llama/Llama-3.1-8B-Instruct \
+  --port 8000</code></pre>
+
+<p>That is it. You now have a localhost API endpoint that speaks the same protocol as OpenAI. Point your existing application at <code>http://localhost:8000/v1</code> and swap the API key for anything. Your application does not know or care that it is talking to a model running on your own hardware.</p>
+
+<h3>2. Model Storage: Hugging Face Hub</h3>
+
+<p>The Hugging Face Hub is where open source models live. Every major model family, from Llama to Mistral to Qwen, has a presence there. The <code>huggingface-cli</code> tool lets you download models directly:</p>
+
+<pre><code>pip install huggingface-hub
+
+huggingface-cli download TheBloke/Llama-3.1-8B-Instruct-GGUF \
+  --local-dir ./models/llama-8b</code></pre>
+
+<p>For GGUF quantized models, look for the GGUF repositories maintained by community contributors. TheBloke and bartowski are two of the most prolific quantizers, and their repos cover virtually every significant open model release.</p>
+
+<h3>3. Orchestration: Ollama or text-generation-webui</h3>
+
+<p>If vLLM feels like too much, <strong>Ollama</strong> wraps llama.cpp in a clean CLI and REST API that makes model management trivial. Install it, run <code>ollama run llama3.1</code>, and you are chatting with a model in seconds. Ollama handles downloads, quantization selection, and context automatically. It is the fastest path from zero to a working local model.</p>
+
+<pre><code># Pull and run a model
+ollama pull llama3.1:8b
+ollama run llama3.1:8b "Explain how transformers work"</code></pre>
+
+<p>For more control, <strong>text-generation-webui</strong> (formerly oobabooga) provides a full Gradio-based interface with support for LoRA adapters, prompt templates, and model switching. It is heavier than Ollama but gives you knobs that Ollama hides.</p>
+
+<h3>4. Vector Storage: Qdrant or Chroma</h3>
+
+<p>Retrieval-augmented generation (RAG) is how you give your models access to your own documents. The vector database stores embeddings of your text, and at query time you retrieve the most relevant chunks to include in the model prompt.</p>
+
+<p><strong>Qdrant</strong> is a Rust-based vector database that is fast, resource-efficient, and runs as a single Docker container. <strong>Chroma</strong> is simpler, embedding-first, and great for prototyping. Both have Python SDKs that make integration straightforward.</p>
+
+<pre><code>from qdrant_client import QdrantClient
+from qdrant_client.models import Distance, VectorParams
+
+client = QdrantClient(host="localhost", port=6333)
+client.create_collection(
+    collection_name="my_docs",
+    vectors_config=VectorParams(size=1536, distance=Distance.COSINE)
+)</code></pre>
+
+<h3>5. Embedding Model: nomic-embed or BGE</h3>
+
+<p>You need an embedding model to convert text into vectors for your vector database. The <strong>nomic-embed-text</strong> model is a strong open option that runs locally and produces high-quality embeddings. The <strong>BGE</strong> series from BAAI is another excellent choice with multiple size variants.</p>
+
+<p>Run your embedding model through the same inference server as your LLM, or use a lightweight ONNX runtime. Either way, the embedding model becomes another local endpoint in your stack.</p>
+
+<h2>Putting It All Together</h2>
+
+<p>Here is the architecture of a complete self-hosted AI stack:</p>
+
+<ul>
+  <li><strong>vLLM or Ollama</strong> serving your LLM on localhost</li>
+  <li><strong>nomic-embed-text</strong> generating embeddings on demand</li>
+  <li><strong>Qdrant</strong> storing and retrieving document vectors</li>
+  <li><strong>Your application</strong> orchestrating: query comes in, embed it, retrieve context, build prompt, call LLM, return response</li>
+</ul>
+
+<p>The beauty is that every component runs on your hardware. No API keys to rotate, no rate limits to hit, no usage bills that spike when your app gets traction. Your cost is electricity and the initial hardware investment.</p>
+
+<h2>Practical Tips From the Trenches</h2>
+
+<h3>Start Small</h3>
+
+<p>Do not try to run a 70B model on day one. Start with a 7B or 8B model like Llama 3.1 8B. It is surprisingly capable for general tasks, and it will teach you the mechanics of model serving, quantization, and prompt engineering without overwhelming your hardware. Once you have a working pipeline, scale up.</p>
+
+<h3>Quantization Matters</h3>
+
+<p>The difference between a full-precision FP16 model and a 4-bit quantized GGUF is roughly 4x in VRAM usage with minimal quality loss for most use cases. The Q4_K_M quantization level is the community standard for balancing quality and size. Try Q5_K_M if you want slightly better quality and have the VRAM headroom.</p>
+
+<h3>Context Windows Are VRAM Hogs</h3>
+
+<p>The model weights are not the only thing consuming VRAM. The KV cache for context grows linearly with sequence length. A 7B model with an 8K context window uses significantly more VRAM than the same model with a 2K window. If you are running out of memory, reduce your context size first.</p>
+
+<h3>Docker Compose Is Your Friend</h3>
+
+<p>Wrapping your stack in Docker Compose makes it reproducible and portable. A single <code>docker-compose.yml</code> can define your LLM server, embedding model, and vector database as services with shared networking and volumes. Stop juggling terminal tabs.</p>
+
+<pre><code>version: "3.8"
+services:
+  vllm:
+    image: vllm/vllm-openai:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/models
+    command: --model /models/llama-8b --port 8000
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+    volumes:
+      - ./qdrant_data:/qdrant/storage</code></pre>
+
+<h3>Monitor Your GPU</h3>
+
+<p>Install <code>nvidia-smi</code> and keep it running in a terminal while you experiment. Watch VRAM usage, temperature, and power draw. If you see your GPU thermal throttling, you have a cooling problem, not a software problem. Good airflow matters more than you think when a model is running sustained inference for hours.</p>
+
+<h2>What You Gain</h2>
+
+<p>The obvious benefit is cost. After the hardware investment, your marginal cost per token is effectively zero. But the less obvious benefits matter more:</p>
+
+<p><strong>Privacy:</strong> Your data never leaves your machine. For healthcare, legal, or financial applications, this is not a luxury. It is a requirement. No terms of service to parse, no data processing addendum to negotiate.</p>
+
+<p><strong>Control:</strong> When a provider deprecates a model, your API breaks. When you self-host, your model keeps running until you decide to upgrade. You control the update cadence, the quantization level, the context window, everything.</p>
+
+<p><strong>Latency:</strong> No network round trip to a data center. Your inference happens on your local bus, which means sub-second response times for small models. For interactive applications, this is transformative.</p>
+
+<p><strong>Customization:</strong> You can fine-tune your model with LoRA or QLoRA on your own data, then merge the adapter into your serving pipeline. Your model becomes specialized for your domain in ways that API providers simply do not offer.</p>
+
+<h2>The Tradeoffs</h2>
+
+<p>Self-hosting is not all sunshine. The frontier models from OpenAI and Anthropic still outperform the best open models on complex reasoning, coding, and agentic tasks. If you need the absolute best quality, you will feel the gap. But that gap is narrowing fast, and for many real-world applications, a well-prompted 8B or 13B model is more than sufficient.</p>
+
+<p>You also own the operational burden. GPU drivers break. Models OOM. Docker containers need updates. If you enjoy the hacking, this is a feature, not a bug. If you just want to ship a product, it is overhead.</p>
+
+<h2>The Bottom Line</h2>
+
+<p>Self-hosted AI in 2026 is not a fringe hobby. It is a viable production strategy for teams and individuals who want control over their costs, their data, and their destiny. The tools are mature enough that a weekend project can become a production deployment. The models are good enough for most tasks. The cost savings over time are real.</p>
+
+<p>Start with Ollama and a 7B model. Get a feel for the stack. Add a vector database when you need RAG. Switch to vLLM when you need to serve multiple users. Fine-tune when you need domain specialization. The path is well-trodden at this point, and the community around it is generous with knowledge and support.</p>
+
+<p>The cloud will always be there. But knowing you can run the whole stack yourself, on your own hardware, with no one else's permission, is a kind of freedom worth experiencing.</p>
+
+<div class="affiliate">
+<p>This article contains an affiliate link. If you purchase through it, we may earn a small commission at no extra cost to you.</p>
+</div>
+
+<div class="footer">
+  <a href="https://brushedpast.com">brushedpast.com</a> |
+  <a href="https://girlnextup.com">girlnextup.com</a> |
+  <a href="https://risentoday.com">risentoday.com</a> |
+  <a href="https://spoofdaily.com">spoofdaily.com</a> |
+  <a href="https://openedterminal.com">openedterminal.com</a>
+</div>
+
+</body>
+</html>
