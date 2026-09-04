@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Gateway Pattern: Why Every Platform Team Is Building One | Opened Terminal</title>
+<meta name="description" content="Why every platform team in 2026 is building an AI gateway to manage model routing, cost, observability, and fallback across multiple LLM providers.">
+<meta name="keywords" content="AI gateway, LLM routing, platform engineering, AI infrastructure, model fallback, cost control, observability, LLM providers">
+<meta name="author" content="Opened Terminal">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://openedterminal.com/articles/2026-08-20-ai-gateway-pattern.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Opened Terminal">
+<meta property="og:title" content="The AI Gateway Pattern: Why Every Platform Team Is Building One">
+<meta property="og:description" content="Why every platform team in 2026 is building an AI gateway to manage model routing, cost, observability, and fallback across multiple LLM providers.">
+<meta property="og:url" content="https://openedterminal.com/articles/2026-08-20-ai-gateway-pattern.html">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@openedterminal">
+<meta name="twitter:title" content="The AI Gateway Pattern: Why Every Platform Team Is Building One">
+<meta name="twitter:description" content="Why every platform team in 2026 is building an AI gateway to manage model routing, cost, observability, and fallback across multiple LLM providers.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #08090a; color: #e0e0e0; font-family: 'Inter', sans-serif; line-height: 1.8; max-width: 820px; margin: 0 auto; padding: 40px 20px; }
+h1 { color: #00ff9c; font-size: 2.2em; margin-bottom: 10px; line-height: 1.3; font-weight: 700; }
+.meta { color: #555; font-size: 0.85em; margin-bottom: 30px; font-family: 'JetBrains Mono', monospace; }
+h2 { color: #00ff9c; font-size: 1.5em; margin-top: 35px; margin-bottom: 15px; font-weight: 600; }
+p { margin-bottom: 18px; font-size: 1.05em; }
+a { color: #00ff9c; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { background: #111; color: #00ff9c; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; font-family: 'JetBrains Mono', monospace; }
+.amazon-box { background: #111; border: 1px solid #222; border-radius: 8px; padding: 20px; margin: 30px 0; text-align: center; }
+.amazon-box a { color: #00ff9c; font-weight: bold; font-size: 1.1em; }
+.amazon-box .label { color: #555; font-size: 0.8em; margin-top: 8px; font-family: 'JetBrains Mono', monospace; }
+.footer { margin-top: 50px; padding-top: 25px; border-top: 1px solid #222; text-align: center; color: #555; font-size: 0.85em; }
+.footer a { margin: 0 10px; }
+</style>
+</head>
+<body>
+<h1>The AI Gateway Pattern: Why Every Platform Team Is Building One</h1>
+<p class="meta">Opened Terminal | August 20, 2026</p>
+
+<p>Every platform team that has shipped a production AI feature has arrived at the same architectural conclusion, usually after a costly incident. You do not call an LLM provider directly from your application. You build a layer between your application and the model, and that layer handles routing, cost, observability, fallback, and policy. The industry has converged on a name for this layer: the AI gateway.</p>
+
+<p>If your team has not built one yet, you will. If you have built one, you are probably rebuilding it. Here is what the pattern looks like, why it emerged, and what it does that your provider's SDK does not.</p>
+
+<h2>The Problem With Calling Models Directly</h2>
+
+<p>The simplest AI integration is a direct API call. Your application imports the OpenAI or Anthropic SDK, constructs a prompt, sends a request, and receives a response. This works for a prototype. It works for a weekend hack. It does not work in production, and the reasons are not about scale. They are about failure modes.</p>
+
+<p>Model providers rate limit. They throttle tokens per minute, requests per minute, and concurrent requests. When you hit a limit, you get a 429 with a retry-after header and no guidance on what to do next. Your application either retries blindly, waits too long, or crashes the request that a user is staring at. In production, that means a support ticket.</p>
+
+<p>Model providers also go down. In 2026, the major providers have multi-region outages several times per quarter. When your only integration is a direct call to one provider, an outage takes your feature offline. Your on-call engineer gets paged, opens a dashboard, and sees that someone else's infrastructure is the problem. There is nothing to fix. You wait.</p>
+
+<p>The third failure mode is cost. LLM pricing is token-based, and token counts are unpredictable. A single user who sends a large document through your summarization endpoint can spend more in one request than the rest of your users spend all day. Without a gateway, you find out about this when the monthly bill arrives.</p>
+
+<h2>What the Gateway Does</h2>
+
+<p>An AI gateway is a service that sits between your application and one or more LLM providers. Your application calls the gateway's API, which has the same shape as a provider's API. The gateway forwards the request to the provider, collects the response, and returns it to the application. That is the baseline. The value is in everything else the gateway does between receiving the request and forwarding it.</p>
+
+<p><strong>Routing.</strong> The gateway decides which model handles each request. A summarization endpoint might route to a small, fast model. A coding assistant routes to a larger model with better reasoning. A classification task routes to the cheapest model that meets your accuracy bar. Routing can be static, based on endpoint, or dynamic, based on request length, user tier, or feature flags. The point is that the decision lives in one place, not scattered across your codebase.</p>
+
+<p><strong>Fallback.</strong> When a provider returns a 429 or a 500, the gateway retries against the same provider with exponential backoff. If retries fail, it falls back to a second provider. If you are calling OpenAI and it throttles you, the gateway forwards the same request to Anthropic or a self-hosted model. The application does not know the fallback happened. The user does not know. The gateway handles it in milliseconds and logs the event.</p>
+
+<p><strong>Cost control.</strong> The gateway counts tokens before and after each request. It enforces per-user, per-endpoint, and per-tenant budgets. When a user exceeds their daily token allowance, the gateway returns a 402 or a rate limit response instead of forwarding the request to the provider. You set the limits in configuration, not in code. The cost surprises stop because the gateway makes them impossible.</p>
+
+<p><strong>Observability.</strong> The gateway logs every request: the prompt, the response, the model, the token count, the latency, the cost, and the status. It exposes metrics through Prometheus or OpenTelemetry. You see dashboards for token spend, error rate, p95 latency, and model distribution. When a user reports that an AI feature is slow or wrong, you have the request trace. Without a gateway, you are guessing.</p>
+
+<h2>Build or Buy</h2>
+
+<p>The gateway pattern has matured enough that you have both build and buy options. The open source projects worth knowing about are LiteLLM, which provides a unified API across providers with routing, fallback, and cost tracking, and Portkey, which adds caching and observability. Cloudflare launched AI Gateway as a managed service that handles routing, caching, and rate limiting at the edge. Vercel built AI SDK with a similar abstraction layer for frontend and edge deployments.</p>
+
+<p>For most teams, the buy decision is correct for the first iteration. LiteLLM handles the hard parts: provider compatibility, token counting, retry logic, and fallback chains. You deploy it as a container or a serverless function, configure your provider keys, point your application at it, and you have a gateway in an afternoon.</p>
+
+<p>The build decision becomes correct when your needs diverge from what the open source tools provide. If you need custom routing logic based on user history, fine-grained tenant isolation, or integration with your internal observability stack, building a thin gateway on top of your existing service framework is straightforward. The core is a reverse proxy with middleware. The hard parts are the provider SDKs and the token counting, which you can extract from LiteLLM or implement directly.</p>
+
+<p>Most teams end up in the same place: start with LiteLLM, hit its limitations, and build a custom gateway that reuses its provider abstractions. That is a reasonable path. The wrong path is calling providers directly from your application and building ad hoc retry logic in every service that uses AI.</p>
+
+<h2>Policy and Safety Belong in the Gateway</h2>
+
+<p>The gateway is also the right place to enforce policy. If your product has content moderation requirements, prompt injection detection, or PII redaction, those checks belong between the user and the model, not after the model responds. The gateway can inspect every prompt before it reaches the provider, reject requests that violate policy, and log violations for review.</p>
+
+<p>This matters because policy enforcement in the application layer is fragile. Each new endpoint that calls an LLM needs to implement the same checks. A developer forgets one, and you have a policy gap. The gateway centralizes enforcement. Every request goes through the same pipeline regardless of which service initiated it.</p>
+
+<p>Caching is the other feature that belongs in the gateway. LLM responses are deterministic for a given model and prompt temperature, and many workloads have repeated prompts. A cache hit costs nothing and responds in milliseconds. LiteLLM and Portkey both support response caching keyed on prompt hash and model. For high-traffic endpoints with repeated prompts, caching cuts your token spend by a significant margin with zero configuration on the application side.</p>
+
+<h2>The Cost Question</h2>
+
+<p>Teams building their first AI feature almost always underestimate cost. The gateway forces visibility. When you see token spend per endpoint, per user, and per model in a dashboard, you start making different decisions. You route more traffic to smaller models. You cache more aggressively. You set per-user limits that prevent a single power user from burning your margin.</p>
+
+<p>The teams that shipped AI features in 2024 and 2025 without a gateway are the teams that got surprise bills. The teams shipping in 2026 are building the gateway first, before the first production request.</p>
+
+<div class="amazon-box">
+<p>If you are building an AI gateway or running local models for development, the <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20">Samsung T7 Portable SSD</a> gives you fast, reliable external storage for model weights, logs, and cached responses.</p>
+<p class="label">Amazon Affiliate Link</p>
+</div>
+
+<h2>What Changes When You Have One</h2>
+
+<p>The first thing that changes is incident response. When a provider goes down, your on-call engineer sees the fallback fire in the gateway dashboard. The feature stays online. The incident is a note in the postmortem, not a page that wakes someone at three in the morning.</p>
+
+<p>The second thing that changes is velocity. New AI features become a new route in the gateway configuration, not a new SDK integration with its own retry logic and error handling. A developer adds an endpoint, sets a model and a cost limit, and ships. The gateway handles the rest.</p>
+
+<p>The third thing that changes is cost predictability. You see token spend in real time. You set budgets that enforce themselves. The monthly bill is not a surprise. It is a number you already saw in a dashboard and already adjusted for.</p>
+
+<p>The AI gateway is not a luxury. It is the minimum viable infrastructure for running AI in production. Every platform team that has shipped AI to real users has built one or wishes they had built it sooner. If you are calling a model provider directly from your application right now, your first production incident is a provider outage you cannot control. Build the gateway first.</p>
+
+<div class="footer">
+<p>Part of the Calitoy Media Network</p>
+<p><a href="https://brushedpast.com">brushedpast.com</a> | <a href="https://girlnextup.com">girlnextup.com</a> | <a href="https://risentoday.com">risentoday.com</a> | <a href="https://spoofdaily.com">spoofdaily.com</a> | <a href="https://openedterminal.com">openedterminal.com</a></p>
+</div>
+</body>
+</html>
