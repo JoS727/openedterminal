@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Terminal-First Workflow: Why Your Next Dev Setup Belongs in the Shell | Opened Terminal</title>
+<meta name="description" content="A practical guide to building a terminal-first development workflow that reduces context switching, speeds up common tasks, and keeps you in the zone.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #08090a;
+    color: #c9d1d9;
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Cascadia Code', monospace;
+    line-height: 1.7;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+  h1 {
+    color: #00ff9c;
+    font-size: 1.85rem;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
+  .meta {
+    color: #6e7681;
+    font-size: 0.85rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #21262d;
+    padding-bottom: 1rem;
+  }
+  h2 {
+    color: #00ff9c;
+    font-size: 1.3rem;
+    margin: 2.2rem 0 0.8rem;
+  }
+  h3 {
+    color: #d2a8ff;
+    font-size: 1.05rem;
+    margin: 1.6rem 0 0.5rem;
+  }
+  p { margin-bottom: 1rem; }
+  code {
+    background: #161b22;
+    color: #00ff9c;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+  pre {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    color: #c9d1d9;
+  }
+  .k { color: #ff7b72; }
+  .s { color: #a5d6ff; }
+  .c { color: #6e7681; }
+  a { color: #00ff9c; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { margin: 0 0 1.2rem 1.5rem; }
+  li { margin-bottom: 0.4rem; }
+  .callout {
+    border-left: 3px solid #00ff9c;
+    padding: 0.8rem 1rem;
+    background: #0d1117;
+    margin: 1.2rem 0;
+    font-size: 0.9rem;
+  }
+  .footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #21262d;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #6e7681;
+  }
+  .footer a { color: #00ff9c; margin: 0 0.5rem; }
+  .tag {
+    display: inline-block;
+    background: #161b22;
+    color: #00ff9c;
+    border: 1px solid #21262d;
+    border-radius: 3px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+    margin-bottom: 1rem;
+  }
+</style>
+</head>
+<body>
+
+<span class="tag">TECH</span>
+<h1>The Terminal-First Workflow: Why Your Next Dev Setup Belongs in the Shell</h1>
+<div class="meta">August 20, 2026 &nbsp;|&nbsp; Opened Terminal</div>
+
+<p>Every developer has experienced the slow drift. You start the morning in your editor, open a browser tab for documentation, another for Slack, another for Jira, another for your CI dashboard, and before you know it, your screen is a mosaic of browser tabs and you have not written a single line of code. The context switching alone is exhausting before the first compile.</p>
+
+<p>There is a better way. It is not new. It is not a SaaS product. It does not require a subscription. The terminal has been sitting right there the entire time, waiting for you to use it properly. This article is about building a terminal-first workflow that keeps you in the zone, reduces the number of applications you need open, and makes the common tasks fast enough that you stop thinking about them.</p>
+
+<h2>What Does Terminal-First Actually Mean?</h2>
+
+<p>A terminal-first workflow is not about being a purist or refusing to use graphical tools. It is about defaulting to the shell for tasks where the shell is genuinely faster, and reaching for graphical tools only when they provide clear value over the command line alternative. Reading logs, searching code, navigating the filesystem, managing Git, running tests, and interacting with APIs are all things the shell does exceptionally well. Writing prose, reviewing complex diffs, and designing UI are places where graphical tools earn their keep.</p>
+
+<p>The goal is not ideology. The goal is reducing the surface area of your daily work so that you spend less time managing windows and more time doing the work itself.</p>
+
+<h2>Starting with the Right Shell</h2>
+
+<p>If you are on macOS, the default is zsh. On most Linux distributions, it is bash. Both are fine. If you want a modern shell with better autocomplete, spell correction, and scripting capabilities, <code>fish</code> is worth a look. It works out of the box without the configuration rabbit hole that zsh users know well.</p>
+
+<p>The shell choice matters less than you might think. What matters is that you learn it well enough to customize your prompt, set up aliases for commands you type repeatedly, and write small functions for multi-step workflows you find yourself performing daily.</p>
+
+<h3>A Useful Prompt</h3>
+
+<p>Your prompt is the single piece of UI you see more than any other. If it shows you the current directory, the Git branch, and whether the working tree is dirty, you save yourself thousands of keystrokes over the course of a week. Tools like Starship make this trivial to set up and work across every shell.</p>
+
+<pre><code><span class="c"># Install Starship</span>
+curl -sS https://starship.rs/install.sh | sh
+
+<span class="c"># Add to your shell config</span>
+<span class="k">eval</span> <span class="s">"$(starship init zsh)"</span></code></pre>
+
+<p>Starship shows your language version, Git status, Kubernetes context, and AWS profile by default. It is fast because it is written in Rust, and it is configurable enough that you can strip away anything you do not use.</p>
+
+<h2>The Multiplexer: tmux or zellij</h2>
+
+<p>A terminal multiplexer lets you split your screen into panes, create multiple window sessions, and detach from processes so they keep running after you close the terminal. If you have ever SSHed into a server, started a long build, and then accidentally closed the tab, you already understand the value.</p>
+
+<p><code>tmux</code> is the established choice. Its keybindings take a day to learn and a week to love. <code>zellij</code> is a newer alternative with a more intuitive default layout and built-in tab management. Either one gives you the ability to run your editor, a test watcher, and a log tail in side-by-side panes without touching your mouse.</p>
+
+<pre><code><span class="c"># tmux basics</span>
+tmux new -s work     <span class="c"># create named session</span>
+Ctrl-b %             <span class="c"># split vertically</span>
+Ctrl-b "             <span class="c"># split horizontally</span>
+Ctrl-b d             <span class="c"># detach (processes keep running)</span>
+tmux attach -t work  <span class="c"># reattach</span></code></pre>
+
+<p>The productivity gain from a multiplexer is not subtle. You stop opening new terminal windows and tabbing between them. Everything lives in one workspace that you can arrange once and reuse.</p>
+
+<h2>Faster File Navigation with fzf</h2>
+
+<p><code>fzf</code> is a fuzzy finder for the command line. It is one of those tools that sounds simple until you use it, and then you cannot imagine working without it. It integrates with your shell so that <code>Ctrl-r</code> (reverse history search) becomes interactive, and <code>Ctrl-t</code> lets you fuzzy-select files from the current directory and pipe them into any command.</p>
+
+<p>Combined with <code>ripgrep</code> (<code>rg</code>) for searching file contents, you can find anything in a codebase in under a second. No loading a IDE project index, no waiting for the search bar to populate, no clicking through a tree view.</p>
+
+<pre><code><span class="c"># Search for a function across the repo</span>
+rg <span class="s">"def handle"</span> --type py
+
+<span class="c"># Interactively find a file and open it</span>
+vim $(fzf)
+
+<span class="c"># Use fzf to filter ripgrep results</span>
+rg --files | fzf --preview <span class="s">"bat --color=always {}"</span></code></pre>
+
+<h2>Git Without the GUI</h2>
+
+<p>Git is a terminal tool. The graphical clients are fine for beginners, but once you understand the command-line interface, it is faster and more capable than any GUI. The key is learning a handful of commands well and then building aliases for the sequences you type over and over.</p>
+
+<pre><code><span class="c"># Useful Git aliases</span>
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st <span class="s">"status -sb"</span>
+git config --global alias.lg <span class="s">"log --oneline --graph --decorate --all"</span>
+git config --global alias.aliases <span class="s">"config --get-regexp ^alias"</span></code></pre>
+
+<p>With <code>git lg</code>, you get a visual commit graph that rivals anything in a GUI client, rendered directly in your terminal. With <code>git st</code>, you get a concise status line showing branch and tracking info. These are small things that add up to minutes saved per day.</p>
+
+<h2>Watching Tests While You Code</h2>
+
+<p>One of the biggest advantages of a terminal-first setup is the ability to run a test watcher in a split pane alongside your editor. Every time you save a file, the relevant tests re-run automatically. You see pass or fail in your peripheral vision without breaking flow.</p>
+
+<pre><code><span class="c"># JavaScript</span>
+npx vitest --watch
+
+<span class="c"># Python with pytest-watch</span>
+ptw -- src/tests/
+
+<span class="c"># Go</span>
+gotestsum --watch ./...</code></pre>
+
+<p>This is the tightest feedback loop you can build. Save, see results, adjust. No alt-tabbing to a browser, no waiting for a CI pipeline to pick up your push. The latency between writing code and knowing whether it works drops from minutes to seconds.</p>
+
+<h2>API Calls Without Leaving the Shell</h2>
+
+<p>For quick API exploration, <code>curl</code> plus <code>jq</code> is often faster than opening Postman or Insomnia. You can pipe JSON responses through <code>jq</code> to extract exactly the field you need, and you can save common requests as shell functions.</p>
+
+<pre><code><span class="c"># Get a formatted JSON response</span>
+curl -s https://api.github.com/repos/cli/cli | jq <span class="s">'.stargazers_count'</span>
+
+<span class="c"># Save a reusable function</span>
+gh-stars() {
+  curl -s <span class="s">"https://api.github.com/repos/$1"</span> | jq <span class="s">'.stargazers_count'</span>
+}
+<span class="c"># Usage: gh-stars cli/cli</span></code></pre>
+
+<h2>Choosing the Right Terminal Emulator</h2>
+
+<p>Not all terminal emulators are equal. If you are on macOS, the default Terminal.app is fine but slow compared to alternatives. <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20">iTerm2</a> remains the standard for power users on macOS, with split panes, profiles, triggers, and deep customization. On Linux, GNOME Terminal and Konsole are both solid, while Alacritty and WezTerm offer GPU-accelerated rendering for users who want maximum performance and live in tmux for window management.</p>
+
+<p>WezTerm deserves a special mention because it is written in Rust, supports ligatures, and has a Lua-based configuration that lets you script window layouts, tab naming, and even dynamic theming based on time of day. It also has built-in multiplexer features, though most users still pair it with tmux for the portability of session management across machines.</p>
+
+<h2>Dotfiles: Your Setup as Code</h2>
+
+<p>The final piece of a terminal-first workflow is managing your configuration as code. Your dotfiles, the collection of shell configs, aliases, functions, and tool settings, should live in a Git repository. This way, when you set up a new machine, you clone the repo, run a script, and your entire environment is back in minutes.</p>
+
+<pre><code><span class="c"># Typical dotfiles structure</span>
+~/dotfiles/
+  zsh/.zshrc
+  git/.gitconfig
+  tmux/.tmux.conf
+  nvim/init.lua
+  starship.toml
+  install.sh</code></pre>
+
+<p>There are frameworks like <code>stow</code> and <code>chezmoi</code> that automate the symlinking process, or you can write a simple install script. The point is that your environment becomes reproducible. When you get a new laptop or spin up a cloud dev environment, you are productive within the first ten minutes rather than the first day.</p>
+
+<h2>When to Leave the Terminal</h2>
+
+<p>Terminal-first does not mean terminal-only. There are tasks where graphical tools are genuinely better. Reviewing a large pull request with a side-by-side diff is easier in a browser or IDE. Designing a database schema benefits from a visual ERD tool. Debugging a complex CSS layout is faster with browser DevTools. The point is to be deliberate about when you switch contexts, rather than defaulting to the graphical tool out of habit.</p>
+
+<p>A good rule of thumb: if you are doing something you could describe in a single sentence, the terminal can probably do it faster. If you need to see and manipulate multiple complex objects simultaneously, reach for a graphical tool.</p>
+
+<h2>The Compounding Effect</h2>
+
+<p>Here is the thing about a terminal-first workflow: the benefits compound. Every alias you write, every function you define, every pane layout you save, shaves a few seconds off a task you perform dozens of times per day. Over a week, that is hours. Over a year, it is days.</p>
+
+<p>More importantly, the cognitive overhead drops. You are not managing six applications. You are not hunting for the right tab. You are not waiting for a GUI to load. You are in one environment, speaking one language, and the computer is responding at the speed of your typing.</p>
+
+<p>That is what terminal-first means. Not purity, not aesthetics, not showing off. Just less friction between thinking and doing. The terminal is the shortest path from an idea to its execution. Set it up right, learn it well, and it pays you back every single day.</p>
+
+<div class="footer">
+  <a href="https://brushedpast.com">brushedpast.com</a> &middot;
+  <a href="https://girlnextup.com">girlnextup.com</a> &middot;
+  <a href="https://risentoday.com">risentoday.com</a> &middot;
+  <a href="https://spoofdaily.com">spoofdaily.com</a> &middot;
+  <a href="https://openedterminal.com">openedterminal.com</a>
+</div>
+
+</body>
+</html>
