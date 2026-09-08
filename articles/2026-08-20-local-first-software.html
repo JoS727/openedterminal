@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>The Rise of Local-First Software: Why Your Next App Should Live on Your Machine | openedterminal</title>
 <style>
 body { background: #08090a; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; max-width: 780px; margin: 0 auto; padding: 40px 20px; }
@@ -23,33 +24,25 @@ li { margin: 0.5em 0; }
 .affiliate { border: 1px solid #222; background: #111; padding: 12px 16px; border-radius: 8px; margin: 1.5em 0; }
 .affiliate a { color: #00ff9c; font-weight: bold; }
 </style>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BT76WH5NCT"></script>
-    <script>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BT76WH5NCT"></script>
+<script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-BT76WH5NCT');
     </script>
-  </head>
+<meta content="Opened Terminal — developer news, AI tools, and tech culture from the Calitoy Media Network." name="description"/><link href="https://openedterminal.com/articles/2026-08-20-local-first-software.html" rel="canonical"/><meta content="website" property="og:type"/><meta content="https://openedterminal.com/articles/2026-08-20-local-first-software.html" property="og:url"/><meta content="The Rise of Local-First Software: Why Your Next App Should Live on Your Machine | openedterminal" property="og:title"/><meta content="Opened Terminal — developer news, AI tools, and tech culture from the Calitoy Media Network." property="og:description"/></head>
 <body>
 <h1>The Rise of Local-First Software: Why Your Next App Should Live on Your Machine</h1>
-<p class="meta">By Joseph Calitoy &bull; August 20, 2026 &bull; openedterminal.com</p>
-
+<p class="meta">By Joseph Calitoy • August 20, 2026 • openedterminal.com</p>
 <p>For the last fifteen years, the software industry has been obsessed with the cloud. Everything lives on a server somewhere. Your notes, your documents, your photos, your code, your spreadsheets, your music playlists. The pitch was simple: let us store your data and you will never lose it, never worry about backups, and access it from anywhere. That pitch worked. Millions of people and businesses moved their entire digital lives to services they do not control.</p>
-
 <p>But something has been shifting. A growing movement of developers, privacy advocates, and everyday users are pushing back. They are building and adopting what is called <strong>local-first software</strong>: applications that store data on your own device first, work without an internet connection, and sync only when and how you want them to. The cloud becomes a backup and a sync layer, not the primary home for your data.</p>
-
 <p>The question is whether this is a real shift or a niche philosophy. The evidence suggests it is real, and it is accelerating.</p>
-
 <h2>What Local-First Actually Means</h2>
-
 <p>The term "local-first" was popularized around 2019 by a group of researchers and developers led by Clemens Herrmann and Martin Kleppmann at the University of Cambridge. Their foundational essay laid out a set of principles that distinguish local-first software from traditional cloud-based apps.</p>
-
 <p>At its core, local-first means the application reads and writes data locally on your device. There is no network round-trip required to open a document, make an edit, or save a change. The UI responds instantly because the data is right there on your machine. Syncing to other devices or to the cloud happens in the background, when a connection is available, using conflict-free replicated data types (CRDTs) or similar synchronization mechanisms.</p>
-
 <p>The principles are straightforward:</p>
-
 <ul>
 <li><strong>No spinners.</strong> Every action completes instantly because it is a local operation, not a network request.</li>
 <li><strong>Works offline.</strong> You can use the app fully without an internet connection. Sync happens later.</li>
@@ -57,99 +50,56 @@ li { margin: 0.5em 0; }
 <li><strong>Multi-device sync.</strong> When you do want your data on multiple machines, it syncs seamlessly without manual conflict resolution.</li>
 <li><strong>End-to-end encryption.</strong> If data syncs through a server, the server never sees plaintext. Only your devices can read your data.</li>
 </ul>
-
 <p>This is a fundamentally different architecture than the typical SaaS model, where the database lives on a server and the client is a thin wrapper that makes API calls for every interaction.</p>
-
 <h2>Why the Cloud Won (and Why That Is Changing)</h2>
-
 <p>The cloud won for practical reasons. Building a local-first app is harder than building a server-backed app. Conflict resolution, sync engines, offline state management, and local storage APIs are complex engineering problems. It is much simpler to build a React frontend that talks to a Postgres database through a REST API. The cloud also solved real problems: backups, collaboration, cross-device access, and onboarding friction. Most users do not want to manage their own infrastructure.</p>
-
 <p>But the cloud-first model comes with significant tradeoffs that have become harder to ignore:</p>
-
 <h3>Latency</h3>
-
 <p>Every interaction in a cloud-first app requires a network round-trip. Click a checkbox, wait for the server to respond. Open a document, wait for it to load from the server. In practice, this means modern web apps often feel slower than the desktop software they replaced, despite running on computers that are orders of magnitude more powerful than the machines we used twenty years ago. The speed of light has not improved, and neither has the latency of a cross-continent API call.</p>
-
 <p>Local-first apps eliminate this latency entirely. When the data is on your device, opening a document is instant. Saving a change is instant. Searching a large dataset is instant because it runs against a local index, not a remote query. This is not a marginal improvement. It is the difference between an app that feels alive and one that feels like you are remote-controlling a computer through a straw.</p>
-
 <h3>Ownership and Control</h3>
-
 <p>When your data lives on someone else's server, you do not truly own it. You have a license to access it, subject to terms of service that can change at any time. The company can shut down the product, change the pricing, limit exports, or lock you out entirely. We have all seen this happen. Google Reader, Sunrise Calendar, and dozens of other beloved products were killed because the company behind them decided to move on. Your data went with them.</p>
-
 <p>Local-first software flips this dynamic. Your data is in a file on your machine. You can back it up, copy it, move it to another app, or share it however you want. If the company behind the sync service disappears, your local copy persists. The app still works. You just lose the sync layer, not the data or the application itself.</p>
-
 <h3>Privacy</h3>
-
 <p>Every cloud service that stores your data in plaintext can read your data. Even if they promise not to, they can. Courts can subpoena it. Employees can access it. Security breaches can expose it. When you store your notes, your journal, your financial records, or your medical information in a cloud service, you are trusting that company, their employees, their legal jurisdiction, and their security practices with your most sensitive data.</p>
-
 <p>Local-first apps with end-to-end encryption make this trust unnecessary. The server only ever sees encrypted blobs. Your data is decrypted on your devices, using keys that never leave your control. This is not a theoretical improvement. It is a structural one.</p>
-
 <h2>The Tools Making This Possible</h2>
-
 <p>Local-first software has been held back by the difficulty of building it. Sync engines, CRDTs, and conflict resolution are hard. But a new generation of tools and libraries is making local-first architecture accessible to ordinary developers, not just distributed systems researchers.</p>
-
 <h3>CRDT Libraries</h3>
-
 <p>CRDTs (Conflict-free Replicated Data Types) are the mathematical foundation of local-first sync. They define data structures that can be edited independently on multiple devices and then merged without conflicts. The math guarantees that any two replicas that have received the same set of operations will converge to the same state, regardless of the order in which operations arrived.</p>
-
 <p>Libraries like <code>Automerge</code> and <code>Yjs</code> have brought CRDTs to mainstream JavaScript development. Automerge, in particular, was designed by the local-first research group specifically to make local-first apps practical. It handles the hard parts of merge semantics so developers can focus on building features instead of solving distributed systems problems.</p>
-
 <h3>Local Storage and SQLite</h3>
-
 <p>The browser's built-in storage options have improved dramatically. IndexedDB is mature and capable, and libraries like <code>Dexie.js</code> make it pleasant to work with. But the real game-changer is SQLite compiled to WebAssembly, running inside the browser. SQLite is the most widely deployed database in the world, and it now runs in the browser with near-native performance. This gives web apps a real, queryable, relational database on the client side.</p>
-
 <p>For developers who want a complete local-first framework rather than assembling their own stack from primitives, projects like <code>ElectricSQL</code>, <code>PowerSync</code>, and <code>replicache</code> provide sync layers that connect a local SQLite database to a remote Postgres instance, handling conflict resolution and real-time sync automatically.</p>
-
 <h2>Real-World Local-First Apps</h2>
-
 <p>The proof of any architectural movement is in the products that adopt it. Local-first is no longer theoretical. Several widely used apps have built their entire experience around these principles.</p>
-
 <p><strong>Obsidian</strong> stores all your notes as plain Markdown files in a local folder. You own your data. The sync service is optional and end-to-end encrypted. The app works fully offline. It has grown to millions of users precisely because people are tired of their notes being locked inside a proprietary cloud.</p>
-
 <p><strong>Linear</strong>, the issue tracking tool used by many modern engineering teams, uses a local-first sync engine. Every interaction is instant because the data is local. Linear famously loads faster than most static websites, despite being a complex project management application, because it never waits for the server to render anything.</p>
-
-<p><strong>Reflect</code>, <strong>Roam Research</strong>'s sync engine, and <strong>Figma</strong>'s multiplayer editing layer all use variants of the same approach: keep the data local, sync in the background, and render the UI from local state.</p>
-
+<p><strong>Reflect, <strong>Roam Research</strong>'s sync engine, and <strong>Figma</strong>'s multiplayer editing layer all use variants of the same approach: keep the data local, sync in the background, and render the UI from local state.</strong></p>
 <h2>When Local-First Is Not the Right Answer</h2>
-
 <p>Local-first is not a universal solution. Some applications genuinely need a central server. If your app involves real-time collaboration on a shared mutable state with complex permissions, or if the data is too large to fit on a device, or if the computation requires server-side processing (like machine learning inference on a large model), the cloud-first model still makes sense.</p>
-
 <p>Local-first also does not solve every problem with software distribution. Users still need to install the app, keep it updated, and manage their own backups if they want true resilience. For many users, the convenience of automatic cloud backups is a feature, not a bug. The goal of local-first is not to eliminate the cloud but to make it optional rather than mandatory.</p>
-
 <h2>The Economics of Local-First</h2>
-
 <p>There is also a business model question. SaaS companies charge monthly subscriptions because they host your data and provide the infrastructure. If the data lives on the user's device and the server is just an optional sync relay, what exactly are users paying for?</p>
-
 <p>Several local-first companies have answered this in different ways. Obsidian charges for its sync service and for its publishing platform. The core app is free. Linear charges per seat for the collaboration features and the hosted sync infrastructure. Reflect charges for the sync and sharing capabilities.</p>
-
 <p>The pattern is consistent: the app is free or cheap, and the sync and collaboration features are the premium. This aligns incentives better than the typical SaaS model. The company makes money when they provide genuine value (syncing across your devices, sharing with your team), not by holding your data hostage.</p>
-
 <h2>Getting Started with Local-First Development</h2>
-
 <p>If you are a developer interested in building local-first apps, the barrier to entry has never been lower. Here is a practical starting path:</p>
-
 <ol>
 <li><strong>Choose your storage layer.</strong> For web apps, use SQLite via WASM with a wrapper like <code>sql.js</code> or a higher-level library. For simpler apps, IndexedDB with Dexie is sufficient.</li>
 <li><strong>Add a sync engine.</strong> Use Automerge or Yjs for CRDT-based sync. For a more batteries-included approach, look at PowerSync or ElectricSQL, which provide managed sync between a local SQLite database and a remote Postgres instance.</li>
 <li><strong>Handle encryption.</strong> If your data is sensitive, encrypt it before it leaves the device. Libraries like <code>libsodium</code> (available as a WASM build) make this straightforward.</li>
 <li><strong>Design for offline first.</strong> Build your UI to read and write from local state. Treat network sync as a background task, not a user-facing interaction. If your app shows a loading spinner for a local read, you have the architecture wrong.</li>
 </ol>
-
 <div class="affiliate">
 <p>If you are building a home server or a personal data backup node for your local-first setup, the <a href="https://www.amazon.com/dp/B08VL1BLHB?tag=tarosyn0b-20">Raspberry Pi 4 Model B</a> is a reliable, low-power option for running your own sync relay or self-hosted services.</p>
 </div>
-
 <h2>The Future Is Hybrid</h2>
-
 <p>The most likely outcome is not a wholesale rejection of the cloud but a rebalancing. Users will keep their primary data locally, sync it through encrypted relays, and use cloud services for what they are genuinely good at: heavy computation, large-scale collaboration, and serving as a backup of last resort.</p>
-
 <p>The tools are here. The libraries are mature. The user demand is real. The question is not whether local-first will happen but how quickly the rest of the industry catches up to the developers who are already building this way.</p>
-
 <p>If you are building software, consider whether your users actually need a server for every interaction. The answer might surprise you. And if you are choosing software, consider where your data lives. The difference between owning your data and renting access to it is the difference between independence and dependency. Local-first gives you the tools to choose independence without giving up convenience.</p>
-
 <div class="footer">
-<p>More from the network: <a href="https://brushedpast.com">brushedpast.com</a> &bull; <a href="https://girlnextup.com">girlnextup.com</a> &bull; <a href="https://risentoday.com">risentoday.com</a> &bull; <a href="https://spoofdaily.com">spoofdaily.com</a> &bull; <a href="https://openedterminal.com">openedterminal.com</a></p>
+<p>More from the network: <a href="https://brushedpast.com">brushedpast.com</a> • <a href="https://girlnextup.com">girlnextup.com</a> • <a href="https://risentoday.com">risentoday.com</a> • <a href="https://spoofdaily.com">spoofdaily.com</a> • <a href="https://openedterminal.com">openedterminal.com</a></p>
 </div>
-
 </body>
 </html>
