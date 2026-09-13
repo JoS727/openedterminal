@@ -99,6 +99,7 @@
         <a href="/category/ai/">AI</a>
         <a href="/category/devops/">DevOps</a>
         <a href="/category/security/" class="active">Security</a>
+        <a href="/zero-day/">Zero Day</a>
         <a href="/category/web3/">Web3</a>
         <a href="/category/hardware/">Hardware</a>
         <a href="../index.html">About</a>
@@ -123,7 +124,8 @@
         <a href="/" class="cat-pill" role="tab">All <span class="count">142</span></a>
         <a href="/category/ai/" class="cat-pill" role="tab">AI <span class="count">38</span></a>
         <a href="/category/devops/" class="cat-pill" role="tab">DevOps <span class="count">29</span></a>
-        <a href="/category/security/" class="cat-pill active" role="tab">Security <span class="count">31</span></a>
+        <a href="/category/security/" class="cat-pill active" role="tab">Security <span class="count">41</span></a>
+        <a href="/zero-day/" class="cat-pill" role="tab">Zero Day <span class="count">10</span></a>
         <a href="/category/web3/" class="cat-pill" role="tab">Web3 <span class="count">22</span></a>
         <a href="/category/hardware/" class="cat-pill" role="tab">Hardware <span class="count">22</span></a>
       </div>
@@ -145,7 +147,7 @@
         <h1>Security <span class="highlight">Articles</span></h1>
         <p class="hero-excerpt">Cybersecurity, zero-trust, vulnerability research, and practical defense for modern engineering teams. In-depth analysis, hands-on guides, and field reports from working engineers.</p>
         <div class="hero-meta">
-          <span class="read-time" style="font-family:var(--font-mono);font-size:0.82rem;color:var(--text-muted);">31 articles tracked</span>
+          <span class="read-time" style="font-family:var(--font-mono);font-size:0.82rem;color:var(--text-muted);">41 articles tracked</span>
         </div>
       </div>
     </div>
@@ -158,24 +160,123 @@
         <h2>Latest in Security</h2>
         <a href="../index.html" class="view-all">view all &rarr;</a>
       </div>
-      <div class="empty-state">
-        <div class="terminal-card" style="max-width:480px;margin:0 auto;text-align:center;">
-          <div class="terminal-header">
-            <span class="term-dot r"></span>
-            <span class="term-dot y"></span>
-            <span class="term-dot g"></span>
-            <span class="terminal-title">no_articles.sh</span>
-          </div>
-          <div class="terminal-body" style="padding:40px 20px;">
-            <span class="com"># No articles published in this category yet</span><br><br>
-            <span class="cmd">$</span> <span class="out">ls articles/security/</span><br>
-            <span class="out">total: 0 files</span><br><br>
-            <span class="cmd">$</span> <span class="out">echo "New Security articles coming soon."</span><br>
-            <span class="out">New Security articles coming soon.</span><br><br>
-            <span class="cmd">$</span> <span class="cursor-block"></span>
-          </div>
-        </div>
-        <p style="text-align:center;margin-top:24px;font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);">No articles yet — we're working on it. <a href="../index.html" style="color:var(--accent);">Browse all articles &rarr;</a></p>
+      <a href="/zero-day/" style="display:block;text-decoration:none;margin-bottom:32px;padding:24px 28px;background:linear-gradient(135deg,rgba(0,255,156,0.08),rgba(0,255,156,0.02));border:1px solid rgba(0,255,156,0.3);border-radius:10px;">
+        <span style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--accent);">&gt; featured_series</span>
+        <h3 style="font-size:1.4rem;font-weight:800;color:var(--text-primary,#fff);margin:8px 0 6px;">The Zero Day Timeline &rarr;</h3>
+        <p style="color:var(--text-muted,#a1a1aa);font-size:0.98rem;line-height:1.6;max-width:680px;">Ten landmark zero-day vulnerabilities, in chronological order—from Operation Aurora and Stuxnet to Log4Shell, MOVEit, Citrix Bleed and SharePoint ToolShell. Each with a full, fact-checked technical breakdown.</p>
+      </a>
+      <div class="article-grid">
+
+        <article class="card">
+          <a href="/articles/2010-01-14-operation-aurora-ie-zero-day.html" style="display:contents;">
+            <div class="card-cover"><div class="cover-bg cat-security"><span class="glyph">CVE-2010-0249</span><span class="cat-tag">Security</span></div></div>
+            <div class="card-body">
+              <h3>Operation Aurora: The IE Zero-Day That Named an Era</h3>
+              <p>A use-after-free flaw in Internet Explorer, exploited in a targeted espionage campaign against Google and 20+ organizations.</p>
+              <div class="card-footer"><div class="card-author"><div class="avatar sm">OT</div><span class="author-name">Opened Terminal</span></div><span class="card-date">Jan 14, 2010</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="/articles/2010-07-16-stuxnet-windows-zero-day-suite.html" style="display:contents;">
+            <div class="card-cover"><div class="cover-bg cat-security"><span class="glyph">.LNK + win32k</span><span class="cat-tag">Security</span></div></div>
+            <div class="card-body">
+              <h3>Stuxnet: A Suite of Windows Zero-Days Aimed at the Physical World</h3>
+              <p>The worm that chained multiple Windows zero-days to reach industrial control systems at Natanz.</p>
+              <div class="card-footer"><div class="card-author"><div class="avatar sm">OT</div><span class="author-name">Opened Terminal</span></div><span class="card-date">Jul 16, 2010</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="/articles/2021-01-03-microsoft-exchange-proxylogon.html" style="display:contents;">
+            <div class="card-cover"><div class="cover-bg cat-security"><span class="glyph">ProxyLogon</span><span class="cat-tag">Security</span></div></div>
+            <div class="card-body">
+              <h3>ProxyLogon: The Exchange Chain That Became Mass Exploitation</h3>
+              <p>Four flaws in on-premises Exchange Server that turned an SSRF into full server takeover, attributed initially to HAFNIUM.</p>
+              <div class="card-footer"><div class="card-author"><div class="avatar sm">OT</div><span class="author-name">Opened Terminal</span></div><span class="card-date">Jan 3, 2021</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="/articles/2021-09-13-apple-forcedentry-pegasus.html" style="display:contents;">
+            <div class="card-cover"><div class="cover-bg cat-security"><span class="glyph">FORCEDENTRY</span><span class="cat-tag">Security</span></div></div>
+            <div class="card-body">
+              <h3>FORCEDENTRY: The Zero-Click That Needed No Tap</h3>
+              <p>A CoreGraphics JBIG2 integer overflow abused through iMessage, attributed to NSO Group's Pegasus by Citizen Lab.</p>
+              <div class="card-footer"><div class="card-author"><div class="avatar sm">OT</div><span class="author-name">Opened Terminal</span></div><span class="card-date">Sep 13, 2021</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="/articles/2021-12-01-log4shell-log4j.html" style="display:contents;">
+            <div class="card-cover"><div class="cover-bg cat-security"><span class="glyph">Log4Shell</span><span class="cat-tag">Security</span></div></div>
+            <div class="card-body">
+              <h3>Log4Shell: One Log Line, Global Fallout</h3>
+              <p>A maximum-severity JNDI lookup flaw in the ubiquitous Log4j library, affecting hundreds of millions of devices.</p>
+              <div class="card-footer"><div class="card-author"><div class="avatar sm">OT</div><span class="author-name">Opened Terminal</span></div><span class="card-date">Dec 1, 2021</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="/articles/2022-04-07-follina-msdt.html" style="display:contents;">
+            <div class="card-cover"><div class="cover-bg cat-security"><span class="glyph">ms-msdt:</span><span class="cat-tag">Security</span></div></div>
+            <div class="card-body">
+              <h3>Follina: When a Document Could Call the Diagnostic Tool</h3>
+              <p>An MSDT flaw invoked through the ms-msdt: URI scheme from an Office document, running code with minimal interaction.</p>
+              <div class="card-footer"><div class="card-author"><div class="avatar sm">OT</div><span class="author-name">Opened Terminal</span></div><span class="card-date">Apr 7, 2022</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="/articles/2023-05-27-moveit-transfer-clop.html" style="display:contents;">
+            <div class="card-cover"><div class="cover-bg cat-security"><span class="glyph">MOVEit SQLi</span><span class="cat-tag">Security</span></div></div>
+            <div class="card-body">
+              <h3>MOVEit and CL0P: Pre-Auth SQL Injection at Scale</h3>
+              <p>A pre-authentication SQL injection mass-exploited by CL0P to deploy the LEMURLOOT web shell and steal data.</p>
+              <div class="card-footer"><div class="card-author"><div class="avatar sm">OT</div><span class="author-name">Opened Terminal</span></div><span class="card-date">May 27, 2023</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="/articles/2023-10-10-citrix-bleed.html" style="display:contents;">
+            <div class="card-cover"><div class="cover-bg cat-security"><span class="glyph">Citrix Bleed</span><span class="cat-tag">Security</span></div></div>
+            <div class="card-body">
+              <h3>Citrix Bleed: Stealing What MFA Had Already Approved</h3>
+              <p>A NetScaler memory leak that exposed reusable session tokens, enabling session hijacking and MFA bypass.</p>
+              <div class="card-footer"><div class="card-author"><div class="avatar sm">OT</div><span class="author-name">Opened Terminal</span></div><span class="card-date">Oct 10, 2023</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="/articles/2024-01-10-ivanti-connect-secure-chain.html" style="display:contents;">
+            <div class="card-cover"><div class="cover-bg cat-security"><span class="glyph">Ivanti chain</span><span class="cat-tag">Security</span></div></div>
+            <div class="card-body">
+              <h3>The Ivanti Connect Secure Chain: When the Appliance Can't Vouch for Itself</h3>
+              <p>An auth bypass chained with a command injection for unauthenticated RCE on Ivanti edge gateways.</p>
+              <div class="card-footer"><div class="card-author"><div class="avatar sm">OT</div><span class="author-name">Opened Terminal</span></div><span class="card-date">Jan 10, 2024</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="/articles/2025-07-19-microsoft-sharepoint-toolshell.html" style="display:contents;">
+            <div class="card-cover"><div class="cover-bg cat-security"><span class="glyph">ToolShell</span><span class="cat-tag">Security</span></div></div>
+            <div class="card-body">
+              <h3>SharePoint ToolShell: Reporting a Live Zero-Day Without Inventing a Body Count</h3>
+              <p>A deserialization flaw in on-premises SharePoint Server, disclosed during active exploitation. SharePoint Online was not affected.</p>
+              <div class="card-footer"><div class="card-author"><div class="avatar sm">OT</div><span class="author-name">Opened Terminal</span></div><span class="card-date">Jul 19, 2025</span></div>
+            </div>
+          </a>
+        </article>
+
       </div>
     </div>
   </section>

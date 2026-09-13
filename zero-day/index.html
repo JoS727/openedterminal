@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- Primary Meta -->
+<title>Zero Day Timeline — Landmark Vulnerabilities | Opened Terminal</title>
+<meta content="A chronological, fact-checked timeline of ten landmark zero-day vulnerabilities—from Operation Aurora and Stuxnet to Log4Shell, MOVEit, Citrix Bleed and SharePoint ToolShell—each with a full technical breakdown." name="description"/>
+<meta content="zero-day, timeline, CVE, Operation Aurora, Stuxnet, ProxyLogon, FORCEDENTRY, Log4Shell, Follina, MOVEit, Citrix Bleed, Ivanti, SharePoint ToolShell, vulnerability history" name="keywords"/>
+<meta content="Opened Terminal" name="author"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<link href="https://openedterminal.com/zero-day/" rel="canonical"/>
+<!-- Open Graph -->
+<meta content="website" property="og:type"/>
+<meta content="Opened Terminal" property="og:site_name"/>
+<meta content="Zero Day Timeline — Landmark Vulnerabilities" property="og:title"/>
+<meta content="A chronological, fact-checked timeline of ten landmark zero-day vulnerabilities, each with a full technical breakdown." property="og:description"/>
+<meta content="https://openedterminal.com/zero-day/" property="og:url"/>
+<meta content="en_US" property="og:locale"/>
+<!-- Twitter Card -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="@openedterminal" name="twitter:site"/>
+<meta content="Zero Day Timeline — Landmark Vulnerabilities" name="twitter:title"/>
+<meta content="Ten landmark zero-days, in chronological order, each with a full technical breakdown." name="twitter:description"/>
+<!-- Icons -->
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2308090a'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='18' font-weight='bold' fill='%2300ff9c' text-anchor='middle'%3E&gt;_%3C/text%3E%3C/svg%3E" rel="icon" type="image/svg+xml"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Styles -->
+<link href="/styles.css" rel="stylesheet"/>
+<!-- Structured Data: Breadcrumb + ItemList -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://openedterminal.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Zero Day Timeline", "item": "https://openedterminal.com/zero-day/" }
+    ]
+  }
+  </script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Zero Day Timeline — Landmark Vulnerabilities",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Operation Aurora", "url": "https://openedterminal.com/articles/2010-01-14-operation-aurora-ie-zero-day.html" },
+      { "@type": "ListItem", "position": 2, "name": "Stuxnet Windows Zero-Day Suite", "url": "https://openedterminal.com/articles/2010-07-16-stuxnet-windows-zero-day-suite.html" },
+      { "@type": "ListItem", "position": 3, "name": "Microsoft Exchange ProxyLogon", "url": "https://openedterminal.com/articles/2021-01-03-microsoft-exchange-proxylogon.html" },
+      { "@type": "ListItem", "position": 4, "name": "Apple FORCEDENTRY", "url": "https://openedterminal.com/articles/2021-09-13-apple-forcedentry-pegasus.html" },
+      { "@type": "ListItem", "position": 5, "name": "Log4Shell", "url": "https://openedterminal.com/articles/2021-12-01-log4shell-log4j.html" },
+      { "@type": "ListItem", "position": 6, "name": "Follina (MSDT)", "url": "https://openedterminal.com/articles/2022-04-07-follina-msdt.html" },
+      { "@type": "ListItem", "position": 7, "name": "MOVEit Transfer and CL0P", "url": "https://openedterminal.com/articles/2023-05-27-moveit-transfer-clop.html" },
+      { "@type": "ListItem", "position": 8, "name": "Citrix Bleed", "url": "https://openedterminal.com/articles/2023-10-10-citrix-bleed.html" },
+      { "@type": "ListItem", "position": 9, "name": "Ivanti Connect Secure Chain", "url": "https://openedterminal.com/articles/2024-01-10-ivanti-connect-secure-chain.html" },
+      { "@type": "ListItem", "position": 10, "name": "Microsoft SharePoint ToolShell", "url": "https://openedterminal.com/articles/2025-07-19-microsoft-sharepoint-toolshell.html" }
+    ]
+  }
+  </script>
+<!-- RSS / Sitemap hints -->
+<link href="/sitemap.xml" rel="sitemap" type="application/xml"/>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BT76WH5NCT"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BT76WH5NCT');
+    </script>
+<style>
+.zd-hero { padding: 60px 0 30px; }
+.zd-hero .container { max-width: 900px; }
+.zd-breadcrumb { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-muted, #71717a); margin-bottom: 20px; }
+.zd-breadcrumb a { color: var(--accent, #00ff9c); text-decoration: none; }
+.zd-hero h1 { font-size: 2.4rem; font-weight: 800; color: var(--text-primary, #fff); line-height: 1.2; margin-bottom: 16px; }
+.zd-hero h1 .accent { color: var(--accent, #00ff9c); }
+.zd-hero p.lede { color: var(--text-muted, #a1a1aa); font-size: 1.1rem; max-width: 720px; line-height: 1.7; }
+.zd-hero .zd-count { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-muted, #71717a); margin-top: 18px; }
+
+.zd-timeline { max-width: 900px; margin: 0 auto; padding: 20px 20px 40px; position: relative; }
+.zd-line-wrap { position: relative; padding-left: 44px; }
+.zd-line-wrap::before { content: ""; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, rgba(0,255,156,0.15), rgba(0,255,156,0.5), rgba(0,255,156,0.15)); }
+.zd-node { position: relative; margin-bottom: 34px; }
+.zd-node::before { content: ""; position: absolute; left: -37px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: #08090a; border: 2px solid var(--accent, #00ff9c); box-shadow: 0 0 0 4px rgba(0,255,156,0.08); }
+.zd-node-date { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent, #00ff9c); margin-bottom: 8px; }
+.zd-card { background: var(--bg-surface, #101210); border: 1px solid var(--border, #27272a); border-radius: 10px; padding: 22px 24px; transition: border-color 0.2s ease, transform 0.2s ease; }
+.zd-card:hover { border-color: rgba(0,255,156,0.4); transform: translateY(-2px); }
+.zd-card h2 { font-size: 1.3rem; font-weight: 700; color: var(--text-primary, #fff); margin-bottom: 6px; line-height: 1.3; }
+.zd-card h2 a { color: inherit; text-decoration: none; }
+.zd-card h2 a:hover { color: var(--accent, #00ff9c); }
+.zd-cves { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; margin: 10px 0 12px; }
+.zd-cves span { display: inline-block; background: #0b0d0b; border: 1px solid #1f2a22; color: var(--accent, #00ff9c); padding: 3px 8px; border-radius: 3px; margin: 0 6px 6px 0; }
+.zd-card p.summary { color: var(--text-muted, #a1a1aa); font-size: 0.98rem; line-height: 1.7; margin-bottom: 14px; }
+.zd-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted, #71717a); border: 1px solid var(--border, #27272a); border-radius: 3px; padding: 3px 8px; margin-right: 10px; }
+.zd-readmore { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--accent, #00ff9c); text-decoration: none; font-weight: 600; }
+.zd-readmore:hover { text-decoration: underline; }
+.zd-card-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+@media (max-width: 600px) {
+  .zd-hero h1 { font-size: 1.8rem; }
+  .zd-card { padding: 18px; }
+}
+</style>
+</head>
+<body>
+<!-- ========== Header ========== -->
+<header class="site-header">
+<div class="container header-inner">
+<a class="logo" href="/">
+<span class="accent">&gt;_</span>opened<span class="accent">.</span>terminal<span class="cursor"></span>
+</a>
+<nav aria-label="Primary" class="nav-links">
+<a href="/">Home</a>
+<a href="/category/ai/">AI</a>
+<a href="/category/devops/">DevOps</a>
+<a href="/category/security/">Security</a>
+<a class="active" href="/zero-day/">Zero Day</a>
+<a href="/category/web3/">Web3</a>
+<a href="/category/hardware/">Hardware</a>
+<a href="/about.html">About</a>
+</nav>
+<div class="header-actions">
+<button class="search-btn" onclick="alert('Search coming soon')">
+<svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          Search <kbd>⌘K</kbd>
+</button>
+<button class="btn-primary" onclick="document.getElementById('newsletter').scrollIntoView({behavior:'smooth'})">Subscribe</button>
+<button aria-label="Menu" class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open'); this.classList.toggle('open')">
+<span></span><span></span><span></span>
+</button>
+</div>
+</div>
+</header>
+<!-- ========== Category Bar ========== -->
+<div class="cat-bar">
+<div class="container">
+<div aria-label="Categories" class="cat-bar-inner" role="tablist">
+<a class="cat-pill" href="/" role="tab">All <span class="count">142</span></a>
+<a class="cat-pill" href="/category/ai/" role="tab">AI <span class="count">38</span></a>
+<a class="cat-pill" href="/category/devops/" role="tab">DevOps <span class="count">29</span></a>
+<a class="cat-pill" href="/category/security/" role="tab">Security <span class="count">41</span></a>
+<a class="cat-pill active" href="/zero-day/" role="tab">Zero Day <span class="count">10</span></a>
+<a class="cat-pill" href="/category/web3/" role="tab">Web3 <span class="count">22</span></a>
+<a class="cat-pill" href="/category/hardware/" role="tab">Hardware <span class="count">22</span></a>
+</div>
+</div>
+</div>
+<!-- ========== Hero ========== -->
+<section class="zd-hero">
+<div class="container">
+<div class="zd-breadcrumb">&gt; <a href="/">home</a> / zero-day-timeline</div>
+<h1>The <span class="accent">Zero Day</span> Timeline</h1>
+<p class="lede">Ten vulnerabilities that changed how the industry thinks about attack, disclosure, and defense—from the espionage campaign that made "zero-day" a boardroom word to a deserialization flaw disclosed while it was already being exploited. Each entry is a fact-checked breakdown: what the flaw was, how it worked in plain English, how it was exploited and by whom, its documented impact, and the defensive response. Every claim is grounded in the public record, and every uncertainty is preserved rather than filled in.</p>
+<p class="zd-count">10 landmark zero-days · 2010 → 2025 · ordered oldest to newest</p>
+</div>
+</section>
+<!-- ========== Timeline ========== -->
+<div class="zd-timeline">
+<div class="zd-line-wrap">
+
+<div class="zd-node">
+<div class="zd-node-date">January 14, 2010</div>
+<div class="zd-card">
+<h2><a href="/articles/2010-01-14-operation-aurora-ie-zero-day.html">Operation Aurora</a></h2>
+<div class="zd-cves"><span>CVE-2010-0249</span><span>CVSS 3.1: 8.8 High</span></div>
+<p class="summary">A use-after-free flaw in Internet Explorer, exploited in a targeted espionage campaign against Google and more than twenty other organizations. Microsoft shipped an out-of-band fix, MS10-002, on January 21, 2010. Researchers linked the campaign to a China-nexus actor, later associated with the Elderwood group.</p>
+<div class="zd-card-foot">
+<span class="zd-tag">Browser · Espionage</span>
+<a class="zd-readmore" href="/articles/2010-01-14-operation-aurora-ie-zero-day.html">Read the full breakdown →</a>
+</div>
+</div>
+</div>
+
+<div class="zd-node">
+<div class="zd-node-date">July 16, 2010</div>
+<div class="zd-card">
+<h2><a href="/articles/2010-07-16-stuxnet-windows-zero-day-suite.html">Stuxnet Windows Zero-Day Suite</a></h2>
+<div class="zd-cves"><span>CVE-2010-2568</span><span>CVE-2010-2729</span><span>CVE-2010-2743</span><span>CVE-2010-2744</span></div>
+<p class="summary">The worm that weaponized multiple Windows zero-days at once—an <code>.LNK</code> shortcut flaw, a Print Spooler bug, and win32k privilege-escalation issues—to reach industrial control systems at Natanz. Microsoft's advisory 2286198 appeared July 16, 2010, with MS10-046 following August 2. Widely described as state-sponsored, though the public record attributes it to no specific nation.</p>
+<div class="zd-card-foot">
+<span class="zd-tag">Worm · ICS Sabotage</span>
+<a class="zd-readmore" href="/articles/2010-07-16-stuxnet-windows-zero-day-suite.html">Read the full breakdown →</a>
+</div>
+</div>
+</div>
+
+<div class="zd-node">
+<div class="zd-node-date">January 3, 2021</div>
+<div class="zd-card">
+<h2><a href="/articles/2021-01-03-microsoft-exchange-proxylogon.html">Microsoft Exchange ProxyLogon</a></h2>
+<div class="zd-cves"><span>CVE-2021-26855</span><span>CVE-2021-26857</span><span>CVE-2021-26858</span><span>CVE-2021-27065</span></div>
+<p class="summary">A chain of four flaws in on-premises Exchange Server that turned a server-side request forgery into full server takeover. Exploitation was underway by January 3, 2021; Microsoft patched on March 2. Initial activity was attributed to the group Microsoft tracks as HAFNIUM, with roughly 30,000 organizations affected per attributed estimates. Exchange Online was not affected.</p>
+<div class="zd-card-foot">
+<span class="zd-tag">Email Server · Mass Exploitation</span>
+<a class="zd-readmore" href="/articles/2021-01-03-microsoft-exchange-proxylogon.html">Read the full breakdown →</a>
+</div>
+</div>
+</div>
+
+<div class="zd-node">
+<div class="zd-node-date">September 13, 2021</div>
+<div class="zd-card">
+<h2><a href="/articles/2021-09-13-apple-forcedentry-pegasus.html">Apple FORCEDENTRY</a></h2>
+<div class="zd-cves"><span>CVE-2021-30860</span><span>CoreGraphics · JBIG2</span></div>
+<p class="summary">A zero-click iMessage exploit that abused an integer overflow in Apple's CoreGraphics JBIG2 image handling—no tap required from the victim. Apple patched it on September 13, 2021 in iOS 14.8 and related releases. Citizen Lab attributed the exploit, with high confidence, to NSO Group's Pegasus spyware.</p>
+<div class="zd-card-foot">
+<span class="zd-tag">Mobile · Zero-Click Spyware</span>
+<a class="zd-readmore" href="/articles/2021-09-13-apple-forcedentry-pegasus.html">Read the full breakdown →</a>
+</div>
+</div>
+</div>
+
+<div class="zd-node">
+<div class="zd-node-date">December 1, 2021</div>
+<div class="zd-card">
+<h2><a href="/articles/2021-12-01-log4shell-log4j.html">Log4Shell</a></h2>
+<div class="zd-cves"><span>CVE-2021-44228</span><span>CVSS: 10.0</span></div>
+<p class="summary">A maximum-severity flaw in the ubiquitous Log4j logging library: a crafted log string triggered a JNDI/LDAP lookup that could fetch and execute remote code. Evidence of exploitation appeared around December 1, 2021, with public disclosure on December 9. The affected <code>log4j-core</code> versions ran through hundreds of millions of devices—a measure of exposure, not of confirmed compromises.</p>
+<div class="zd-card-foot">
+<span class="zd-tag">Library · Ubiquitous RCE</span>
+<a class="zd-readmore" href="/articles/2021-12-01-log4shell-log4j.html">Read the full breakdown →</a>
+</div>
+</div>
+</div>
+
+<div class="zd-node">
+<div class="zd-node-date">April 7, 2022</div>
+<div class="zd-card">
+<h2><a href="/articles/2022-04-07-follina-msdt.html">Follina (MSDT)</a></h2>
+<div class="zd-cves"><span>CVE-2022-30190</span><span>CVSS: 7.8 High</span></div>
+<p class="summary">A flaw in the Microsoft Support Diagnostic Tool, invoked through the <code>ms-msdt:</code> URI scheme from an Office document, that could run code with minimal user interaction. Evidence of exploitation dated to April 7, 2022; Microsoft issued a patch on June 14. Reported use included examples associated with actors tracked as TA413 and TA570.</p>
+<div class="zd-card-foot">
+<span class="zd-tag">Office · Document Lure</span>
+<a class="zd-readmore" href="/articles/2022-04-07-follina-msdt.html">Read the full breakdown →</a>
+</div>
+</div>
+</div>
+
+<div class="zd-node">
+<div class="zd-node-date">May 27, 2023</div>
+<div class="zd-card">
+<h2><a href="/articles/2023-05-27-moveit-transfer-clop.html">MOVEit Transfer and CL0P</a></h2>
+<div class="zd-cves"><span>CVE-2023-34362</span><span>CVSS: 9.8</span></div>
+<p class="summary">A pre-authentication SQL injection in the MOVEit Transfer file-transfer application, mass-exploited by the CL0P ransomware operation (also tracked as Lace Tempest) to deploy the LEMURLOOT web shell (<code>human2.aspx</code>) and steal data. Exploitation began around May 27, 2023, with a patch on May 31. Attributed estimates put the affected organizations in the thousands.</p>
+<div class="zd-card-foot">
+<span class="zd-tag">File Transfer · Mass Data Theft</span>
+<a class="zd-readmore" href="/articles/2023-05-27-moveit-transfer-clop.html">Read the full breakdown →</a>
+</div>
+</div>
+</div>
+
+<div class="zd-node">
+<div class="zd-node-date">October 10, 2023</div>
+<div class="zd-card">
+<h2><a href="/articles/2023-10-10-citrix-bleed.html">Citrix Bleed</a></h2>
+<div class="zd-cves"><span>CVE-2023-4966</span><span>NVD: 7.5 High</span><span>Citrix: 9.4 Critical</span></div>
+<p class="summary">A buffer over-read in NetScaler ADC and Gateway that leaked process memory—including reusable session tokens—letting attackers hijack sessions and effectively bypass MFA. Patches were disclosed October 10, 2023, though exploitation reportedly began in late August. LockBit 3.0 affiliates were among those who used it. NVD and Citrix scored it differently; both figures are shown.</p>
+<div class="zd-card-foot">
+<span class="zd-tag">Edge Appliance · Session Hijack</span>
+<a class="zd-readmore" href="/articles/2023-10-10-citrix-bleed.html">Read the full breakdown →</a>
+</div>
+</div>
+</div>
+
+<div class="zd-node">
+<div class="zd-node-date">January 10, 2024</div>
+<div class="zd-card">
+<h2><a href="/articles/2024-01-10-ivanti-connect-secure-chain.html">Ivanti Connect Secure Chain</a></h2>
+<div class="zd-cves"><span>CVE-2023-46805 · 8.2 High</span><span>CVE-2024-21887 · 9.1 Critical</span></div>
+<p class="summary">An authentication bypass chained with a command injection to produce unauthenticated remote code execution on Ivanti Connect Secure and Policy Secure gateways. Disclosed January 10, 2024 during active exploitation, with the activity detected by Volexity in December 2023 and attributed by Volexity to a likely Chinese nation-state actor tracked as UTA0178. The events made the appliance's own integrity checks impossible to fully trust.</p>
+<div class="zd-card-foot">
+<span class="zd-tag">Edge Appliance · Chained RCE</span>
+<a class="zd-readmore" href="/articles/2024-01-10-ivanti-connect-secure-chain.html">Read the full breakdown →</a>
+</div>
+</div>
+</div>
+
+<div class="zd-node">
+<div class="zd-node-date">July 19, 2025</div>
+<div class="zd-card">
+<h2><a href="/articles/2025-07-19-microsoft-sharepoint-toolshell.html">Microsoft SharePoint ToolShell</a></h2>
+<div class="zd-cves"><span>CVE-2025-53770</span><span>CVSS: 9.8 / 9.3</span><span>CWE-502</span></div>
+<p class="summary">A deserialization-of-untrusted-data flaw in on-premises Microsoft SharePoint Server, disclosed July 19, 2025 while it was already being exploited, enabling unauthenticated remote code execution. Microsoft 365 SharePoint Online was not affected. The public record names no threat actor and gives no victim count—an entry that doubles as a case study in reporting a live zero-day without inventing one.</p>
+<div class="zd-card-foot">
+<span class="zd-tag">Server · Unauthenticated RCE</span>
+<a class="zd-readmore" href="/articles/2025-07-19-microsoft-sharepoint-toolshell.html">Read the full breakdown →</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<!-- ========== Newsletter ========== -->
+<section class="section" id="newsletter" style="text-align:center;padding:60px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<h2 style="font-size:1.75rem;font-weight:800;color:var(--text-primary,#fff);margin-bottom:12px">Get the next article first</h2>
+<p style="color:var(--text-muted,#71717a);margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto">Weekly updates on AI, DevOps, security, and developer tools. No fluff, no spam.</p>
+<form onsubmit="return false" style="display:flex;gap:10px;max-width:420px;margin:0 auto;flex-wrap:wrap;justify-content:center">
+<input placeholder="you@example.com" required="" style="flex:1;min-width:200px;padding:12px 18px;background:var(--bg-elevated,#121413);border:1px solid var(--border,#27272a);border-radius:6px;color:var(--text-primary,#fff);font-family:inherit;font-size:.95rem;outline:none" type="email"/>
+<button style="padding:12px 24px;background:var(--accent,#00ff9c);color:#000;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.9rem;white-space:nowrap" type="submit">Subscribe</button>
+</form>
+</section>
+<!-- ========== Footer ========== -->
+<footer class="site-footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<a class="logo" href="/"><span class="accent">&gt;_</span>opened<span class="accent">.</span>terminal</a>
+<p>Tech news for builders, hackers, and engineers. Sharp analysis, hands-on guides, and no marketing fluff. Written by practitioners, for practitioners.</p>
+<div class="footer-social">
+<a aria-label="X / Twitter" href="https://xcalitoy.com/tree/"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg></a>
+<a aria-label="GitHub" href="https://github.com/JoS727/openedterminal"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></a>
+<a aria-label="RSS" href="#"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1"></path></svg></a>
+<a aria-label="LinkedIn" href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXdg1UMAKybLXehFIu8WzlvkW29AttbO3prlgZVRPjPNJvTHCwrLtqNhK5y60PDSpKJL9TfDCTj1Wf0UBV1V4cmsVl34ppddFV6fQ9y9FziVo1g9XUOwJIDWM_ZqyP72ELh6q0aBzU9zlo3nIF2RRh-nBn7Y?key=gBOv1SYpkXkMCOQ7vuV6mQ"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"></path></svg></a>
+</div>
+</div>
+<div class="footer-col">
+<h4>// categories</h4>
+<ul>
+<li><a href="/category/ai/">AI</a></li>
+<li><a href="/category/devops/">DevOps</a></li>
+<li><a href="/category/security/">Security</a></li>
+<li><a href="/zero-day/">Zero Day</a></li>
+<li><a href="/category/web3/">Web3</a></li>
+<li><a href="/category/hardware/">Hardware</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>// company</h4>
+<ul>
+<li><a href="/about.html">About</a></li>
+<li><a href="#">Authors</a></li>
+<li><a href="/contact.html">Contact</a></li>
+<li><a href="#">Careers</a></li>
+<li><a href="#">Advertise</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>// resources</h4>
+<ul>
+<li><a href="#">RSS Feed</a></li>
+<li><a href="#">Archive</a></li>
+<li><a href="#">Editorial Guidelines</a></li>
+<li><a href="#">Privacy Policy</a></li>
+<li><a href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2026 Opened Terminal. All rights reserved.</span>
+<span class="mono">v2.4.1 · last_deploy: 2026-09-13T00:00Z</span>
+</div>
+</div>
+</footer>
+<script>
+document.querySelectorAll('form').forEach(function(form){
+  if(form.dataset.wired) return;
+  form.dataset.wired='1';
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    var emailInput=form.querySelector('input[type=email]')||form.querySelector('input[name=email]');
+    var nameInput=form.querySelector('input[name=name]')||form.querySelector('input[name=first_name]');
+    var phoneInput=form.querySelector('input[name=phone]')||form.querySelector('input[type=tel]');
+    if(!emailInput||!emailInput.value){
+      alert('Please enter your email.');return;
+    }
+    var btn=form.querySelector('button[type=submit]')||form.querySelector('button');
+    var origText=btn?btn.textContent:'';
+    if(btn){btn.textContent='...';btn.disabled=true;}
+    try{
+      var r=await fetch('https://email-capture.calitoy.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:emailInput.value,name:nameInput?nameInput.value:'',phone:phoneInput?phoneInput.value:'',source:window.location.hostname})});
+      var d=await r.json();
+      if(d.success){
+        form.innerHTML='<p style="text-align:center;padding:20px;font-size:1.1em;">You are in. Check your inbox.</p>';
+      } else {
+        alert(d.error||'Something went wrong.');if(btn){btn.textContent=origText;btn.disabled=false;}
+      }
+    }catch(err){
+      alert('Network error. Try again.');if(btn){btn.textContent=origText;btn.disabled=false;}
+    }
+  });
+});
+</script>
+<script>
+// Page view tracker
+fetch('https://analytics.calitoy.workers.dev',{
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({
+    path:window.location.pathname,
+    site:window.location.hostname,
+    title:document.title
+  })
+}).catch(function(){});
+</script>
+</body>
+</html>
