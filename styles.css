@@ -1251,3 +1251,15 @@ ul, ol { list-style: none; }
   transition: background 0.15s;
 }
 .pickup-share:hover { background: var(--accent-soft, rgba(0,255,156,0.12)); }
+
+.pickup-author { display: inline-flex; align-items: center; gap: 8px; margin-left: 0; }
+.pickup-author-img {
+  width: 28px; height: 28px; border-radius: 50%;
+  object-fit: cover; object-position: center 20%;
+  border: 1px solid var(--accent-deep, #0c5a3a);
+}
+.pickup-author-name {
+  font-size: 0.7rem;
+  color: var(--text-secondary, #7fa895);
+  font-style: italic;
+}

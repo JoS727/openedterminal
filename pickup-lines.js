@@ -151,7 +151,10 @@ function pickOfTheDay(date = new Date()) {
     <p class="pickup-text">&ldquo;${line.text}&rdquo;</p>
     <div class="pickup-meta">
       <span class="pickup-tag">${line.tag}</span>
-      <span class="pickup-author">— Joseph Calitoy</span>
+      <span class="pickup-author">
+        <img class="pickup-author-img" src="/articles/headers/joseph-calitoy-author.jpg" alt="Joseph Calitoy" loading="lazy" />
+        <span class="pickup-author-name">Joseph Calitoy</span>
+      </span>
       <button class="pickup-share" type="button" aria-label="Share this pick-up line">Share</button>
     </div>
   `;
