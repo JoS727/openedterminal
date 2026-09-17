@@ -1234,3 +1234,20 @@ ul, ol { list-style: none; }
   color: var(--text-secondary, #7fa895);
   font-style: italic;
 }
+
+.pickup-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pickup-share {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--accent-deep, #0c5a3a);
+  color: var(--accent, #00ff9c);
+  border-radius: 100px;
+  padding: 3px 14px;
+  font-family: inherit;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.pickup-share:hover { background: var(--accent-soft, rgba(0,255,156,0.12)); }

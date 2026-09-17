@@ -8,7 +8,7 @@
  */
 const LINES = [
   {
-    text: "My brain has too many tabs open. 4 are frozen, and I have no idea where the music is coming from.",
+    text: "\"My brain has too many tabs open. 4 are frozen, and I have no idea where the music is coming from.\" — And you're pinned to my desktop.",
     tag: "the original",
   },
   {
@@ -149,7 +149,27 @@ function pickOfTheDay(date = new Date()) {
   el.innerHTML = `
     <span class="pickup-label">NERD PICK-UP LINE OF THE DAY</span>
     <p class="pickup-text">&ldquo;${line.text}&rdquo;</p>
-    <span class="pickup-tag">${line.tag}</span>
-    <span class="pickup-author">— Joseph Calitoy</span>
+    <div class="pickup-meta">
+      <span class="pickup-tag">${line.tag}</span>
+      <span class="pickup-author">— Joseph Calitoy</span>
+      <button class="pickup-share" type="button" aria-label="Share this pick-up line">Share</button>
+    </div>
   `;
+
+  const shareBtn = el.querySelector(".pickup-share");
+  if (shareBtn) {
+    shareBtn.addEventListener("click", async () => {
+      const text = `"${line.text}" — nerd pick-up line of the day`;
+      const url = "https://openedterminal.com/";
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: "Nerd Pick-Up Line of the Day", text, url });
+        } else {
+          await navigator.clipboard.writeText(`${text} ${url}`);
+          shareBtn.textContent = "Copied";
+          setTimeout(() => { shareBtn.textContent = "Share"; }, 1600);
+        }
+      } catch (_) {}
+    });
+  }
 })();
