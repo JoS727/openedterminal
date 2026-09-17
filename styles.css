@@ -1175,3 +1175,54 @@ ul, ol { list-style: none; }
     padding: 24px;
   }
 }
+
+/* ── Nerd Pick-Up Line of the Day ── */
+.pickup-section { padding-top: 8px; }
+.pickup-card {
+  position: relative;
+  border: 1px solid var(--accent-deep, #0c5a3a);
+  background: var(--accent-soft, rgba(0,255,156,0.06));
+  border-radius: 12px;
+  padding: 26px 28px 22px;
+  font-family: var(--font-mono, monospace);
+  overflow: hidden;
+}
+.pickup-card::before {
+  content: ">_";
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  color: var(--accent, #00ff9c);
+  opacity: 0.35;
+  font-size: 1rem;
+}
+.pickup-label {
+  display: block;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--accent, #00ff9c);
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.pickup-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-primary, #e8f5ee);
+  margin: 0 0 12px;
+  font-style: italic;
+}
+.pickup-tag {
+  display: inline-block;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary, #7fa895);
+  border: 1px solid var(--accent-deep, #0c5a3a);
+  border-radius: 100px;
+  padding: 3px 12px;
+  text-transform: uppercase;
+}
+@media (max-width: 600px) {
+  .pickup-card { padding: 20px 18px 18px; }
+  .pickup-text { font-size: 0.95rem; }
+}
