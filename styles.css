@@ -1226,3 +1226,11 @@ ul, ol { list-style: none; }
   .pickup-card { padding: 20px 18px 18px; }
   .pickup-text { font-size: 0.95rem; }
 }
+
+.pickup-author {
+  display: inline-block;
+  margin-left: 12px;
+  font-size: 0.7rem;
+  color: var(--text-secondary, #7fa895);
+  font-style: italic;
+}

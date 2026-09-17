@@ -150,5 +150,6 @@ function pickOfTheDay(date = new Date()) {
     <span class="pickup-label">NERD PICK-UP LINE OF THE DAY</span>
     <p class="pickup-text">&ldquo;${line.text}&rdquo;</p>
     <span class="pickup-tag">${line.tag}</span>
+    <span class="pickup-author">— Joseph Calitoy</span>
   `;
 })();
