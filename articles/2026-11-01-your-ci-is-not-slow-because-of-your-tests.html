@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your CI Is Not Slow Because of Your Tests | Openedterminal</title>
+<meta content="Explore how AI agents are transforming software development from code generation to deployment automation. The future is autonomous." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#08090a;color:#e0e0e0;font-family:'Inter',sans-serif;line-height:1.7;font-size:17px;max-width:780px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:2.4rem;font-weight:800;color:#00ff9c;line-height:1.25;margin-bottom:12px;letter-spacing:-0.5px}
+h2{font-size:1.6rem;font-weight:700;color:#fff;margin-top:48px;margin-bottom:16px;letter-spacing:-0.3px}
+h3{font-size:1.2rem;font-weight:600;color:#00ff9c;margin-top:36px;margin-bottom:12px}
+p{margin-bottom:20px;color:#b0b0b0}
+a{color:#00ff9c;text-decoration:none;transition:opacity .2s}
+a:hover{opacity:0.7}
+code{font-family:'JetBrains Mono',monospace;background:#111317;color:#00ff9c;padding:3px 8px;border-radius:5px;font-size:0.88em}
+pre{background:#111317;border:1px solid #1a1d22;border-radius:10px;padding:18px;overflow-x:auto;margin:24px 0}
+pre code{background:none;padding:0;font-size:0.85em;color:#ccc}
+.meta{color:#666;font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid #111317}
+strong{color:#fff;font-weight:600}
+ul{margin-bottom:20px;padding-left:20px}
+li{margin-bottom:10px;color:#b0b0b0}
+blockquote{border-left:3px solid #00ff9c;padding:14px 22px;margin:28px 0;background:#111317;border-radius:0 8px 8px 0}
+blockquote p{color:#ccc;margin:0}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#00ff9c;background:#111317;padding:4px 10px;border-radius:4px;margin-right:6px;margin-bottom:4px}
+.cta{background:#111317;border:1px solid #1a1d22;border-radius:12px;padding:28px;margin:36px 0;text-align:center}
+.cta a{font-size:1.15rem;font-weight:700;color:#00ff9c}
+.cta p{margin-top:10px;margin-bottom:0;font-size:0.9rem;color:#888}
+footer{margin-top:64px;padding-top:32px;border-top:1px solid #111317;text-align:center}
+footer p{font-size:0.85rem;color:#666;margin-bottom:12px}
+footer a{font-family:'JetBrains Mono',monospace;font-size:0.8rem;display:inline-block;margin:0 6px}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BT76WH5NCT"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BT76WH5NCT');
+    </script>
+<body>
+
+<h1>Your CI Is Not Slow Because of Your Tests</h1>
+<div class="meta">openedterminal.com &nbsp;|&nbsp; November 1, 2026 &nbsp;|&nbsp; Tech / News</div>
+<p>Your test suite is not slow. Your tests run in ninety seconds. Your pipeline takes nineteen minutes to run those same ninety seconds of tests, and the difference — the other eighteen and a half minutes — is a distributed systems problem that you have been treating as a fact of life. It is time to stop paying it.</p>
+<p>Start with the checkout tax. Every pipeline run clones the repository, and most organizations have quietly let their repos grow to two or three gigabytes of history, LFS assets, and vendored binaries. A cold clone on a busy shared runner is minutes, not seconds. Shallow clones with <code>fetch-depth: 1</code> cut this drastically, but the real fix is architectural: if a submodule bump requires fetching a decade of history, your repo layout is making tax payments to Git for services you never ordered.</p>
+<p>The second tax is artifact churn. The median CI setup rebuilds the world on every run: base images, dependency wheels, compiled language bindings, the same frontend bundle rebuilt from identical source. A well-configured cache keyed on the lockfile hash turns this into a no-op; a badly keyed one silently misses every time and you never notice, because green means green. Audit this once — print the cache hit ratio, look at it — and you will typically find it hovering near zero for reasons nobody can reconstruct.</p>
+<p>Third is the flaky-test surcharge, and this one compounds. A test that fails one run in twenty converts every hundred runs into five reruns, five investigations, five moments where a tired engineer stares at a diff looking for a crime that was never committed. Worse, the team's response — an automatic retry — teaches the pipeline to hide its own disease. Each retry masks the signal that made the flake visible. Eventually you have a suite where real failures hide inside tolerated noise, and nobody can say when the rot started. The fix is unfashionable: quarantine the flake the same day, fix it within a week, and log the retry rate as a first-class metric next to pass rate.</p>
+<p>Then there is parallelism, which most teams believe they have and do not. Splitting four thousand tests across eight shards is not parallelism if shard one inherits an initialization step that takes four minutes while the others idle. Rebalance by measured duration, not by file count, and watch wall-clock time drop by half with zero code changes. The tooling for this exists in every major CI platform; what is missing is the measurement, because duration data lives in the CI provider's dashboard and dies there instead of feeding back into the split.</p>
+<p>None of this requires new infrastructure or budget approval. It requires treating pipeline time the way you treat p99 latency: as an SLO with an owner. Put the number on a dashboard. When it regresses, page someone. The teams with the fastest feedback loops are not the ones with the best hardware — they are the ones who noticed, some months ago, that nineteen minutes was a decision someone made quietly, and decided to un-make it.</p><footer>
+<p>Opened Terminal — Tech, AI, and the future of software</p>
+<p>
+<a href="https://openedterminal.com" style="color:#00ff9c">openedterminal.com</a>  
+<a href="https://xcalitoy.com" style="color:#00ff9c">xcalitoy.com</a>  
+<a href="https://kurced.com" style="color:#00ff9c">kurced.com</a>  
+<a href="https://tarosyn.com" style="color:#00ff9c">tarosyn.com</a>  
+<a href="https://jeremydeanmusic.com" style="color:#00ff9c">jeremydeanmusic.com</a>
+</p>
+</footer>
+</body>
+</html>
