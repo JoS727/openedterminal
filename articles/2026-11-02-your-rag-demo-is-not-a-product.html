@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your RAG Demo Is Not a Product | Openedterminal</title>
+<meta content="Explore how AI agents are transforming software development from code generation to deployment automation. The future is autonomous." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#08090a;color:#e0e0e0;font-family:'Inter',sans-serif;line-height:1.7;font-size:17px;max-width:780px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:2.4rem;font-weight:800;color:#00ff9c;line-height:1.25;margin-bottom:12px;letter-spacing:-0.5px}
+h2{font-size:1.6rem;font-weight:700;color:#fff;margin-top:48px;margin-bottom:16px;letter-spacing:-0.3px}
+h3{font-size:1.2rem;font-weight:600;color:#00ff9c;margin-top:36px;margin-bottom:12px}
+p{margin-bottom:20px;color:#b0b0b0}
+a{color:#00ff9c;text-decoration:none;transition:opacity .2s}
+a:hover{opacity:0.7}
+code{font-family:'JetBrains Mono',monospace;background:#111317;color:#00ff9c;padding:3px 8px;border-radius:5px;font-size:0.88em}
+pre{background:#111317;border:1px solid #1a1d22;border-radius:10px;padding:18px;overflow-x:auto;margin:24px 0}
+pre code{background:none;padding:0;font-size:0.85em;color:#ccc}
+.meta{color:#666;font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid #111317}
+strong{color:#fff;font-weight:600}
+ul{margin-bottom:20px;padding-left:20px}
+li{margin-bottom:10px;color:#b0b0b0}
+blockquote{border-left:3px solid #00ff9c;padding:14px 22px;margin:28px 0;background:#111317;border-radius:0 8px 8px 0}
+blockquote p{color:#ccc;margin:0}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#00ff9c;background:#111317;padding:4px 10px;border-radius:4px;margin-right:6px;margin-bottom:4px}
+.cta{background:#111317;border:1px solid #1a1d22;border-radius:12px;padding:28px;margin:36px 0;text-align:center}
+.cta a{font-size:1.15rem;font-weight:700;color:#00ff9c}
+.cta p{margin-top:10px;margin-bottom:0;font-size:0.9rem;color:#888}
+footer{margin-top:64px;padding-top:32px;border-top:1px solid #111317;text-align:center}
+footer p{font-size:0.85rem;color:#666;margin-bottom:12px}
+footer a{font-family:'JetBrains Mono',monospace;font-size:0.8rem;display:inline-block;margin:0 6px}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BT76WH5NCT"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BT76WH5NCT');
+    </script>
+<body>
+
+<h1>Your RAG Demo Is Not a Product</h1>
+<div class="meta">openedterminal.com &nbsp;|&nbsp; November 2, 2026 &nbsp;|&nbsp; Tech / News</div>
+<p>Every engineering organization has one now: a retrieval-augmented generation demo that answered fifteen test questions beautifully in a conference room in March, got a standing ovation from the leadership team, and has quietly died since. The demo took two weeks to build. The product would take two years. The gap between those two timelines is where most enterprise AI budgets currently go to be written off, and it is worth being precise about what actually fills that gap, because it is almost never the model.</p>
+<p>The demo's magic was that the questions were known in advance. The person building it had hand-picked the documents, hand-tuned the chunking, and — whether they admit this or not — iterated the prompts against those exact fifteen questions until the answers landed. That is not retrieval working. That is a lookup table wearing a trench coat. The product, the day after launch, faces a user who asks something the corpus does not answer, in language the embedder has never seen, and the system cannot say "I don't know" with the confidence of a system that has been evaluated on only its wins. The first week of production traffic destroys six weeks of careful prompt tuning, and the team interprets this as a model problem. It was never a model problem.</p>
+<p>What distinguishes a RAG system from a RAG demo is an evaluation harness, and the uncomfortable fact is that most teams ship one without the other. An eval harness in this domain does not need to be fancy. It needs: a golden set of 200-plus real questions with known-source answers, harvested from actual users and refreshed monthly; a retrieval metric (recall@k on source documents) reported separately from an answer metric (faithfulness against the retrieved context); and a canary dashboard that alarms when either regresses. Teams routinely discover that their "hallucination problem" is actually a retrieval problem — the right document ranked 14th of 10 — and that their "retrieval problem" was actually a chunking problem from a single afternoon of bad defaults. Without the harness you cannot even localize the failure, so every incident looks like an argument about model temperature.</p>
+<p>Chunking deserves its own unromantic paragraph. The internet has an enormous amount of lore about semantic chunking, late chunking, and agentic retrieval, and all of it is real research, but in production the two highest-leverage moves remain: respect document structure (split on headings, never mid-table), and attach parent-document context so a retrieved 200-word chunk can be expanded to its surrounding section before answering. A team that fixes its PDF table extraction will outperform a team that swaps embedders, in essentially every enterprise corpus we have seen, because the documents were authored by humans who put headers on things and most pipelines throw that structure away.</p>
+<p>Then there is the part nobody demos: permissions. The moment a RAG system can answer questions about the corpus, it can answer questions about the corpus for anyone with the URL. Your Confluence instance has salary negotiations from 2023, a pending acquisition codename, and that one incident postmortem with names in it. If the retrieval layer does not enforce ACLs per query — filtering at search time, not after — then your chatbot is a search box that defeats the access controls your security team has spent years building. This is the single most common way enterprises discover their RAG project has become an audit finding. The demo never covered it, because the demo only ever ran against a clean copy.</p>
+<p>Finally, cost and latency set the real product envelope. A demo answers in four seconds and costs nothing because ten people use it. A product answers in under two seconds for ten thousand, which means cached embeddings, aggressive reranking only when cheap retrieval is uncertain, and small-model routing for the large fraction of queries that are genuinely simple. The teams shipping these systems successfully are not the ones with the cleverest architectures; they are the ones who instrumented per-query cost from day one and were honest about which 70% of traffic is "what does our PTO policy say."</p>
+<p>The demo is a hypothesis, not a product, and the distance between them is measured in eval sets, ACL filters, and boring retrieval hygiene. That distance is also the moat. The model is available to everyone at the same API price; the harness, the permission model, and the chunking tuned to your actual corpus are not. If your AI roadmap has a line item for building the thing and none for evaluating it, you do not have a roadmap. You have a demo.</p><footer>
+<p>Opened Terminal — Tech, AI, and the future of software</p>
+<p>
+<a href="https://openedterminal.com" style="color:#00ff9c">openedterminal.com</a>  
+<a href="https://xcalitoy.com" style="color:#00ff9c">xcalitoy.com</a>  
+<a href="https://kurced.com" style="color:#00ff9c">kurced.com</a>  
+<a href="https://tarosyn.com" style="color:#00ff9c">tarosyn.com</a>  
+<a href="https://jeremydeanmusic.com" style="color:#00ff9c">jeremydeanmusic.com</a>
+</p>
+</footer>
+</body>
+</html>
