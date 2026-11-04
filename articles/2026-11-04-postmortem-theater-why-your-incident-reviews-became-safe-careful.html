@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Postmortem Theater: Why Your Incident Reviews Became Safe, Careful, and Useless | Openedterminal</title>
+<meta content="Explore how AI agents are transforming software development from code generation to deployment automation. The future is autonomous." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#08090a;color:#e0e0e0;font-family:'Inter',sans-serif;line-height:1.7;font-size:17px;max-width:780px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:2.4rem;font-weight:800;color:#00ff9c;line-height:1.25;margin-bottom:12px;letter-spacing:-0.5px}
+h2{font-size:1.6rem;font-weight:700;color:#fff;margin-top:48px;margin-bottom:16px;letter-spacing:-0.3px}
+h3{font-size:1.2rem;font-weight:600;color:#00ff9c;margin-top:36px;margin-bottom:12px}
+p{margin-bottom:20px;color:#b0b0b0}
+a{color:#00ff9c;text-decoration:none;transition:opacity .2s}
+a:hover{opacity:0.7}
+code{font-family:'JetBrains Mono',monospace;background:#111317;color:#00ff9c;padding:3px 8px;border-radius:5px;font-size:0.88em}
+pre{background:#111317;border:1px solid #1a1d22;border-radius:10px;padding:18px;overflow-x:auto;margin:24px 0}
+pre code{background:none;padding:0;font-size:0.85em;color:#ccc}
+.meta{color:#666;font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid #111317}
+strong{color:#fff;font-weight:600}
+ul{margin-bottom:20px;padding-left:20px}
+li{margin-bottom:10px;color:#b0b0b0}
+blockquote{border-left:3px solid #00ff9c;padding:14px 22px;margin:28px 0;background:#111317;border-radius:0 8px 8px 0}
+blockquote p{color:#ccc;margin:0}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#00ff9c;background:#111317;padding:4px 10px;border-radius:4px;margin-right:6px;margin-bottom:4px}
+.cta{background:#111317;border:1px solid #1a1d22;border-radius:12px;padding:28px;margin:36px 0;text-align:center}
+.cta a{font-size:1.15rem;font-weight:700;color:#00ff9c}
+.cta p{margin-top:10px;margin-bottom:0;font-size:0.9rem;color:#888}
+footer{margin-top:64px;padding-top:32px;border-top:1px solid #111317;text-align:center}
+footer p{font-size:0.85rem;color:#666;margin-bottom:12px}
+footer a{font-family:'JetBrains Mono',monospace;font-size:0.8rem;display:inline-block;margin:0 6px}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BT76WH5NCT"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BT76WH5NCT');
+    </script>
+<body>
+
+<h1>Postmortem Theater: Why Your Incident Reviews Became Safe, Careful, and Useless</h1>
+<div class="meta">openedterminal.com &nbsp;|&nbsp; November 4, 2026 &nbsp;|&nbsp; Tech / News</div>
+<p>Ask to see the postmortem index at any org with two thousand or more employees and you will find something strange: hundreds of rigorously formatted documents, almost never opened again. Every incident got its five whys, its timeline, its action items with owners and due dates. Nobody lied in them — that is not the failure mode. The failure mode is subtler: the documents became excellent, and the organization stayed exactly the same, because somewhere between the retrospective and day-to-day behavior the connection quietly broke. We built a paper trail where we meant to build a nervous system.</p><p>The rot is structural, and it repeats across nearly every large org. The engineer writing the postmortem knows the honest version of the story — confusion, legacy coupling, no runbook, a dashboard everyone ignored — but the honest version implicates systems, and systems are owned by someone with budget authority who is reading. So the document performs a neutral, laundered version of events: an impeccable timeline, a root cause of “inadequate alerting,” and an action item that is a new alert. Four months later the alert fires, lands on a rotation already at capacity, and is muted by whoever inherits the ticket. Six quarters after that the same incident recurs under a different service name, and everyone is shocked in the specific way people are only shocked by things they have already read.</p><p>Notice what the healthy version of this genre never required: better templates. The postmortem culture that actually changed behavior was built on two commitments, and both cost real political capital. First, blameless does not mean consequence-free for systems: if the review reveals a structural pressure, someone senior leaves the room owning a structural fix — not one engineer owning a Jira ticket nobody will prioritize. Second, every action item has a second reader: a specific future reader whose behavior will change because the item exists — a team adopting a pattern, a rotation getting a real runbook, a decision reversed. If no such reader exists, the item is theater. An action item that no one would behave differently because of is not safety work; it is a receipt proving a meeting happened.</p><p>The tell that your process has decayed is vocabulary drift, and it is visible right on the page. When postmortems narrate every failure in the passive voice — confusion was created, capacity was exceeded, the risk was not previously visible — you are reading an organization describing its own helplessness, because the passive voice lets no one own the fix without owning the cause. The second tell is the recurrence graph: plot incidents by root-cause category and look at the shape. A reassuringly flat line over two years is not diligence; it is often evidence that unpopular categories are getting reclassified. I have watched an org relabel “config drift” as “environmental variance” across three quarters so the trend line would move in the right direction, and each relabeling got a round of applause.</p><p>What actually restores the genre is duller than any redesign: fewer postmortems, harder ones, public consequences. Declare a recurrence budget the way you declare an error budget — each root-cause category gets a tolerance, and the third incident in that category within a year triggers an escalation that cannot be closed by adding an alert, only by a design change or a deletion. Put the two worst recurring causes on the same slide as the revenue roadmap in the QBR, at the same font size, because organizations allocate attention the way they allocate money, and right now your postmortem index has neither. Then, and this is the part nobody wants to hear, re-review one old postmortem from each category every six months and grade what actually changed. The grade goes to the director, not the IC, because the failure being graded is an allocation failure.</p><p>None of this is a case against blameless — blameless was the necessary correction to a culture that burned its operators, and nobody should want to go back. But the correction has curdled into comfort, and comfort is how systems die politely: everything documented, nothing changed, everyone safe. A postmortem is not a document. It is a bet that telling the truth in a room costs less than the outage recurring — and that bet only pays if someone with power is standing in the room when the truth arrives. If the most senior person in your last incident review left before the action items, you did not hold a postmortem. You held a reading.</p><footer>
+<p>Opened Terminal — Tech, AI, and the future of software</p>
+<p>
+<a href="https://openedterminal.com" style="color:#00ff9c">openedterminal.com</a>  
+<a href="https://xcalitoy.com" style="color:#00ff9c">xcalitoy.com</a>  
+<a href="https://kurced.com" style="color:#00ff9c">kurced.com</a>  
+<a href="https://tarosyn.com" style="color:#00ff9c">tarosyn.com</a>  
+<a href="https://jeremydeanmusic.com" style="color:#00ff9c">jeremydeanmusic.com</a>
+</p>
+</footer>
+</body>
+</html>
