@@ -85,5 +85,5 @@ a:hover{text-decoration:underline}
 document.addEventListener('DOMContentLoaded',function(){var f=document.querySelector('.email-form');if(f)f.addEventListener('submit',function(e){e.preventDefault();var email=f.querySelector('input[type=email]').value;if(!email)return;fetch('https://email-capture.calitoy.workers.dev/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,source:'calitoy-ebooks',page:location.pathname})}).then(function(){var s=f.parentElement.querySelector('.email-success');if(s)s.classList.add('active');f.reset();}).catch(function(){var s=f.parentElement.querySelector('.email-success');if(s){s.textContent='Subscribed. Check your inbox.';s.classList.add('active');}f.reset();});});});
 </script>
 </div>
-</body>
+<script src="https://ads.calitoy.com/widget.js" defer></script></body>
 </html>
