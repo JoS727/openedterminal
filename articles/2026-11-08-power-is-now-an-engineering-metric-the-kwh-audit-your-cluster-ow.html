@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Power Is Now an Engineering Metric: The kWh Audit Your Cluster Owes You | Openedterminal</title>
+<meta content="Explore how AI agents are transforming software development from code generation to deployment automation. The future is autonomous." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#08090a;color:#e0e0e0;font-family:'Inter',sans-serif;line-height:1.7;font-size:17px;max-width:780px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:2.4rem;font-weight:800;color:#00ff9c;line-height:1.25;margin-bottom:12px;letter-spacing:-0.5px}
+h2{font-size:1.6rem;font-weight:700;color:#fff;margin-top:48px;margin-bottom:16px;letter-spacing:-0.3px}
+h3{font-size:1.2rem;font-weight:600;color:#00ff9c;margin-top:36px;margin-bottom:12px}
+p{margin-bottom:20px;color:#b0b0b0}
+a{color:#00ff9c;text-decoration:none;transition:opacity .2s}
+a:hover{opacity:0.7}
+code{font-family:'JetBrains Mono',monospace;background:#111317;color:#00ff9c;padding:3px 8px;border-radius:5px;font-size:0.88em}
+pre{background:#111317;border:1px solid #1a1d22;border-radius:10px;padding:18px;overflow-x:auto;margin:24px 0}
+pre code{background:none;padding:0;font-size:0.85em;color:#ccc}
+.meta{color:#666;font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid #111317}
+strong{color:#fff;font-weight:600}
+ul{margin-bottom:20px;padding-left:20px}
+li{margin-bottom:10px;color:#b0b0b0}
+blockquote{border-left:3px solid #00ff9c;padding:14px 22px;margin:28px 0;background:#111317;border-radius:0 8px 8px 0}
+blockquote p{color:#ccc;margin:0}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#00ff9c;background:#111317;padding:4px 10px;border-radius:4px;margin-right:6px;margin-bottom:4px}
+.cta{background:#111317;border:1px solid #1a1d22;border-radius:12px;padding:28px;margin:36px 0;text-align:center}
+.cta a{font-size:1.15rem;font-weight:700;color:#00ff9c}
+.cta p{margin-top:10px;margin-bottom:0;font-size:0.9rem;color:#888}
+footer{margin-top:64px;padding-top:32px;border-top:1px solid #111317;text-align:center}
+footer p{font-size:0.85rem;color:#666;margin-bottom:12px}
+footer a{font-family:'JetBrains Mono',monospace;font-size:0.8rem;display:inline-block;margin:0 6px}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BT76WH5NCT"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BT76WH5NCT');
+    </script>
+<body>
+
+<h1>Power Is Now an Engineering Metric: The kWh Audit Your Cluster Owes You</h1>
+<div class="meta">openedterminal.com &nbsp;|&nbsp; November 8, 2026 &nbsp;|&nbsp; Tech / News</div>
+<div class="article-wrap"><p>Power, in a compute cluster, is a supply chain, and this autumn it became the most expensive one in the world. After the midterms turned data-center siting into a local political issue, and after a market sell-off put every hyperscaler's capacity expansion under a microscope, the conversation in engineering leadership has quietly shifted from "how big is your footprint" to "what does a kilowatt-hour cost you, per productive work, after waste." Most teams still cannot answer that question. They can quote monthly cloud spend. They cannot tell you the energy cost of the retry storm, the idle GPU fleet, the training run that was restarted from scratch after a checkpoint bug. The power bill has stopped being the facilities team's problem and started being an engineering metric, and most instrumentation was not built for it.</p><p>Start with the easy, embarrassing part: idle. A GPU cluster costs money whether or not it computes, and most clusters are idle far more than their dashboards admit. Surveys across the industry keep finding utilization numbers that would be a firing offense in any other capital-intensive business — fleets sitting at 20, 30, 40 percent of rated draw while the scheduling layer reports itself healthy. The gap comes from fragmentation: jobs that cannot pack together, reservations that are never released, single-tenant nodes kept warm "just in case." Every one of those decisions was made by a human or a default setting, which means every one of them is fixable. Chargeback is the unglamorous tool that fixes them. When a team sees its own name on the energy line — not a shared "infrastructure" bucket, their name — the fleet's idle fraction drops within a quarter. No new scheduler required. Just a bill with consequences.</p><p>The middle of the cost curve lives in your software. Inference serving wastes power the way servers have always wasted it: with layers of safety margin. Each service over-provisions replicas for peak traffic that arrives twice a month; each replica keeps a model resident in memory at full precision when quantized weights would serve 95 percent of requests. The retry logic deserves its own line item. A misconfigured backoff policy in one region can double the compute spent on a request that would have succeeded on the first try — every retry burning full-priced energy to repair an error that was cheaper to prevent. And batch effects, the boring old physics of processors, still rule everything: routing single requests to nodes that are already loaded, rather than waking new replicas, can cut serving energy double-digit percentages before anyone touches a model.</p><p>Training is where the numbers get indecent. A failed multi-day run is not a lesson; it is a power plant's monthly output, spent achieving a null result because nobody wanted to invest in checkpoint validation or in killing the run when the loss curve diverged at hour nine. The engineering practice that pays for itself fastest in the entire AI infrastructure stack is the unglamorous one: automated checkpoint integrity checks, watchdog rules that stop doomed runs, and pre-flight validation on a fraction of the data before committing the full fleet. Teams that treat a training run like a production launch — with a rollout plan, a rollback path, and a kill switch — consistently report large fractions of wasted GPU-hours recoverable within weeks. The run you do not waste is worth more than the accelerator you do not own.</p><p>None of this requires martyrdom, and none of it should be sold as climate virtue first, whatever the press release says eventually. It is unit economics. Energy is now a first-order cost of computing, priced like any commodity and, increasingly, allocated like one. The teams that instrument energy per request, per training step, and per failed run will make better infrastructure decisions than the teams tracking only dollars, because dollars lag and kilowatt-hours do not lie. The waste is not in the data center. It is in the decisions — and the decisions are ours.</p></div><footer>
+<p>Opened Terminal — Tech, AI, and the future of software</p>
+<p>
+<a href="https://openedterminal.com" style="color:#00ff9c">openedterminal.com</a>  
+<a href="https://xcalitoy.com" style="color:#00ff9c">xcalitoy.com</a>  
+<a href="https://kurced.com" style="color:#00ff9c">kurced.com</a>  
+<a href="https://tarosyn.com" style="color:#00ff9c">tarosyn.com</a>  
+<a href="https://jeremydeanmusic.com" style="color:#00ff9c">jeremydeanmusic.com</a>
+</p>
+</footer>
+<script src="https://ads.calitoy.com/widget.js" defer></script></body>
+</html>
