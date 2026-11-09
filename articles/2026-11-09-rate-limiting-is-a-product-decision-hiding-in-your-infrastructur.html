@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rate Limiting Is a Product Decision Hiding in Your Infrastructure | Openedterminal</title>
+<meta content="Explore how AI agents are transforming software development from code generation to deployment automation. The future is autonomous." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#08090a;color:#e0e0e0;font-family:'Inter',sans-serif;line-height:1.7;font-size:17px;max-width:780px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:2.4rem;font-weight:800;color:#00ff9c;line-height:1.25;margin-bottom:12px;letter-spacing:-0.5px}
+h2{font-size:1.6rem;font-weight:700;color:#fff;margin-top:48px;margin-bottom:16px;letter-spacing:-0.3px}
+h3{font-size:1.2rem;font-weight:600;color:#00ff9c;margin-top:36px;margin-bottom:12px}
+p{margin-bottom:20px;color:#b0b0b0}
+a{color:#00ff9c;text-decoration:none;transition:opacity .2s}
+a:hover{opacity:0.7}
+code{font-family:'JetBrains Mono',monospace;background:#111317;color:#00ff9c;padding:3px 8px;border-radius:5px;font-size:0.88em}
+pre{background:#111317;border:1px solid #1a1d22;border-radius:10px;padding:18px;overflow-x:auto;margin:24px 0}
+pre code{background:none;padding:0;font-size:0.85em;color:#ccc}
+.meta{color:#666;font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid #111317}
+strong{color:#fff;font-weight:600}
+ul{margin-bottom:20px;padding-left:20px}
+li{margin-bottom:10px;color:#b0b0b0}
+blockquote{border-left:3px solid #00ff9c;padding:14px 22px;margin:28px 0;background:#111317;border-radius:0 8px 8px 0}
+blockquote p{color:#ccc;margin:0}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#00ff9c;background:#111317;padding:4px 10px;border-radius:4px;margin-right:6px;margin-bottom:4px}
+.cta{background:#111317;border:1px solid #1a1d22;border-radius:12px;padding:28px;margin:36px 0;text-align:center}
+.cta a{font-size:1.15rem;font-weight:700;color:#00ff9c}
+.cta p{margin-top:10px;margin-bottom:0;font-size:0.9rem;color:#888}
+footer{margin-top:64px;padding-top:32px;border-top:1px solid #111317;text-align:center}
+footer p{font-size:0.85rem;color:#666;margin-bottom:12px}
+footer a{font-family:'JetBrains Mono',monospace;font-size:0.8rem;display:inline-block;margin:0 6px}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BT76WH5NCT"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BT76WH5NCT');
+    </script>
+<body>
+
+<h1>Rate Limiting Is a Product Decision Hiding in Your Infrastructure</h1>
+<div class="meta">openedterminal.com &nbsp;|&nbsp; November 9, 2026 &nbsp;|&nbsp; Tech / News</div>
+
+<p>Every engineering organization eventually holds the same meeting. A customer or an account executive reports that the API is rejecting legitimate traffic, someone opens the rate limiter configuration, and after forty minutes of archaeology you discover that the limit was set by an intern in 2022 to "stop that one script," that it keys on IP address instead of API key, so every user behind a corporate NAT shares a single bucket, and that there is no mechanism to raise it for one customer because the tier field in the accounts database contains the string "whatever." The rate limiter is working exactly as implemented. The rate limiting policy is fiction. That distinction is the entire subject of this essay.</p><h2>The limiter is not the decision</h2><p>Rate limiting looks like an infrastructure concern, which is why it typically gets implemented first and designed never. A token bucket at the reverse proxy, a Redis counter, a burst allowance tuned by feel &mdash; shipped on a Thursday, and it becomes load-bearing forever, because the day anyone tries to change it, three customers have already built retry logic around your exact refusal cadence and the sales team has quoted limits in a spreadsheet no one can locate. The limit is a contract. The limiter is merely the enforcement mechanism for a contract your product team never knowingly signed. Once you see limits this way &mdash; as pricing surfaces, as promises &mdash; most of the chronic pain around them reorganizes into something tractable.</p><h2>What a correct limit encodes</h2><p>A defensible rate limit answers product questions, not just capacity questions. What does the cheapest tier actually buy? That is pricing. What does an average new user need for the product to become a habit? That is activation strategy &mdash; set it too tight and you throttle the very usage that converts people to paid. What does the ceiling on your top tier say to a power user &mdash; that you want them building on you as a platform, or that they are a feature consumer? And then there is the abuse boundary, the limit that stops scrapers and credential stuffers, which is a security setting and not a customer-facing number at all. The cardinal sin of rate limiting design is conflating the abuse boundary with the product tiers, so that honest customers get bounced by a wall that exists because somebody else's bot bought the whole barn.</p><p>Concretely: put abuse defenses at the edge, keyed on IP and fingerprint, deliberately undocumented, tuned against observed attack traffic. Put tier limits as close to the API key as possible &mdash; per-key, documented, and consistent with what a customer in that tier can plausibly accomplish with the features they actually bought. The two limit families should not share a configuration namespace, a code path, or an on-call brain. Teams that merge them spend their incident retrospectives explaining to enterprise customers why the DDoS defense also blocked the integration their seven-figure renewal depends on.</p><h2>The 429 is a product surface</h2><p>The second decision hiding inside rate limiting is what rejection looks like. A bare 429 with no headers is an act of hostility toward whoever built on your API. Refusals should be as documented as successes: Retry-After set truthfully rather than guessed, rate limit headers on every response so well-behaved clients can meter themselves, and error bodies that name the bucket that was exceeded. The best ones go further and say what would have allowed the request &mdash; "you have hit the free-tier cap; the Growth tier raises this limit to 10,000 per hour." That error message is a growth feature, not politeness. Every 429 is a conversation with your most engaged users, and most APIs answer engagement with a shrug. There is no cheaper conversion funnel in an API product than a rejection that explains the upgrade in one sentence at the exact moment of desire.</p><h2>Bursty workloads are normal now</h2><p>There is also the question of the limiter being wrong, which it will be &mdash; almost always in the direction of punishing bursty-but-legitimate work. Batch jobs, cron-driven integrations, and CI pipelines do not stream politely; they stampede at the top of the hour. Per-key limiters with generous burst allowances and honest backpressure signals absorb this. Per-IP limiters punish entire office buildings for the sins of one developer's localhost loop. If you have ever wondered why an enterprise customer's engineers despise your API with personal intensity, check whether their whole campus shares one bucket while the pricing page shows a number three orders of magnitude larger.</p><h2>Change limits in public</h2><p>Limits will evolve, and the evolution needs the change management of a schema migration. Announce deprecations well in advance, grandfather existing usage generously, and monitor the clients pressing against old ceilings &mdash; they pattern-match to undocumented integrations and informal partnerships faster than any CRM. The teams that do this well treat the limiter's telemetry as a product analytics surface: who is bumping against which ceiling tells you where your tiers are mispriced, which features are quietly becoming the platform, and &mdash; at least once a quarter, if you check &mdash; that some intern's number from 2022 is still sitting between a customer and their renewal.</p><p>So run the audit. Find your rate limiter. Ask who owns each number, what product intent it encodes, and whether the abuse defenses are separable from the customer tiers. If the honest answer is "a config file and one engineer's memory," you do not have a policy. You have folklore with a reverse proxy attached.</p>
+<footer>
+<p>Opened Terminal — Tech, AI, and the future of software</p>
+<p>
+<a href="https://openedterminal.com" style="color:#00ff9c">openedterminal.com</a>  
+<a href="https://xcalitoy.com" style="color:#00ff9c">xcalitoy.com</a>  
+<a href="https://kurced.com" style="color:#00ff9c">kurced.com</a>  
+<a href="https://tarosyn.com" style="color:#00ff9c">tarosyn.com</a>  
+<a href="https://jeremydeanmusic.com" style="color:#00ff9c">jeremydeanmusic.com</a>
+</p>
+</footer>
+<script src="https://ads.calitoy.com/widget.js" defer></script></body>
+</html>
